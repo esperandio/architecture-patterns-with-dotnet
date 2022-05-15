@@ -1,0 +1,9 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual studio code cache/options directory
+.vscode/
+
+# Draw.io draft
+*.dio
