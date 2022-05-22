@@ -16,3 +16,4 @@ dotnet add tests/UnitTesting/UnitTesting.csproj reference src/Domain/Domain.cspr
 
 - Architecture Patterns with Python (https://www.oreilly.com/library/view/architecture-patterns-with/9781492052197/)
 - Getting Started with xUnit.net (https://xunit.net/docs/getting-started/netcore/cmdline)
+- Implement value objects (https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects)
