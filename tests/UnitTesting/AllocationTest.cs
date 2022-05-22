@@ -81,6 +81,18 @@ public class AllocationTest
         Assert.Equal(batch1, batch2);
     }
 
+    [Fact]
+    public void TestOrderLineEqualsByValues()
+    {
+        var orderLine1 = GetOrderLine(20);
+        var orderLine2 = GetOrderLine(20);
+
+        var orderLine3 = GetOrderLine(30);
+
+        Assert.Equal(orderLine1, orderLine2);
+        Assert.NotEqual(orderLine1, orderLine3);
+    }
+
     private Batch GetBatch(int quantity, string sku = "SMALL-TABLE")
     {
         return new Batch("batch-001", sku, quantity, DateTime.Now);

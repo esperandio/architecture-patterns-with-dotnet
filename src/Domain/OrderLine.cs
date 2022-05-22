@@ -14,4 +14,23 @@ public class OrderLine
         _sku = sku;
         _quantity = quantity;
     }
+
+    public override bool Equals(object? obj)
+    {
+        var orderLine = obj as OrderLine;
+
+        if (orderLine == null)
+        {
+            return false;
+        }
+
+        return orderLine._orderId == _orderId
+            && orderLine._quantity == _quantity
+            && orderLine._sku == _sku;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
