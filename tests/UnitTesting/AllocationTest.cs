@@ -78,7 +78,10 @@ public class AllocationTest
         var batch1 = GetBatch(20);
         var batch2 = GetBatch(20);
 
+        var batch3 = GetBatch(quantity: 20, reference: "another-batch-001");
+
         Assert.Equal(batch1, batch2);
+        Assert.NotEqual(batch1, batch3);
     }
 
     [Fact]
@@ -93,9 +96,9 @@ public class AllocationTest
         Assert.NotEqual(orderLine1, orderLine3);
     }
 
-    private Batch GetBatch(int quantity, string sku = "SMALL-TABLE")
+    private Batch GetBatch(int quantity, string sku = "SMALL-TABLE", string reference = "batch-001")
     {
-        return new Batch("batch-001", sku, quantity, DateTime.Now);
+        return new Batch(reference, sku, quantity, DateTime.Now);
     }
 
     private OrderLine GetOrderLine(int quantity, string sku = "SMALL-TABLE")
