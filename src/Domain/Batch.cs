@@ -50,4 +50,19 @@ public class Batch
     {
         return _allocations.Where(x => x.Equals(orderLine)).Count() > 0;
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || !(obj is Batch))
+        {
+            return false;
+        }
+
+        return ((Batch)obj)._reference == _reference;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

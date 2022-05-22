@@ -72,6 +72,15 @@ public class AllocationTest
         Assert.Equal(18, batch.AvailableQuantity);
     }
 
+    [Fact]
+    public void TestBatchEqualsByReference()
+    {
+        var batch1 = GetBatch(20);
+        var batch2 = GetBatch(20);
+
+        Assert.Equal(batch1, batch2);
+    }
+
     private Batch GetBatch(int quantity, string sku = "SMALL-TABLE")
     {
         return new Batch("batch-001", sku, quantity, DateTime.Now);
