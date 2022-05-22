@@ -53,12 +53,14 @@ public class Batch
 
     public override bool Equals(object? obj)
     {
-        if (obj == null || !(obj is Batch))
+        var batch = obj as Batch;
+
+        if (batch == null)
         {
             return false;
         }
 
-        return ((Batch)obj)._reference == _reference;
+        return batch._reference == _reference;
     }
 
     public override int GetHashCode()
