@@ -6,11 +6,13 @@ public class Batch
     private string _sku;
     private int _purchasedQuantity;
     private List<OrderLine> _allocations;
-    private DateTime _eta;
+    private DateTime? _eta;
+    public string Reference {get => _reference;}
+    public DateTime? Eta {get => _eta;}
     public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
 
-    public Batch(string reference, string sku, int quantity, DateTime eta)
+    public Batch(string reference, string sku, int quantity, DateTime? eta)
     {
         _reference = reference;
         _sku = sku;

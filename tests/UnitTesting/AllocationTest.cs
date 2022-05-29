@@ -96,9 +96,50 @@ public class AllocationTest
         Assert.NotEqual(orderLine1, orderLine3);
     }
 
-    private Batch GetBatch(int quantity, string sku = "SMALL-TABLE", string reference = "batch-001")
+    [Fact]
+    public void TestPrefersCurrentStockBatchesToShipments()
     {
-        return new Batch(reference, sku, quantity, DateTime.Now);
+        var inStockBatch = GetBatch(100);
+        var shipmentBatch = GetBatch(quantity: 100, eta: DateTime.Today.AddDays(1));
+
+        var orderLine = GetOrderLine(10);
+
+        AllocationService.Allocate(orderLine, new List<Batch> { inStockBatch, shipmentBatch });
+
+        Assert.Equal(90, inStockBatch.AvailableQuantity);
+        Assert.Equal(100, shipmentBatch.AvailableQuantity);
+    }
+
+    [Fact]
+    public void TestPrefersEarlierBatches()
+    {
+        var earliestShipmentBatch = GetBatch(quantity: 100, eta: DateTime.Today);
+        var latestShipmentBatch = GetBatch(quantity: 100, eta: DateTime.Today.AddDays(1));
+
+        var orderLine = GetOrderLine(10);
+
+        AllocationService.Allocate(orderLine, new List<Batch> { earliestShipmentBatch, latestShipmentBatch });
+
+        Assert.Equal(90, earliestShipmentBatch.AvailableQuantity);
+        Assert.Equal(100, latestShipmentBatch.AvailableQuantity);
+    }
+
+    [Fact]
+    public void TestReturnsAllocatedBatchRef()
+    {
+        var inStockBatch = GetBatch(quantity:100, reference: "in-stock-batch-ref");
+        var shipmentBatch = GetBatch(quantity: 100, reference: "shipment-batch-ref", eta: DateTime.Today.AddDays(1));
+
+        var orderLine = GetOrderLine(10);
+
+        var allocation = AllocationService.Allocate(orderLine, new List<Batch> { inStockBatch, shipmentBatch });
+
+        Assert.True(allocation == inStockBatch.Reference);
+    }
+
+    private Batch GetBatch(int quantity, string reference = "batch-001", string sku = "SMALL-TABLE", DateTime? eta = null)
+    {
+        return new Batch(reference, sku, quantity, eta);
     }
 
     private OrderLine GetOrderLine(int quantity, string sku = "SMALL-TABLE")
