@@ -11,7 +11,7 @@ public class AllocationService
 
         if (batch == null)
         {
-            throw new OutOfStockException();
+            throw new OutOfStockException(orderLine.Sku);
         }
         
         batch.Allocate(orderLine);
