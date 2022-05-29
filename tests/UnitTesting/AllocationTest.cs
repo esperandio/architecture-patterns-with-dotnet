@@ -137,6 +137,18 @@ public class AllocationTest
         Assert.True(allocation == inStockBatch.Reference);
     }
 
+    [Fact]
+    public void TestRaisesOutOfStockExceptionIfCannotAllocate()
+    {
+        var batch = GetBatch(quantity: 10, eta: DateTime.Today);
+
+        AllocationService.Allocate(GetOrderLine(10), new List<Batch> { batch });
+
+        Assert.Throws<OutOfStockException>(() => { 
+            AllocationService.Allocate(GetOrderLine(1), new List<Batch> { batch }); 
+        });
+    }
+
     private Batch GetBatch(int quantity, string reference = "batch-001", string sku = "SMALL-TABLE", DateTime? eta = null)
     {
         return new Batch(reference, sku, quantity, eta);

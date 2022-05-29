@@ -7,7 +7,12 @@ public class AllocationService
         var batch = batches
             .Where(x => x.CanAllocate(orderLine))
             .OrderBy(x => x.Eta)
-            .First();
+            .FirstOrDefault();
+
+        if (batch == null)
+        {
+            throw new OutOfStockException();
+        }
         
         batch.Allocate(orderLine);
 
