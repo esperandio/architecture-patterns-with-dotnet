@@ -44,7 +44,7 @@ public class Batch
     public bool CanAllocate(OrderLine orderLine)
     {
         return _sku == orderLine.Sku 
-            && _purchasedQuantity >= orderLine.Quantity
+            && AvailableQuantity >= orderLine.Quantity
             && _allocations.Where(x => x.Equals(orderLine)).Count() == 0;
     }
 
