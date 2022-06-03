@@ -1,4 +1,4 @@
-namespace UnitTesting;
+namespace UnitTests;
 
 public class AllocationTest
 {
