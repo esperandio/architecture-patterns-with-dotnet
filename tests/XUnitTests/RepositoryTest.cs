@@ -26,5 +26,6 @@ public class RepositoryTest
         var retrievedBatch = repository.get<Batch>(1);
 
         Assert.NotNull(retrievedBatch);
+        Assert.Equal(1, repository.count<Batch>());
     }
 }
