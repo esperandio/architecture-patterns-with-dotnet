@@ -20,4 +20,11 @@ public class EntityFrameworkRepository
     {
         return _dbContext.Find<T>(id);
     }
+
+    public int count<T>() where T : EntityModel
+    {
+        IQueryable<T> entityQuery = _dbContext.Set<T>();
+
+        return entityQuery.Count();
+    }
 }
