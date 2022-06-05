@@ -17,11 +17,11 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 
-    public ApplicationDbContext CreateInMemoryDbContext()
+    public ApplicationDbContext CreateInMemoryDbContext(string databaseName = "InMemoryDb")
     {
         var optionsBuilder = new DbContextOptionsBuilder();
 
-        optionsBuilder.UseInMemoryDatabase("InMemoryDb");
+        optionsBuilder.UseInMemoryDatabase(databaseName);
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
