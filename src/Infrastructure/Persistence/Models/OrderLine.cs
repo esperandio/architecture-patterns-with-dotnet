@@ -3,9 +3,7 @@ namespace Infrastructure.Persistence.Models;
 public class OrderLine : EntityModel
 {
     public int ID { get; set; }
-    public int OrderId { get; set; }
+    public string OrderId { get; set; }
     public int Quantity { get; set; }
     public string Sku { get; set; }
-
-    public Order Order { get; set; }
 }
