@@ -11,4 +11,5 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderLine> OrderLines { get; set; }
+    public DbSet<Batch> Batches { get; set; }
 }
