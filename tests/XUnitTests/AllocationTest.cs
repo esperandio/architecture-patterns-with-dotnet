@@ -1,4 +1,6 @@
-namespace UnitTests;
+using Domain;
+
+namespace XUnitTests;
 
 public class AllocationTest
 {
