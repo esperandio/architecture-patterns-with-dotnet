@@ -9,7 +9,10 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     {
         var optionsBuilder = new DbContextOptionsBuilder();
 
-        optionsBuilder.UseSqlite("Data Source=./mydb.db;");
+        optionsBuilder.UseMySql(
+            "server=127.0.0.1; port=3306; database=container; user=root; password=my-secret-pw", 
+            new MySqlServerVersion(new Version(8, 0, 29))
+        );
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
