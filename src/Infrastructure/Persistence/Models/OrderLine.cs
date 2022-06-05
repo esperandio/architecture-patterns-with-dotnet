@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Models;
 
-class OrderLine
+public class OrderLine
 {
     public int ID { get; set; }
     public int OrderId { get; set; }

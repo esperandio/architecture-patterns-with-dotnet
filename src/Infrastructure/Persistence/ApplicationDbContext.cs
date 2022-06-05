@@ -3,7 +3,7 @@ using Infrastructure.Persistence.Models;
 
 namespace Infrastructure.Persistence;
 
-class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
