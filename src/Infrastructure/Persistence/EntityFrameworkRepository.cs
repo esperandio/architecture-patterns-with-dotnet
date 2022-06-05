@@ -2,7 +2,7 @@ using Infrastructure.Persistence.Models;
 
 namespace Infrastructure.Persistence;
 
-public class EntityFrameworkRepository<T> where T : EntityModel
+public class EntityFrameworkRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -11,13 +11,13 @@ public class EntityFrameworkRepository<T> where T : EntityModel
         _dbContext = applicationDbContext;
     }
 
-    public void add(T entityModel)
+    public void add<T>(T entityModel) where T : EntityModel
     {
         _dbContext.Add(entityModel);
     }
 
-    public T get(int id)
+    public T get<T>(int id) where T : EntityModel
     {
-       return _dbContext.Find<T>(id);
+        return _dbContext.Find<T>(id);
     }
 }

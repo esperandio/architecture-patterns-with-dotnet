@@ -17,14 +17,14 @@ public class RepositoryTest
         };
 
         var dbContext = new ApplicationDbContextFactory().CreateInMemoryDbContext();
-        var repository = new EntityFrameworkRepository<Batch>(dbContext);
+        var repository = new EntityFrameworkRepository(dbContext);
 
         repository.add(batch);
 
         dbContext.SaveChanges();
 
-        var databaseBatch = repository.get(1);
+        var retrievedBatch = repository.get<Batch>(1);
 
-        Assert.NotNull(databaseBatch);
+        Assert.NotNull(retrievedBatch);
     }
 }
