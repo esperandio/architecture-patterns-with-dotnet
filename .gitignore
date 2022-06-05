@@ -7,3 +7,6 @@
 
 # Draw.io draft
 *.dio
+
+# SQLite database
+mydb.*
