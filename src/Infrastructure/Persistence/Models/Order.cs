@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Models;
 
-public class Order
+public class Order : EntityModel
 {
     public int ID { get; set; }
 

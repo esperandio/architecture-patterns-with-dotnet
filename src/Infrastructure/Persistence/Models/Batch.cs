@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Models;
 
-public class Batch
+public class Batch : EntityModel
 {
     public int ID { get; set; }
     public string Reference { get; set; }
