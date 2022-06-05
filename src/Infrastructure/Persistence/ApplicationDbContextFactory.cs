@@ -16,4 +16,13 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
+
+    public ApplicationDbContext CreateInMemoryDbContext()
+    {
+        var optionsBuilder = new DbContextOptionsBuilder();
+
+        optionsBuilder.UseInMemoryDatabase("InMemoryDb");
+
+        return new ApplicationDbContext(optionsBuilder.Options);
+    }
 }
