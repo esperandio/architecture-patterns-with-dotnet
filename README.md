@@ -19,3 +19,4 @@ dotnet add tests/UnitTesting/UnitTesting.csproj reference src/Domain/Domain.cspr
 - Implement value objects (https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects)
 - Tutorial: Get started with EF Core in an ASP.NET MVC web app (https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-6.0)
 - Tutorial: Create a minimal web API with ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio)
+- Configuration in ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0)

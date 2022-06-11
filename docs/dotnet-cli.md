@@ -11,3 +11,9 @@ dotnet add [ csproj target ] reference [ csproj reference ]
 ```
 dotnet sln add [ csproj target ] 
 ```
+
+## Setting connection string as an environment variable
+
+```
+export ConnectionStrings__ApplicationDbContext=server=127.0.0.1\;port=3306\;database=container\;user=root\;password=my-secret-pw
+```
