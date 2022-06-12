@@ -19,14 +19,14 @@ public class RepositoryTest
             Eta = DateTime.Today
         };
 
-        repository.add(batch);
+        repository.Add(batch);
 
         dbContext.SaveChanges();
 
-        var retrievedBatch = repository.get<Batch>(1);
+        var retrievedBatch = repository.Get<Batch>(1);
 
         Assert.NotNull(retrievedBatch);
-        Assert.Equal(1, repository.count<Batch>());
+        Assert.Equal(1, repository.Count<Batch>());
     }
 
     [Fact]
@@ -61,17 +61,17 @@ public class RepositoryTest
             GetAllocation(batch, orderLine3)
         };
 
-        repository.add(batch);
-        orderLines.ForEach(x => repository.add(x));
-        allocations.ForEach(x => repository.add(x));
+        repository.Add(batch);
+        orderLines.ForEach(x => repository.Add(x));
+        allocations.ForEach(x => repository.Add(x));
 
         dbContext.SaveChanges();
 
-        Assert.Equal(1, repository.count<Batch>());
-        Assert.Equal(3, repository.count<OrderLine>());
-        Assert.Equal(3, repository.count<Allocation>());
+        Assert.Equal(1, repository.Count<Batch>());
+        Assert.Equal(3, repository.Count<OrderLine>());
+        Assert.Equal(3, repository.Count<Allocation>());
 
-        var retrievedBatch = repository.get<Batch>(1);
+        var retrievedBatch = repository.Get<Batch>(1);
 
         Assert.Equal(3, retrievedBatch.Allocations.Count());
     }

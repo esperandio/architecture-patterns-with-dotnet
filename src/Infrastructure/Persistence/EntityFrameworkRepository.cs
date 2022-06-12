@@ -11,17 +11,17 @@ public class EntityFrameworkRepository
         _dbContext = applicationDbContext;
     }
 
-    public void add<T>(T entityModel) where T : EntityModel
+    public void Add<T>(T entityModel) where T : EntityModel
     {
         _dbContext.Add(entityModel);
     }
 
-    public T get<T>(int id) where T : EntityModel
+    public T Get<T>(int id) where T : EntityModel
     {
         return _dbContext.Find<T>(id);
     }
 
-    public int count<T>() where T : EntityModel
+    public int Count<T>() where T : EntityModel
     {
         IQueryable<T> entityQuery = _dbContext.Set<T>();
 
