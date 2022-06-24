@@ -20,3 +20,4 @@ dotnet add tests/UnitTesting/UnitTesting.csproj reference src/Domain/Domain.cspr
 - Tutorial: Get started with EF Core in an ASP.NET MVC web app (https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-6.0)
 - Tutorial: Create a minimal web API with ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio)
 - Configuration in ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0)
+- Safe storage of app secrets in development in ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=linux)
