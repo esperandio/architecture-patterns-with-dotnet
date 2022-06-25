@@ -21,3 +21,5 @@ dotnet add tests/UnitTesting/UnitTesting.csproj reference src/Domain/Domain.cspr
 - Tutorial: Create a minimal web API with ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio)
 - Configuration in ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0)
 - Safe storage of app secrets in development in ASP.NET Core (https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=linux)
+- Loading Related Data (https://docs.microsoft.com/en-us/ef/core/querying/related-data/)
+- How to preserve references and handle or ignore circular references in System.Text.Json (https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-preserve-references?pivots=dotnet-6-0#ignore-circular-references)
