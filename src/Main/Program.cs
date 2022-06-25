@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Models;
 
@@ -13,6 +15,7 @@ IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
+builder.Services.Configure<JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddPersistenceServices(config);
 
 var app = builder.Build();
