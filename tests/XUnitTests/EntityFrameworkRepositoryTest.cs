@@ -3,7 +3,7 @@ using Infrastructure.Persistence.Models;
 
 namespace XUnitTests;
 
-public class RepositoryTest
+public class EntityFrameworkRepositoryTest
 {
     [Fact]
     public void TestRepositoryCanSaveToABatch()
