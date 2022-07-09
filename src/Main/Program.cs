@@ -22,5 +22,9 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 app.MapGet("/batches/count", (EntityFrameworkRepository repository) => repository.Count<Batch>());
+app.MapGet("/batch/{id}", async (EntityFrameworkRepository repository, int id) => {
+    var batch = await repository.GetBatchById(id);
+    return Results.Ok(batch);
+});
 
 app.Run();
