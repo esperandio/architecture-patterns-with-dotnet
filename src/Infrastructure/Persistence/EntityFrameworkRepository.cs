@@ -26,7 +26,7 @@ public class EntityFrameworkRepository
     {
         var batch = await _dbContext.Batches
             .Include("Allocations.OrderLine")
-            .FirstAsync((x) => x.ID == id);
+            .FirstOrDefaultAsync((x) => x.ID == id);
 
         return batch;
     }
