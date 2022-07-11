@@ -22,6 +22,21 @@ public class EntityFrameworkRepository
         return _dbContext.Find<T>(id);
     }
 
+    public async void AddBatch(Batch batch)
+    {
+        await _dbContext.AddAsync(batch);
+    }
+
+    public void UpdateBatch(Batch batch)
+    {
+        _dbContext.Update(batch);
+    }
+
+    public void Commit()
+    {
+        _dbContext.SaveChanges();
+    }
+
     public async Task<Batch> GetBatchById(int id)
     {
         var batch = await _dbContext.Batches
