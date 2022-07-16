@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence.Models;
+using BatchDomain = Domain.Batch;
+using OrderLineDomain = Domain.OrderLine;
 
 namespace Infrastructure.Persistence;
 
@@ -37,13 +39,13 @@ public class EntityFrameworkRepository
         _dbContext.SaveChanges();
     }
 
-    public async Task<Batch> GetBatchById(int id)
+    public async Task<BatchDomain> GetBatchById(int id)
     {
         var batch = await _dbContext.Batches
             .Include("Allocations.OrderLine")
             .FirstOrDefaultAsync((x) => x.ID == id);
 
-        return batch;
+        return MapToBatchDomain(batch);
     }
 
     public int Count<T>() where T : EntityModel
@@ -51,5 +53,20 @@ public class EntityFrameworkRepository
         IQueryable<T> entityQuery = _dbContext.Set<T>();
 
         return entityQuery.Count();
+    }
+
+    private BatchDomain MapToBatchDomain(Batch batch)
+    {
+        return new BatchDomain(
+            batch.Reference,
+            batch.Sku,
+            batch.PurchasedQuantity,
+            batch.Eta,
+            batch.Allocations.Select(x => new OrderLineDomain(
+                orderId: x.OrderLine.OrderId, 
+                sku: x.OrderLine.Sku, 
+                quantity: x.OrderLine.Quantity
+            )).ToList()
+        );
     }
 }
