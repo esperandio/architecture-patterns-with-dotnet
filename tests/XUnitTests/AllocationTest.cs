@@ -153,7 +153,7 @@ public class AllocationTest
 
     private Batch GetBatch(int quantity, string reference = "batch-001", string sku = "SMALL-TABLE", DateTime? eta = null)
     {
-        return new Batch(reference, sku, quantity, eta);
+        return new Batch(reference, sku, quantity, eta, null);
     }
 
     private OrderLine GetOrderLine(int quantity, string sku = "SMALL-TABLE")
