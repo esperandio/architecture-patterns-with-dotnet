@@ -11,14 +11,20 @@ public class Batch
     public DateTime? Eta {get => _eta;}
     public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
+    public IEnumerable<OrderLine> Allocations {get => _allocations;}
 
-    public Batch(string reference, string sku, int quantity, DateTime? eta)
+    public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine>? orderLines)
     {
         _reference = reference;
         _sku = sku;
         _purchasedQuantity = quantity;
         _eta = eta;
-        _allocations = new List<OrderLine>();
+
+        if (orderLines == null) {
+            orderLines = new List<OrderLine>();
+        }
+
+        _allocations = orderLines;
     }
 
     public void Allocate(OrderLine orderLine)
