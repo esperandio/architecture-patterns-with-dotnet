@@ -8,6 +8,8 @@ public class Batch
     private List<OrderLine> _allocations;
     private DateTime? _eta;
     public string Reference {get => _reference;}
+    public string Sku {get => _sku;}
+    public int PurchasedQuantity {get => _purchasedQuantity;}
     public DateTime? Eta {get => _eta;}
     public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}

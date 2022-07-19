@@ -5,6 +5,7 @@ public class OrderLine
     private string _orderId;
     private int _quantity;
     private string _sku;
+    public string OrderId {get => _orderId;}
     public string Sku {get => _sku;}
     public int Quantity {get => _quantity;}
 
