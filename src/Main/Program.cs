@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
-using Infrastructure.Persistence.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +20,5 @@ builder.Services.AddPersistenceServices(config);
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
-app.MapGet("/batches/count", (EntityFrameworkRepository repository) => repository.Count<Batch>());
-app.MapGet("/batch/{id}", async (EntityFrameworkRepository repository, int id) => {
-    var batch = await repository.GetBatchById(id);
-    return Results.Ok(batch);
-});
 
 app.Run();

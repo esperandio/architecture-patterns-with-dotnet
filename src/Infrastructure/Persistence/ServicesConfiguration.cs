@@ -16,7 +16,5 @@ public static class ServicesConfiguration
                 new MySqlServerVersion(new Version(8, 0, 29))
             )
         );
-
-        services.AddScoped<EntityFrameworkRepository, EntityFrameworkRepository>();
 	}
 }

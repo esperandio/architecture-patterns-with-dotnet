@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Persistence.Models;
+using Infrastructure.Persistence.EntityConfigurations;
 
 namespace Infrastructure.Persistence;
 
@@ -9,7 +9,9 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<OrderLine> OrderLines { get; set; }
-    public DbSet<Batch> Batches { get; set; }
-    public DbSet<Allocation> Allocations { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new OrderLineEntityTypeConfiguration());       
+        modelBuilder.ApplyConfiguration(new BatchEntityTypeConfiguration());
+    }
 }

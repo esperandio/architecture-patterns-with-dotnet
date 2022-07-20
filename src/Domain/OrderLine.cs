@@ -2,9 +2,21 @@ namespace Domain;
 
 public class OrderLine
 {
+    private int _id;
     private string _orderId;
     private int _quantity;
     private string _sku;
+    public virtual int Id
+    {
+        get
+        {
+            return _id;
+        }
+        protected set
+        {
+            _id = value;
+        }
+    }
     public string OrderId {get => _orderId;}
     public string Sku {get => _sku;}
     public int Quantity {get => _quantity;}

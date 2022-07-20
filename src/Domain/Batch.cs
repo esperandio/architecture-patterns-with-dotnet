@@ -2,11 +2,23 @@ namespace Domain;
 
 public class Batch
 {
+    private int _id;
     private string _reference;
     private string _sku;
     private int _purchasedQuantity;
     private List<OrderLine> _allocations;
     private DateTime? _eta;
+    public virtual int Id
+    {
+        get
+        {
+            return _id;
+        }
+        protected set
+        {
+            _id = value;
+        }
+    }
     public string Reference {get => _reference;}
     public string Sku {get => _sku;}
     public int PurchasedQuantity {get => _purchasedQuantity;}
@@ -15,18 +27,23 @@ public class Batch
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
     public IEnumerable<OrderLine> Allocations {get => _allocations;}
 
-    public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine>? orderLines)
+    public Batch(string reference, string sku, int purchasedQuantity, DateTime? eta) 
+    : this(reference, sku, purchasedQuantity, eta, new List<OrderLine>())
+    {
+    }
+
+    public Batch(string reference, string sku, int purchasedQuantity, DateTime? eta, List<OrderLine> allocations)
     {
         _reference = reference;
         _sku = sku;
-        _purchasedQuantity = quantity;
+        _purchasedQuantity = purchasedQuantity;
         _eta = eta;
 
-        if (orderLines == null) {
-            orderLines = new List<OrderLine>();
+        if (allocations == null) {
+            allocations = new List<OrderLine>();
         }
 
-        _allocations = orderLines;
+        _allocations = allocations;
     }
 
     public void Allocate(OrderLine orderLine)
