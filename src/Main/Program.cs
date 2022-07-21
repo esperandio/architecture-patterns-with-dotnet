@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
