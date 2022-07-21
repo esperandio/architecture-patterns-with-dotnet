@@ -25,7 +25,7 @@ public class Batch
     public DateTime? Eta {get => _eta;}
     public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
-    public IEnumerable<OrderLine> Allocations {get => _allocations;}
+    public IReadOnlyCollection<OrderLine> Allocations {get => _allocations;}
 
     public Batch(string reference, string sku, int purchasedQuantity, DateTime? eta) 
     : this(reference, sku, purchasedQuantity, eta, new List<OrderLine>())
@@ -38,11 +38,6 @@ public class Batch
         _sku = sku;
         _purchasedQuantity = purchasedQuantity;
         _eta = eta;
-
-        if (allocations == null) {
-            allocations = new List<OrderLine>();
-        }
-
         _allocations = allocations;
     }
 
