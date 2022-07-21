@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,5 +21,11 @@ builder.Services.AddPersistenceServices(config);
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
+app.MapGet("/batch/{id}", async (ApplicationDbContext context, int id) => {
+    var batch = await context.Batches.FindAsync(id);
+    await context.Entry(batch).Collection(x => x.Allocations).LoadAsync();
+
+    return Results.Ok(batch);
+});
 
 app.Run();
