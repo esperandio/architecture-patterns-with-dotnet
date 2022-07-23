@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using Domain;
+using Main.UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,29 +19,28 @@ IConfiguration config = new ConfigurationBuilder()
 builder.Services.Configure<JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddPersistenceServices(config);
 
+builder.Services.AddScoped<AllocateUseCase>();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
+
 app.MapGet("/batch/{id}", async (ApplicationDbContext context, int id) => {
     var batch = await context.Batches.FindAsync(id);
     await context.Entry(batch).Collection(x => x.Allocations).LoadAsync();
 
     return Results.Ok(batch);
 });
-app.MapPost("/allocate", (ApplicationDbContext context, AllocateRequest request) => {
-    var batches = context.Batches.Include(x => x.Allocations).ToList();
 
-    var orderLine = new OrderLine(
-        request.OrderId,
-        request.Sku,
-        request.Qty
-    );
-
+app.MapPost("/allocate", (AllocateUseCase useCase, AllocateRequestData request) => {
     try
     {
-        var reference = AllocationService.Allocate(orderLine, batches);
-
-        context.SaveChanges();
+        var reference = useCase.Perform(new AllocateData()
+        {
+            OrderId = request.OrderId,
+            Sku = request.Sku,
+            Qty = request.Qty
+        });
 
         return Results.Ok(reference);
     }
@@ -53,7 +52,7 @@ app.MapPost("/allocate", (ApplicationDbContext context, AllocateRequest request)
 
 app.Run();
 
-class AllocateRequest
+class AllocateRequestData
 {
     public string OrderId { get; set; }
     public string Sku { get; set; }
