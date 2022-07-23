@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,5 +28,34 @@ app.MapGet("/batch/{id}", async (ApplicationDbContext context, int id) => {
 
     return Results.Ok(batch);
 });
+app.MapPost("/allocate", (ApplicationDbContext context, AllocateRequest request) => {
+    var batches = context.Batches.Include(x => x.Allocations).ToList();
+
+    var orderLine = new OrderLine(
+        request.OrderId,
+        request.Sku,
+        request.Qty
+    );
+
+    try
+    {
+        var reference = AllocationService.Allocate(orderLine, batches);
+
+        context.SaveChanges();
+
+        return Results.Ok(reference);
+    }
+    catch (OutOfStockException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
 
 app.Run();
+
+class AllocateRequest
+{
+    public string OrderId { get; set; }
+    public string Sku { get; set; }
+    public int Qty { get; set; }
+}
