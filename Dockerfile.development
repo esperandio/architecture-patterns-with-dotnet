@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+ENV \
+    # Enable correct mode for dotnet watch (only mode supported in a container)
+    DOTNET_USE_POLLING_FILE_WATCHER=true
+
+RUN dotnet dev-certs https
