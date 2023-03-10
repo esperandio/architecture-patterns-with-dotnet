@@ -12,4 +12,16 @@ public class BatchTest
 
         Assert.Equal(18, batch.AvailableQuantity);
     }
+
+
+    [Fact]
+    public void TestCannotAllocateIfOrderLineQuantityIsGreaterThanAvailableQuantity()
+    {
+        var batch = new Batch("reference-001", "BLUE-CUSHION", 1, null);
+        var orderLine = new OrderLine("BLUE-CUSHION", 2);
+
+        Assert.Throws<OutOfStockException>(() => { 
+            batch.allocate(orderLine);
+        });
+    }
 }

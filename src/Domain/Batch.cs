@@ -1,5 +1,13 @@
 namespace Domain;
 
+public class OutOfStockException : Exception
+{
+    public OutOfStockException()
+    : base("Cannot allocate to a batch if the available quantity is less than the quantity of the order line")
+    {
+    }
+}
+
 public class OrderLine
 {
     private string _sku;
@@ -32,6 +40,11 @@ public class Batch
 
     public void allocate(OrderLine orderLine)
     {
+        if (orderLine.Quantity > AvailableQuantity)
+        {
+            throw new OutOfStockException();
+        }
+
         _allocatedQuantity += orderLine.Quantity;
     }
 }
