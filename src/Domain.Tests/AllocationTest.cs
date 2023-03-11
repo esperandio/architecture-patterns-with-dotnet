@@ -15,7 +15,7 @@ public class AllocationTest
 
 
     [Fact]
-    public void TestCannotAllocateIfOrderLineQuantityIsGreaterThanAvailableQuantity()
+    public void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
         var batch = new Batch("batch-001", "BLUE-CUSHION", 1, null);
         var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
