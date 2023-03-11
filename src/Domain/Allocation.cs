@@ -8,6 +8,14 @@ public class OutOfStockException : Exception
     }
 }
 
+public class AllocateSameLineTwiceException : Exception
+{
+    public AllocateSameLineTwiceException()
+    : base("Cannot allocate the same order line twice")
+    {
+    }
+}
+
 public class OrderLine
 {
     private string _orderId;
@@ -22,6 +30,25 @@ public class OrderLine
         _sku = sku;
         _quantity = quantity;
     }
+
+    public override bool Equals(object? obj)
+    {
+        var orderLine = obj as OrderLine;
+
+        if (orderLine == null)
+        {
+            return false;
+        }
+
+        return orderLine._orderId == _orderId
+            && orderLine._sku == _sku
+            && orderLine._quantity == _quantity;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class Batch
@@ -31,6 +58,7 @@ public class Batch
     private int _purchasedQuantity;
     private int _allocatedQuantity;
     private DateTime? _eta;
+    private List<OrderLine> _allocations;
 
     public int AvailableQuantity {get => _purchasedQuantity - _allocatedQuantity;}
 
@@ -40,6 +68,7 @@ public class Batch
         _sku = sku;
         _purchasedQuantity = quantity;
         _eta = eta;
+        _allocations = new List<OrderLine>();
     }
 
     public void allocate(OrderLine orderLine)
@@ -49,6 +78,12 @@ public class Batch
             throw new OutOfStockException();
         }
 
+        if (_allocations.Where(x => x.Equals(orderLine)).Count() > 0)
+        {
+            throw new AllocateSameLineTwiceException();
+        }
+
+        _allocations.Add(orderLine);
         _allocatedQuantity += orderLine.Quantity;
     }
 }

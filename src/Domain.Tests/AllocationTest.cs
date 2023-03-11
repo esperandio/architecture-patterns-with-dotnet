@@ -24,4 +24,20 @@ public class AllocationTest
             batch.allocate(orderLine);
         });
     }
+
+    [Fact]
+    public void TestCannotAllocateTheSameOrderLineTwice()
+    {
+        var batch = new Batch("reference-001", "BLUE-VASE", 10, null);
+        var orderLine1 = new OrderLine("order-001", "BLUE-VASE", 2);
+        var orderLine2 = new OrderLine("order-001", "BLUE-VASE", 2);
+
+        batch.allocate(orderLine1);
+
+        Assert.Throws<AllocateSameLineTwiceException>(() => { 
+            batch.allocate(orderLine2);
+        });
+
+        Assert.Equal(8, batch.AvailableQuantity);
+    }
 }
