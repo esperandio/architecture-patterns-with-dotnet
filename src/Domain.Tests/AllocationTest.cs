@@ -5,8 +5,8 @@ public class AllocationTest
     [Fact]
     public void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var batch = new Batch("reference-001", "SMALL-TABLE", 20, null);
-        var orderLine = new OrderLine("SMALL-TABLE", 2);
+        var batch = new Batch("batch-001", "SMALL-TABLE", 20, null);
+        var orderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
 
         batch.allocate(orderLine);
 
@@ -17,8 +17,8 @@ public class AllocationTest
     [Fact]
     public void TestCannotAllocateIfOrderLineQuantityIsGreaterThanAvailableQuantity()
     {
-        var batch = new Batch("reference-001", "BLUE-CUSHION", 1, null);
-        var orderLine = new OrderLine("BLUE-CUSHION", 2);
+        var batch = new Batch("batch-001", "BLUE-CUSHION", 1, null);
+        var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
 
         Assert.Throws<OutOfStockException>(() => { 
             batch.allocate(orderLine);

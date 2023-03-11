@@ -10,12 +10,15 @@ public class OutOfStockException : Exception
 
 public class OrderLine
 {
+    private string _orderId;
     private string _sku;
     private int _quantity;
+
     public int Quantity {get => _quantity;}
 
-    public OrderLine(string sku, int quantity)
+    public OrderLine(string orderId, string sku, int quantity)
     {
+        _orderId = orderId;
         _sku = sku;
         _quantity = quantity;
     }
