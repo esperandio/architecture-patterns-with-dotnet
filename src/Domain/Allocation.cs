@@ -28,6 +28,7 @@ public class Batch
     private int _purchasedQuantity;
     private int _allocatedQuantity;
     private DateTime? _eta;
+
     public int AvailableQuantity {get => _purchasedQuantity - _allocatedQuantity;}
 
     public Batch(string reference, string sku, int quantity, DateTime? eta)

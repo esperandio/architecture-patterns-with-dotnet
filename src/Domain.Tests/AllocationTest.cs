@@ -1,6 +1,6 @@
 namespace Domain.Tests;
 
-public class BatchTest
+public class AllocationTest
 {
     [Fact]
     public void TestAvailableQuantityIsReducedWhenWeAllocated()
