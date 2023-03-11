@@ -3,7 +3,7 @@ namespace Domain.Tests;
 public class AllocationTest
 {
     [Fact]
-    public void TestAvailableQuantityIsReducedWhenWeAllocated()
+    public void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
         var batch = new Batch("reference-001", "SMALL-TABLE", 20, null);
         var orderLine = new OrderLine("SMALL-TABLE", 2);
