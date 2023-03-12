@@ -71,6 +71,11 @@ public class Batch
 
     public int AvailableQuantity {get => _purchasedQuantity - _allocatedQuantity;}
 
+    public Batch(string reference, string sku, int quantity)
+    : this(reference, sku, quantity, null)
+    {
+    }
+
     public Batch(string reference, string sku, int quantity, DateTime? eta)
     {
         _reference = reference;

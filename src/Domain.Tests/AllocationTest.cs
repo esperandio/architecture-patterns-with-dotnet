@@ -5,7 +5,7 @@ public class AllocationTest
     [Fact]
     public void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var batch = new Batch("batch-001", "SMALL-TABLE", 20, null);
+        var batch = new Batch("batch-001", "SMALL-TABLE", 20);
         var orderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
 
         batch.allocate(orderLine);
@@ -17,7 +17,7 @@ public class AllocationTest
     [Fact]
     public void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
-        var batch = new Batch("batch-001", "BLUE-CUSHION", 1, null);
+        var batch = new Batch("batch-001", "BLUE-CUSHION", 1);
         var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
 
         Assert.Throws<OutOfStockException>(() => { 
@@ -28,7 +28,7 @@ public class AllocationTest
     [Fact]
     public void TestCannotAllocateTheSameOrderLineTwice()
     {
-        var batch = new Batch("reference-001", "BLUE-VASE", 10, null);
+        var batch = new Batch("reference-001", "BLUE-VASE", 10);
         var orderLine1 = new OrderLine("order-001", "BLUE-VASE", 2);
         var orderLine2 = new OrderLine("order-001", "BLUE-VASE", 2);
 
@@ -42,7 +42,7 @@ public class AllocationTest
     [Fact]
     public void TestCannotAllocateIfSkusDoNotMatch()
     {
-        var batch = new Batch("reference-001", "UNCOMFORTABLE-CHAIR", 100, null);
+        var batch = new Batch("reference-001", "UNCOMFORTABLE-CHAIR", 100);
         var orderLine = new OrderLine("order-001", "EXPENSIVE-TOASTER", 2);
 
         Assert.Throws<SkuDoesNotMatchException>(() => { 
