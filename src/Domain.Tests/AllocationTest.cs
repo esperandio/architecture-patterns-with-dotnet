@@ -62,4 +62,17 @@ public class AllocationTest
 
         Assert.Equal(20, batch.AvailableQuantity);
     }
+
+    [Fact]
+    public void TestCannotDeallocateUnallocatedOrderLine()
+    {
+        var allocatedOrderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
+        var unallocatedOrderLine = new OrderLine("order-001", "SMALL-TABLE", 4);
+
+        var batch = new Batch("batch-001", "SMALL-TABLE", 20, new List<OrderLine>() { allocatedOrderLine });
+
+        Assert.Throws<UnallocatedOrderLineException>(() => { 
+            batch.deallocate(unallocatedOrderLine);
+        });
+    }
 }

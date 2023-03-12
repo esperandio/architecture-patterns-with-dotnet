@@ -24,6 +24,14 @@ public class SkuDoesNotMatchException : Exception
     }
 }
 
+public class UnallocatedOrderLineException : Exception
+{
+    public UnallocatedOrderLineException()
+    : base("Cannot deallocate an unallocated order line")
+    {
+    }
+}
+
 public class OrderLine
 {
     private string _orderId;
@@ -112,6 +120,10 @@ public class Batch
 
     public void deallocate(OrderLine orderLine)
     {
+        if (_allocations.Where(x => x.Equals(orderLine)).Count() == 0) {
+            throw new UnallocatedOrderLineException();
+        }
+
         _allocations.Remove(orderLine);
     }
 }
