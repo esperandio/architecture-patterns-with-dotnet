@@ -72,17 +72,17 @@ public class Batch
     public int AvailableQuantity {get => _purchasedQuantity - _allocatedQuantity;}
 
     public Batch(string reference, string sku, int quantity)
-    : this(reference, sku, quantity, null)
+    : this(reference, sku, quantity, null, new List<OrderLine>())
     {
     }
 
-    public Batch(string reference, string sku, int quantity, DateTime? eta)
+    public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine> allocations)
     {
         _reference = reference;
         _sku = sku;
         _purchasedQuantity = quantity;
         _eta = eta;
-        _allocations = new List<OrderLine>();
+        _allocations = allocations;
     }
 
     public void allocate(OrderLine orderLine)
