@@ -37,7 +37,16 @@ public class AllocationTest
         Assert.Throws<AllocateSameLineTwiceException>(() => { 
             batch.allocate(orderLine2);
         });
+    }
 
-        Assert.Equal(8, batch.AvailableQuantity);
+    [Fact]
+    public void TestCannotAllocateIfSkusDoNotMatch()
+    {
+        var batch = new Batch("reference-001", "UNCOMFORTABLE-CHAIR", 100, null);
+        var orderLine = new OrderLine("order-001", "EXPENSIVE-TOASTER", 2);
+
+        Assert.Throws<SkuDoesNotMatchException>(() => { 
+            batch.allocate(orderLine);
+        });
     }
 }

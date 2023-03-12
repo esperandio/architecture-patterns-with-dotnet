@@ -16,12 +16,21 @@ public class AllocateSameLineTwiceException : Exception
     }
 }
 
+public class SkuDoesNotMatchException : Exception
+{
+    public SkuDoesNotMatchException()
+    : base("Cannot allocate if order line SKU is different from batch SKU")
+    {
+    }
+}
+
 public class OrderLine
 {
     private string _orderId;
     private string _sku;
     private int _quantity;
 
+    public string Sku {get => _sku;}
     public int Quantity {get => _quantity;}
 
     public OrderLine(string orderId, string sku, int quantity)
@@ -81,6 +90,11 @@ public class Batch
         if (_allocations.Where(x => x.Equals(orderLine)).Count() > 0)
         {
             throw new AllocateSameLineTwiceException();
+        }
+
+        if (orderLine.Sku != _sku)
+        {
+            throw new SkuDoesNotMatchException();
         }
 
         _allocations.Add(orderLine);
