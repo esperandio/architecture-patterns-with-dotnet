@@ -8,9 +8,9 @@ public class OutOfStockException : Exception
     }
 }
 
-public class AllocateSameLineTwiceException : Exception
+public class DuplicateOrderLineException : Exception
 {
-    public AllocateSameLineTwiceException()
+    public DuplicateOrderLineException()
     : base("Cannot allocate the same order line twice")
     {
     }
@@ -107,7 +107,7 @@ public class Batch
 
         if (_allocations.Where(x => x.Equals(orderLine)).Count() > 0)
         {
-            throw new AllocateSameLineTwiceException();
+            throw new DuplicateOrderLineException();
         }
 
         if (orderLine.Sku != _sku)

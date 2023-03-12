@@ -13,7 +13,6 @@ public class AllocationTest
         Assert.Equal(18, batch.AvailableQuantity);
     }
 
-
     [Fact]
     public void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
@@ -34,7 +33,7 @@ public class AllocationTest
 
         batch.allocate(orderLine1);
 
-        Assert.Throws<AllocateSameLineTwiceException>(() => { 
+        Assert.Throws<DuplicateOrderLineException>(() => { 
             batch.allocate(orderLine2);
         });
     }
