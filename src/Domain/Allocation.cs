@@ -65,11 +65,11 @@ public class Batch
     private string _reference;
     private string _sku;
     private int _purchasedQuantity;
-    private int _allocatedQuantity;
     private DateTime? _eta;
     private List<OrderLine> _allocations;
 
-    public int AvailableQuantity {get => _purchasedQuantity - _allocatedQuantity;}
+    public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
+    public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
 
     public Batch(string reference, string sku, int quantity)
     : this(reference, sku, quantity, null, new List<OrderLine>())
@@ -108,6 +108,5 @@ public class Batch
         }
 
         _allocations.Add(orderLine);
-        _allocatedQuantity += orderLine.Quantity;
     }
 }
