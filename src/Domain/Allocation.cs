@@ -109,4 +109,9 @@ public class Batch
 
         _allocations.Add(orderLine);
     }
+
+    public void deallocate(OrderLine orderLine)
+    {
+        _allocations.Remove(orderLine);
+    }
 }
