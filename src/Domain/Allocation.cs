@@ -89,6 +89,11 @@ public class Batch
     {
     }
 
+    public Batch(string reference, string sku, int quantity, DateTime? eta)
+    : this(reference, sku, quantity, eta, new List<OrderLine>())
+    {
+    }
+
     public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine> allocations)
     {
         _reference = reference;
