@@ -103,7 +103,7 @@ public class Batch
         _allocations = allocations;
     }
 
-    public void allocate(OrderLine orderLine)
+    private void validateOrderLineRequirements(OrderLine orderLine)
     {
         if (orderLine.Quantity > AvailableQuantity)
         {
@@ -119,6 +119,11 @@ public class Batch
         {
             throw new SkuDoesNotMatchException();
         }
+    }
+
+    public void allocate(OrderLine orderLine)
+    {
+        validateOrderLineRequirements(orderLine);
 
         _allocations.Add(orderLine);
     }
