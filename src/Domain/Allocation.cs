@@ -1,8 +1,8 @@
 namespace Domain;
 
-public class OutOfStockException : Exception
+public class RequiresQuantityGreaterThanAvailableException : Exception
 {
-    public OutOfStockException()
+    public RequiresQuantityGreaterThanAvailableException()
     : base("Cannot allocate to a batch if the available quantity is less than the quantity of the order line")
     {
     }
@@ -107,7 +107,7 @@ public class Batch
     {
         if (orderLine.Quantity > AvailableQuantity)
         {
-            throw new OutOfStockException();
+            throw new RequiresQuantityGreaterThanAvailableException();
         }
 
         if (_allocations.Where(x => x.Equals(orderLine)).Count() > 0)

@@ -19,7 +19,7 @@ public class AllocationTest
         var batch = new Batch("batch-001", "BLUE-CUSHION", 1);
         var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
 
-        Assert.Throws<OutOfStockException>(() => { 
+        Assert.Throws<RequiresQuantityGreaterThanAvailableException>(() => { 
             batch.allocate(orderLine);
         });
     }
