@@ -103,7 +103,7 @@ public class Batch
         _allocations = allocations;
     }
 
-    private void validateOrderLineRequirements(OrderLine orderLine)
+    private void ValidateOrderLineRequirements(OrderLine orderLine)
     {
         if (orderLine.Quantity > AvailableQuantity)
         {
@@ -121,11 +121,11 @@ public class Batch
         }
     }
 
-    public bool canAllocate(OrderLine orderLine)
+    public bool CanAllocate(OrderLine orderLine)
     {
         try
         {
-            validateOrderLineRequirements(orderLine);
+            ValidateOrderLineRequirements(orderLine);
 
             return true;
         }
@@ -135,14 +135,14 @@ public class Batch
         }
     }
 
-    public void allocate(OrderLine orderLine)
+    public void Allocate(OrderLine orderLine)
     {
-        validateOrderLineRequirements(orderLine);
+        ValidateOrderLineRequirements(orderLine);
 
         _allocations.Add(orderLine);
     }
 
-    public void deallocate(OrderLine orderLine)
+    public void Deallocate(OrderLine orderLine)
     {
         if (_allocations.Where(x => x.Equals(orderLine)).Count() == 0) {
             throw new UnallocatedOrderLineException();

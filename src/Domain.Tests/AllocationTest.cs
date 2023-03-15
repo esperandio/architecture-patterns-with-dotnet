@@ -8,7 +8,7 @@ public class AllocationTest
         var batch = new Batch("batch-001", "SMALL-TABLE", 20);
         var orderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
 
-        batch.allocate(orderLine);
+        batch.Allocate(orderLine);
 
         Assert.Equal(18, batch.AvailableQuantity);
     }
@@ -20,7 +20,7 @@ public class AllocationTest
         var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
 
         Assert.Throws<RequiresQuantityGreaterThanAvailableException>(() => { 
-            batch.allocate(orderLine);
+            batch.Allocate(orderLine);
         });
     }
 
@@ -31,10 +31,10 @@ public class AllocationTest
         var orderLine1 = new OrderLine("order-001", "BLUE-VASE", 2);
         var orderLine2 = new OrderLine("order-001", "BLUE-VASE", 2);
 
-        batch.allocate(orderLine1);
+        batch.Allocate(orderLine1);
 
         Assert.Throws<DuplicateOrderLineException>(() => { 
-            batch.allocate(orderLine2);
+            batch.Allocate(orderLine2);
         });
     }
 
@@ -45,7 +45,7 @@ public class AllocationTest
         var orderLine = new OrderLine("order-001", "EXPENSIVE-TOASTER", 2);
 
         Assert.Throws<SkuDoesNotMatchException>(() => { 
-            batch.allocate(orderLine);
+            batch.Allocate(orderLine);
         });
     }
 
@@ -57,7 +57,7 @@ public class AllocationTest
 
         Assert.Equal(18, batch.AvailableQuantity);
 
-        batch.deallocate(orderLine);
+        batch.Deallocate(orderLine);
 
         Assert.Equal(20, batch.AvailableQuantity);
     }
@@ -71,7 +71,7 @@ public class AllocationTest
         var batch = new Batch("batch-001", "SMALL-TABLE", 20, new List<OrderLine>() { allocatedOrderLine });
 
         Assert.Throws<UnallocatedOrderLineException>(() => { 
-            batch.deallocate(unallocatedOrderLine);
+            batch.Deallocate(unallocatedOrderLine);
         });
     }
 }
