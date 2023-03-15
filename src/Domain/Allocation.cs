@@ -121,6 +121,20 @@ public class Batch
         }
     }
 
+    public bool canAllocate(OrderLine orderLine)
+    {
+        try
+        {
+            validateOrderLineRequirements(orderLine);
+
+            return true;
+        }
+        catch (System.Exception)
+        {
+            return false;
+        }
+    }
+
     public void allocate(OrderLine orderLine)
     {
         validateOrderLineRequirements(orderLine);
