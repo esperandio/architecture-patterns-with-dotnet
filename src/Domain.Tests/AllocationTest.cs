@@ -74,4 +74,45 @@ public class AllocationTest
             batch.Deallocate(unallocatedOrderLine);
         });
     }
+
+    [Fact]
+    public void TestPrefersCurrentStockBatchesToShipment()
+    {
+        var inStockBatch = new Batch("in-stock-batch", "RETRO-CLOCK", 100);
+        var shipmentBatch = new Batch("shipment-batch", "RETRO-CLOCK", 100, DateTime.Now.AddDays(1));
+
+        var orderLine = new OrderLine("order-001", "RETRO-CLOCK", 10);
+
+        AllocationService.Allocate(orderLine, new List<Batch>() { inStockBatch, shipmentBatch });
+
+        Assert.Equal(90, inStockBatch.AvailableQuantity);
+        Assert.Equal(100, shipmentBatch.AvailableQuantity);
+    }
+
+    [Fact]
+    public void TestPrefersEarlierBatches()
+    {
+        var earliest = new Batch("speedy-batch", "MINIMALIST-SPOON", 100, DateTime.Today);
+        var medium = new Batch("normal-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(1));
+        var latest = new Batch("slow-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(2));
+
+        var orderLine = new OrderLine("order-001", "MINIMALIST-SPOON", 10);
+
+        AllocationService.Allocate(orderLine, new List<Batch>() { latest, medium, earliest });
+
+        Assert.Equal(90, earliest.AvailableQuantity);
+        Assert.Equal(100, medium.AvailableQuantity);
+        Assert.Equal(100, latest.AvailableQuantity);
+    }
+
+    [Fact]
+    public void TestRaisesOutOfStockExceptionIfCannotAllocate()
+    {
+        var batch = new Batch("batch-001", "SMALL-FORK", 10);
+        var orderLine = new OrderLine("order-001", "SMALL-FORK", 15);
+
+        Assert.Throws<OutOfStockException>(() => { 
+            AllocationService.Allocate(orderLine, new List<Batch>() { batch });
+        });
+    }
 }

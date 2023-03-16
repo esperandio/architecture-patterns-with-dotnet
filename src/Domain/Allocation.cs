@@ -32,6 +32,14 @@ public class UnallocatedOrderLineException : Exception
     }
 }
 
+public class OutOfStockException : Exception
+{
+    public OutOfStockException(string sku)
+    : base($"Out of stock for sku {sku}") 
+    {
+    }
+}
+
 public class OrderLine
 {
     private string _orderId;
@@ -76,6 +84,7 @@ public class Batch
     private DateTime? _eta;
     private List<OrderLine> _allocations;
 
+    public DateTime? Eta {get => _eta;}
     public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
     public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
 
@@ -149,5 +158,23 @@ public class Batch
         }
 
         _allocations.Remove(orderLine);
+    }
+}
+
+public class AllocationService
+{
+    public static void Allocate(OrderLine orderLine, List<Batch> batches)
+    {
+        var availableBatch = batches
+            .Where(x => x.CanAllocate(orderLine))
+            .OrderBy(x => x.Eta)
+            .FirstOrDefault();
+        
+        if (availableBatch == null) 
+        {
+            throw new OutOfStockException(orderLine.Sku);
+        }
+
+        availableBatch.Allocate(orderLine);
     }
 }
