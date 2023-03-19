@@ -78,15 +78,16 @@ public class OrderLine
 
 public class Batch
 {
-    private string _reference;
-    private string _sku;
-    private int _purchasedQuantity;
-    private DateTime? _eta;
-    private List<OrderLine> _allocations;
+    private readonly List<OrderLine> _allocations;
 
-    public DateTime? Eta {get => _eta;}
-    public int AllocatedQuantity {get => _allocations.Sum(x => x.Quantity);}
-    public int AvailableQuantity {get => _purchasedQuantity - AllocatedQuantity;}
+    public string Reference { get; private set; }
+    public string Sku { get; private set; }
+    public int PurchasedQuantity { get; private set; }
+    public DateTime? Eta {get; private set;}
+
+    public IReadOnlyCollection<OrderLine> Allocations => _allocations;
+    public int AllocatedQuantity => _allocations.Sum(x => x.Quantity);
+    public int AvailableQuantity => PurchasedQuantity - AllocatedQuantity;
 
     public Batch(string reference, string sku, int quantity)
     : this(reference, sku, quantity, null, new List<OrderLine>())
@@ -105,10 +106,10 @@ public class Batch
 
     public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine> allocations)
     {
-        _reference = reference;
-        _sku = sku;
-        _purchasedQuantity = quantity;
-        _eta = eta;
+        Reference = reference;
+        Sku = sku;
+        PurchasedQuantity = quantity;
+        Eta = eta;
         _allocations = allocations;
     }
 
@@ -124,7 +125,7 @@ public class Batch
             throw new DuplicateOrderLineException();
         }
 
-        if (orderLine.Sku != _sku)
+        if (orderLine.Sku != Sku)
         {
             throw new SkuDoesNotMatchException();
         }
