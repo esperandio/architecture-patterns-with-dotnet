@@ -42,18 +42,15 @@ public class OutOfStockException : Exception
 
 public class OrderLine
 {
-    private string _orderId;
-    private string _sku;
-    private int _quantity;
-
-    public string Sku {get => _sku;}
-    public int Quantity {get => _quantity;}
+    public string OrderId {get; private set;}
+    public string Sku {get; private set;}
+    public int Quantity {get; private set;}
 
     public OrderLine(string orderId, string sku, int quantity)
     {
-        _orderId = orderId;
-        _sku = sku;
-        _quantity = quantity;
+        OrderId = orderId;
+        Sku = sku;
+        Quantity = quantity;
     }
 
     public override bool Equals(object? obj)
@@ -65,9 +62,9 @@ public class OrderLine
             return false;
         }
 
-        return orderLine._orderId == _orderId
-            && orderLine._sku == _sku
-            && orderLine._quantity == _quantity;
+        return orderLine.OrderId == OrderId
+            && orderLine.Sku == Sku
+            && orderLine.Quantity == Quantity;
     }
 
     public override int GetHashCode()
