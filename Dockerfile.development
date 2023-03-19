@@ -2,6 +2,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 ENV \
     # Enable correct mode for dotnet watch (only mode supported in a container)
-    DOTNET_USE_POLLING_FILE_WATCHER=true
+    DOTNET_USE_POLLING_FILE_WATCHER=true \
+    # Ensure global tools directory is on the PATH
+    PATH="${PATH}:~/.dotnet/tools"
 
 RUN dotnet dev-certs https
+RUN dotnet tool install --global dotnet-ef
