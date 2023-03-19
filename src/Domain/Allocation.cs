@@ -86,26 +86,26 @@ public class Batch
     public int AllocatedQuantity => _allocations.Sum(x => x.Quantity);
     public int AvailableQuantity => PurchasedQuantity - AllocatedQuantity;
 
-    public Batch(string reference, string sku, int quantity)
-    : this(reference, sku, quantity, null, new List<OrderLine>())
+    public Batch(string reference, string sku, int purchasedQuantity)
+    : this(reference, sku, purchasedQuantity, null, new List<OrderLine>())
     {
     }
 
-    public Batch(string reference, string sku, int quantity, List<OrderLine> allocations)
-    : this(reference, sku, quantity, null, allocations)
+    public Batch(string reference, string sku, int purchasedQuantity, List<OrderLine> allocations)
+    : this(reference, sku, purchasedQuantity, null, allocations)
     {
     }
 
-    public Batch(string reference, string sku, int quantity, DateTime? eta)
-    : this(reference, sku, quantity, eta, new List<OrderLine>())
+    public Batch(string reference, string sku, int purchasedQuantity, DateTime? eta)
+    : this(reference, sku, purchasedQuantity, eta, new List<OrderLine>())
     {
     }
 
-    public Batch(string reference, string sku, int quantity, DateTime? eta, List<OrderLine> allocations)
+    public Batch(string reference, string sku, int purchasedQuantity, DateTime? eta, List<OrderLine> allocations)
     {
         Reference = reference;
         Sku = sku;
-        PurchasedQuantity = quantity;
+        PurchasedQuantity = purchasedQuantity;
         Eta = eta;
         _allocations = allocations;
     }
