@@ -157,6 +157,23 @@ public class Batch
 
         _allocations.Remove(orderLine);
     }
+
+    public override bool Equals(object? obj)
+    {
+        var batch = obj as Batch;
+
+        if (batch == null)
+        {
+            return false;
+        }
+
+        return batch.Reference == Reference;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class AllocationService
