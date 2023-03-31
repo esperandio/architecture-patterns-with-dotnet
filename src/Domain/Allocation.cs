@@ -178,7 +178,7 @@ public class Batch
 
 public class AllocationService
 {
-    public static void Allocate(OrderLine orderLine, List<Batch> batches)
+    public static void Allocate(OrderLine orderLine, IEnumerable<Batch> batches)
     {
         var availableBatch = batches
             .Where(x => x.CanAllocate(orderLine))
