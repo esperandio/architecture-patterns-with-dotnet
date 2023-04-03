@@ -4,16 +4,16 @@ namespace UseCases;
 
 public class AllocateUseCase
 {
-    private readonly IBatchRepository _batchRepository;
+    private readonly IBatchRepository _repository;
 
     public AllocateUseCase(IBatchRepository batchRepository)
     {
-        _batchRepository = batchRepository;
+        _repository = batchRepository;
     }
 
     public async Task<string> Perform(AllocateData allocateData)
     {
-        var batches = await _batchRepository.FindBySkuAsync(allocateData.Sku);
+        var batches = await _repository.FindBySkuAsync(allocateData.Sku);
 
         var orderLine = new OrderLine(allocateData.OrderId, allocateData.Sku, allocateData.Qty);
 
