@@ -1,5 +1,3 @@
-using Domain;
-
 namespace UseCases.Tests;
 
 public class AllocateUseCaseTest
@@ -7,16 +5,26 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var batches = new List<Batch>()
+        var repository = new FakeBatchRepository();
+
+        var addBatchService = new AddBatchUseCase(repository);
+
+        await addBatchService.Perform(new AddBatchData()
         {
-            new Batch("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2)),
-            new Batch("speedy-batch", "MINIMALIST-SPOON", 50)
-        };
+            Reference = "slow-batch",
+            Sku = "MINIMALIST-SPOON",
+            PurchasedQuantity = 50,
+            Eta =  new DateTime().AddDays(2)
+        });
+        
+        await addBatchService.Perform(new AddBatchData()
+        {
+            Reference = "speedy-batch",
+            Sku = "MINIMALIST-SPOON",
+            PurchasedQuantity = 50
+        });
 
-        var repository = new FakeBatchRepository(batches);
-        var useCase = new AllocateUseCase(repository);
-
-        var batchReference = await useCase.Perform(new AllocateData()
+        var batchReference = await new AllocateUseCase(repository).Perform(new AllocateData()
         {
             OrderId = "order001",
             Qty = 10,
