@@ -15,4 +15,14 @@ class FakeBatchRepository : IBatchRepository
     {
         return Task.Run(() => _batches.Where(x => x.Sku == sku));
     }
+
+    public Task Add(Batch batch)
+    {
+        return Task.Run(() => _batches.Add(batch));
+    }
+
+    public Task<Batch?> Get(string reference)
+    {
+        return Task.Run(() => _batches.FirstOrDefault(x => x.Reference == reference));
+    }
 }

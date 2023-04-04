@@ -22,4 +22,14 @@ public class BatchRepository : IBatchRepository
             .Where(x => x.Sku.Equals(sku))
             .ToListAsync();        
     }
+
+    public async Task Add(Batch batch)
+    {
+        await _dbContext.Batches.AddAsync(batch);
+    }
+
+    public async Task<Batch?> Get(string reference)
+    {
+        return await _dbContext.Batches.FirstOrDefaultAsync(x => x.Reference == reference);
+    }
 }
