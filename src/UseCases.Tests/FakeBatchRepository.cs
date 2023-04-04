@@ -6,6 +6,11 @@ class FakeBatchRepository : IBatchRepository
 {
     private List<Batch> _batches;
 
+    public FakeBatchRepository()
+    : this(new List<Batch>())
+    {
+    }
+
     public FakeBatchRepository(List<Batch> batches)
     {
         _batches = batches;

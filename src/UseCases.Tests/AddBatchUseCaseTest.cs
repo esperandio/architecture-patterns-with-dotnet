@@ -1,5 +1,3 @@
-using Domain;
-
 namespace UseCases.Tests;
 
 public class AddBatchUseCaseTest
@@ -7,7 +5,7 @@ public class AddBatchUseCaseTest
     [Fact]
     public async void TestAddBatch()
     {
-        var repository = new FakeBatchRepository(new List<Batch>());
+        var repository = new FakeBatchRepository();
         
         var reference = await new AddBatchUseCase(repository).Perform(new AddBatchData()
         {
