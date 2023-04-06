@@ -4,16 +4,16 @@ namespace UseCases;
 
 public class AddBatchUseCase
 {
-    private readonly IBatchRepository _repository;
+    private readonly IUnitOfWork uow;
 
-    public AddBatchUseCase(IBatchRepository batchRepository)
+    public AddBatchUseCase(IUnitOfWork unitOfWork)
     {
-        _repository = batchRepository;
+        uow = unitOfWork;
     }
 
     public async Task<string> Perform(AddBatchData addBatchData)
     {
-        await _repository.Add(
+        await uow.Batches.Add(
             new Batch(
                 addBatchData.Reference, 
                 addBatchData.Sku, 
@@ -21,6 +21,8 @@ public class AddBatchUseCase
                 addBatchData.Eta
             )
         );
+
+        await uow.Commit();
 
         return addBatchData.Reference;
     }

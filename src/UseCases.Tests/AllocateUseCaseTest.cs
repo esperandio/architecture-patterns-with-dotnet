@@ -7,7 +7,7 @@ public class AllocateUseCaseTest
     {
         var uow = new FakeUnitOfWork();
 
-        var addBatchService = new AddBatchUseCase(uow.Batches);
+        var addBatchService = new AddBatchUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -24,7 +24,7 @@ public class AllocateUseCaseTest
             PurchasedQuantity = 50
         });
 
-        var batchReference = await new AllocateUseCase(uow.Batches).Perform(new AllocateData()
+        var batchReference = await new AllocateUseCase(uow).Perform(new AllocateData()
         {
             OrderId = "order001",
             Qty = 10,

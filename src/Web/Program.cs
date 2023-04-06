@@ -5,18 +5,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructureDataService();
 
+builder.Services.AddScoped<AllocateUseCase>();
+builder.Services.AddScoped<AddBatchUseCase>();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapPost("/allocate", async (AppDbContext dbContext, AllocateData request) => {
+app.MapPost("/allocate", async (AllocateUseCase useCase, AllocateData request) => {
     try
     {
-        var repository = new BatchRepository(dbContext);
-
-        var reference = await new AllocateUseCase(repository).Perform(request);
-
-        await dbContext.SaveChangesAsync();
+        var reference = await useCase.Perform(request);
 
         return Results.Ok(reference);
     }
@@ -26,14 +25,10 @@ app.MapPost("/allocate", async (AppDbContext dbContext, AllocateData request) =>
     }
 });
 
-app.MapPost("/batch", async (AppDbContext dbContext, AddBatchData request) => {
+app.MapPost("/batch", async (AddBatchUseCase useCase, AddBatchData request) => {
     try
     {
-        var repository = new BatchRepository(dbContext);
-
-        var reference = await new AddBatchUseCase(repository).Perform(request);
-
-        await dbContext.SaveChangesAsync();
+        var reference = await useCase.Perform(request);
 
         return Results.Ok(reference);
     }

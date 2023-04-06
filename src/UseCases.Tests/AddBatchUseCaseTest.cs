@@ -7,7 +7,7 @@ public class AddBatchUseCaseTest
     {
         var uow = new FakeUnitOfWork();
         
-        var reference = await new AddBatchUseCase(uow.Batches).Perform(new AddBatchData()
+        var reference = await new AddBatchUseCase(uow).Perform(new AddBatchData()
         {
             Reference = "batch001",
             Sku = "MINIMALIST-SPOON",
