@@ -12,4 +12,9 @@ public class UnitOfWork : IUnitOfWork
         _dbContext = appDbContext;
         Batches = batchRepository;
     }
+
+    public async Task<int> Commit()
+    {
+        return await _dbContext.SaveChangesAsync();
+    }
 }

@@ -10,4 +10,9 @@ class FakeUnitOfWork : IUnitOfWork
     {
         Batches = new FakeBatchRepository();
     }
+
+    public Task<int> Commit()
+    {
+        return Task.Run(() => 1);
+    }
 }
