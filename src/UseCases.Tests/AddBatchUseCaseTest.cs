@@ -5,9 +5,9 @@ public class AddBatchUseCaseTest
     [Fact]
     public async void TestAddBatch()
     {
-        var repository = new FakeBatchRepository();
+        var uow = new FakeUnitOfWork();
         
-        var reference = await new AddBatchUseCase(repository).Perform(new AddBatchData()
+        var reference = await new AddBatchUseCase(uow.Batches).Perform(new AddBatchData()
         {
             Reference = "batch001",
             Sku = "MINIMALIST-SPOON",
@@ -16,6 +16,6 @@ public class AddBatchUseCaseTest
         });
 
         Assert.Equal("batch001", reference);
-        Assert.NotNull(await repository.Get("batch001"));
+        Assert.NotNull(await uow.Batches.Get("batch001"));
     }
 }

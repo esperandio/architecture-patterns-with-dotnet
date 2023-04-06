@@ -5,9 +5,9 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var repository = new FakeBatchRepository();
+        var uow = new FakeUnitOfWork();
 
-        var addBatchService = new AddBatchUseCase(repository);
+        var addBatchService = new AddBatchUseCase(uow.Batches);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -24,7 +24,7 @@ public class AllocateUseCaseTest
             PurchasedQuantity = 50
         });
 
-        var batchReference = await new AllocateUseCase(repository).Perform(new AllocateData()
+        var batchReference = await new AllocateUseCase(uow.Batches).Perform(new AllocateData()
         {
             OrderId = "order001",
             Qty = 10,
