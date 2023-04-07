@@ -14,3 +14,4 @@ docker run -tti --rm --volume "$(pwd)/src":/app -w /app architecture-patterns-do
 - How To Persist DDD Value Objects? (https://www.youtube.com/watch?v=2XsdAaWi7ZQ)
 - Getting Started with EF Core (https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli)
 - ASP.NET Core - Repository e Unit Of Work - I - https://macoratti.net/21/06/aspnc_repuow1.htm
+- ASP.NET Core web API documentation with Swagger / OpenAPI (https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-7.0)
