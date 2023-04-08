@@ -11,3 +11,9 @@ dotnet add [ csproj target ] reference [ csproj reference ]
 ```
 dotnet sln add [ csproj target ] 
 ```
+
+## Run specific tests using dotnet test
+
+```
+dotnet test --filter "FullyQualifiedName=YourNamespace.TestClass1.Test1"
+```
