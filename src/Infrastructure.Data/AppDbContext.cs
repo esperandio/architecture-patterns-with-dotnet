@@ -20,6 +20,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new BatchConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductAggregateConfiguration());
     }
 }

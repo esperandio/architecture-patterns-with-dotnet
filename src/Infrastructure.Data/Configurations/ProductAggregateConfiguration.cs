@@ -4,7 +4,7 @@ using Domain;
 
 namespace Infrastructure.Data.Configurations;
 
-public class BatchConfiguration : IEntityTypeConfiguration<Batch>
+public class ProductAggregateConfiguration : IEntityTypeConfiguration<Batch>
 {
     public void Configure(EntityTypeBuilder<Batch> builder)
     {
