@@ -176,22 +176,38 @@ public class Batch
     }
 }
 
-public class AllocationService
+public class Product
 {
-    public static string Allocate(OrderLine orderLine, IEnumerable<Batch> batches)
+    private readonly List<Batch> _batches;
+
+    public string Sku { get; private set; }
+    public IReadOnlyCollection<Batch> Batches => _batches;
+
+    public Product(string sku)
+    : this(sku, new List<Batch>())
     {
-        var availableBatch = batches
+    }
+
+    public Product(string sku, List<Batch> batches)
+    {
+        Sku = sku;
+        _batches = batches;
+    }
+
+    public string Allocate(OrderLine orderLine)
+    {
+        var batch = _batches
             .Where(x => x.CanAllocate(orderLine))
             .OrderBy(x => x.Eta)
             .FirstOrDefault();
-        
-        if (availableBatch == null) 
+
+        if (batch == null)
         {
             throw new OutOfStockException(orderLine.Sku);
         }
+        
+        batch.Allocate(orderLine);
 
-        availableBatch.Allocate(orderLine);
-
-        return availableBatch.Reference;
+        return batch.Reference;
     }
 }

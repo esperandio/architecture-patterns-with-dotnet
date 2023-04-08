@@ -17,7 +17,9 @@ public class AllocateUseCase
 
         var orderLine = new OrderLine(allocateData.OrderId, allocateData.Sku, allocateData.Qty);
 
-        var batchReference = AllocationService.Allocate(orderLine, batches);
+        var product = new Product(allocateData.Sku, batches.ToList());
+
+        var batchReference = product.Allocate(orderLine);
 
         await uow.Commit();
 
