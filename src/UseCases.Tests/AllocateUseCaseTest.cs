@@ -2,12 +2,18 @@ namespace UseCases.Tests;
 
 public class AllocateUseCaseTest
 {
+    private readonly FakeUnitOfWork uow;
+
+    public AllocateUseCaseTest()
+    {
+        uow = new FakeUnitOfWork();
+    }
+
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var uow = new FakeUnitOfWork();
-
         var addBatchService = new AddBatchUseCase(uow);
+        var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -24,7 +30,7 @@ public class AllocateUseCaseTest
             PurchasedQuantity = 50
         });
 
-        var batchReference = await new AllocateUseCase(uow).Perform(new AllocateData()
+        var batchReference = await allocateService.Perform(new AllocateData()
         {
             OrderId = "order001",
             Qty = 10,
@@ -37,9 +43,8 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var uow = new FakeUnitOfWork();
-
         var addBatchService = new AddBatchUseCase(uow);
+        var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -48,7 +53,7 @@ public class AllocateUseCaseTest
             PurchasedQuantity = 20
         });
 
-        await new AllocateUseCase(uow).Perform(new AllocateData()
+        await allocateService.Perform(new AllocateData()
         {
             OrderId = "order-001",
             Sku = "SMALL-TABLE",
