@@ -12,13 +12,13 @@ public class ProductRepository : IProductRepository
         _dbContext = appDbContext;
     }
 
-    public Task Add(Product product)
+    public async Task Add(Product product)
     {
-        throw new NotImplementedException();
+        await _dbContext.Products.AddAsync(product);
     }
 
-    public Task<Product?> Get(string sku)
+    public async Task<Product?> Get(string sku)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Products.FirstOrDefaultAsync(x => x.Sku == sku);
     }
 }
