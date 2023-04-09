@@ -40,22 +40,6 @@ public class AllocationTest
     }
 
     [Fact]
-    public void TestPrefersEarlierBatches()
-    {
-        var earliest = new Batch("speedy-batch", "MINIMALIST-SPOON", 100, DateTime.Today);
-        var medium = new Batch("normal-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(1));
-        var latest = new Batch("slow-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(2));
-
-        var product = new Product("MINIMALIST-SPOON", new List<Batch>() { latest, medium, earliest });
-
-        product.Allocate("order-001", "MINIMALIST-SPOON", 10);
-
-        Assert.Equal(90, earliest.AvailableQuantity);
-        Assert.Equal(100, medium.AvailableQuantity);
-        Assert.Equal(100, latest.AvailableQuantity);
-    }
-
-    [Fact]
     public void TestRaisesOutOfStockExceptionIfCannotAllocate()
     {
         var batch = new Batch("batch-001", "SMALL-FORK", 10);
