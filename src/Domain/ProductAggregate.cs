@@ -82,7 +82,7 @@ public class Batch
     public int PurchasedQuantity { get; private set; }
     public DateTime? Eta {get; private set;}
 
-    public IReadOnlyCollection<OrderLine> Allocations => _allocations;
+    public IReadOnlyCollection<OrderLine> Allocations => _allocations.AsReadOnly();
     public int AllocatedQuantity => _allocations.Sum(x => x.Quantity);
     public int AvailableQuantity => PurchasedQuantity - AllocatedQuantity;
 
@@ -181,7 +181,7 @@ public class Product
     private readonly List<Batch> _batches;
 
     public string Sku { get; private set; }
-    public IReadOnlyCollection<Batch> Batches => _batches;
+    public IReadOnlyCollection<Batch> Batches => _batches.AsReadOnly();
 
     public Product(string sku)
     : this(sku, new List<Batch>())
