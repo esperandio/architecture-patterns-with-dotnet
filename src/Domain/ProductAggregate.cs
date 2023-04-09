@@ -194,9 +194,9 @@ public class Product
         _batches = batches;
     }
 
-    public string Allocate(string reference, string sku, int quantity)
+    public string Allocate(string orderId, string sku, int quantity)
     {
-        var orderline = new OrderLine(reference, sku, quantity);
+        var orderline = new OrderLine(orderId, sku, quantity);
 
         var batch = _batches
             .Where(x => x.CanAllocate(orderline))
