@@ -3,20 +3,6 @@ namespace Domain.Tests;
 public class AllocationTest
 {
     [Fact]
-    public void TestCannotAllocateTheSameOrderLineTwice()
-    {
-        var batch = new Batch("reference-001", "BLUE-VASE", 10);
-        var orderLine1 = new OrderLine("order-001", "BLUE-VASE", 2);
-        var orderLine2 = new OrderLine("order-001", "BLUE-VASE", 2);
-
-        batch.Allocate(orderLine1);
-
-        Assert.Throws<DuplicateOrderLineException>(() => { 
-            batch.Allocate(orderLine2);
-        });
-    }
-
-    [Fact]
     public void TestCannotAllocateIfSkusDoNotMatch()
     {
         var batch = new Batch("reference-001", "UNCOMFORTABLE-CHAIR", 100);

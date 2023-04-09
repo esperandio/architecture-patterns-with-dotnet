@@ -90,4 +90,36 @@ public class AllocateUseCaseTest
             });
         });
     }
+
+    [Fact]
+    public async void TestCannotAllocateTheSameOrderLineTwice()
+    {
+        var addBatchService = new AddBatchUseCase(uow);
+        var allocateService = new AllocateUseCase(uow);
+
+        await addBatchService.Perform(new AddBatchData()
+        {
+            Reference = "batch-001",
+            Sku = "SMALL-TABLE",
+            PurchasedQuantity = 10
+        });
+
+        await allocateService.Perform(new AllocateData()
+        {
+            OrderId = "order-001",
+            Sku = "SMALL-TABLE",
+            Qty = 2,
+            BatchReference = "batch-001"
+        });
+
+        await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
+            await allocateService.Perform(new AllocateData()
+            {
+                OrderId = "order-001",
+                Sku = "SMALL-TABLE",
+                Qty = 2,
+                BatchReference = "batch-001"
+            });
+        });
+    }
 }
