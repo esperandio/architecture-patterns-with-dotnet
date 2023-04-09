@@ -3,17 +3,6 @@ namespace Domain.Tests;
 public class AllocationTest
 {
     [Fact]
-    public void TestCannotAllocateIfAvailableSmallerThanRequired()
-    {
-        var batch = new Batch("batch-001", "BLUE-CUSHION", 1);
-        var orderLine = new OrderLine("order-001", "BLUE-CUSHION", 2);
-
-        Assert.Throws<RequiresQuantityGreaterThanAvailableException>(() => { 
-            batch.Allocate(orderLine);
-        });
-    }
-
-    [Fact]
     public void TestCannotAllocateTheSameOrderLineTwice()
     {
         var batch = new Batch("reference-001", "BLUE-VASE", 10);

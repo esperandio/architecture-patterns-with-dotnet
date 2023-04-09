@@ -1,3 +1,5 @@
+using Domain;
+
 namespace UseCases.Tests;
 
 public class AllocateUseCaseTest
@@ -63,5 +65,29 @@ public class AllocateUseCaseTest
         var product = await uow.Products.Get("SMALL-TABLE");
 
         Assert.Equal(18, product?.BatchAvailableQuantity("batch-001"));
+    }
+
+    [Fact]
+    public async void TestCannotAllocateIfAvailableSmallerThanRequired()
+    {
+        var addBatchService = new AddBatchUseCase(uow);
+        var allocateService = new AllocateUseCase(uow);
+
+        await addBatchService.Perform(new AddBatchData()
+        {
+            Reference = "batch-001",
+            Sku = "SMALL-TABLE",
+            PurchasedQuantity = 1
+        });
+
+        await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
+            await allocateService.Perform(new AllocateData()
+            {
+                OrderId = "order-001",
+                Sku = "SMALL-TABLE",
+                Qty = 2,
+                BatchReference = "batch-001"
+            });
+        });
     }
 }
