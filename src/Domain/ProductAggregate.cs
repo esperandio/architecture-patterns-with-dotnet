@@ -205,10 +205,24 @@ public class Product
 
         if (batch == null)
         {
-            throw new OutOfStockException(orderline.Sku);
+            throw new OutOfStockException(sku);
         }
         
         batch.Allocate(orderline);
+
+        return batch.Reference;
+    }
+
+    public string AllocateToSpecificBatch(string reference, string orderId, string sku, int quantity)
+    {
+        var batch = _batches.FirstOrDefault(x => x.Reference == reference);
+
+        if (batch == null)
+        {
+            throw new OutOfStockException(sku);
+        }
+
+        batch.Allocate(new OrderLine(orderId, sku, quantity));
 
         return batch.Reference;
     }
