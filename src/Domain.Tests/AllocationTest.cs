@@ -3,17 +3,6 @@ namespace Domain.Tests;
 public class AllocationTest
 {
     [Fact]
-    public void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
-    {
-        var batch = new Batch("batch-001", "SMALL-TABLE", 20);
-        var orderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
-
-        batch.Allocate(orderLine);
-
-        Assert.Equal(18, batch.AvailableQuantity);
-    }
-
-    [Fact]
     public void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
         var batch = new Batch("batch-001", "BLUE-CUSHION", 1);

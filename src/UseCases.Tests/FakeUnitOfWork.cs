@@ -10,7 +10,8 @@ class FakeUnitOfWork : IUnitOfWork
     {
         var defaultProducts = new List<Product>()
         {
-            new Product("MINIMALIST-SPOON")
+            new Product("MINIMALIST-SPOON"),
+            new Product("SMALL-TABLE")
         };
 
         Products = new FakeProductRepository(defaultProducts);

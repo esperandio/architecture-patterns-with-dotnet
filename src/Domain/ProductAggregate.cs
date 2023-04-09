@@ -221,4 +221,16 @@ public class Product
 
         return batch.Reference; 
     }
+
+    public int BatchAvailableQuantity(string reference)
+    {
+        var batch = _batches.FirstOrDefault(x => x.Reference == reference);
+
+        if (batch == null)
+        {
+            return 0;
+        }
+
+        return batch.AvailableQuantity;
+    }
 }
