@@ -20,9 +20,7 @@ public class AllocateUseCase
             throw new Exception("Invalid SKU");
         }
 
-        var batchReference = product.Allocate(
-            new OrderLine(allocateData.OrderId, allocateData.Sku, allocateData.Qty)
-        );
+        var batchReference = product.Allocate(allocateData.OrderId, allocateData.Sku, allocateData.Qty);
 
         await uow.Commit();
 

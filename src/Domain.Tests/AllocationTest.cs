@@ -81,11 +81,9 @@ public class AllocationTest
         var inStockBatch = new Batch("in-stock-batch", "RETRO-CLOCK", 100);
         var shipmentBatch = new Batch("shipment-batch", "RETRO-CLOCK", 100, DateTime.Now.AddDays(1));
 
-        var orderLine = new OrderLine("order-001", "RETRO-CLOCK", 10);
-
         var product = new Product("RETRO-CLOCK", new List<Batch>() { inStockBatch, shipmentBatch });
 
-        product.Allocate(orderLine);
+        product.Allocate("order-001", "RETRO-CLOCK", 10);
 
         Assert.Equal(90, inStockBatch.AvailableQuantity);
         Assert.Equal(100, shipmentBatch.AvailableQuantity);
@@ -98,11 +96,9 @@ public class AllocationTest
         var medium = new Batch("normal-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(1));
         var latest = new Batch("slow-batch", "MINIMALIST-SPOON", 100, DateTime.Today.AddDays(2));
 
-        var orderLine = new OrderLine("order-001", "MINIMALIST-SPOON", 10);
-
         var product = new Product("MINIMALIST-SPOON", new List<Batch>() { latest, medium, earliest });
 
-        product.Allocate(orderLine);
+        product.Allocate("order-001", "MINIMALIST-SPOON", 10);
 
         Assert.Equal(90, earliest.AvailableQuantity);
         Assert.Equal(100, medium.AvailableQuantity);
@@ -113,12 +109,11 @@ public class AllocationTest
     public void TestRaisesOutOfStockExceptionIfCannotAllocate()
     {
         var batch = new Batch("batch-001", "SMALL-FORK", 10);
-        var orderLine = new OrderLine("order-001", "SMALL-FORK", 15);
 
         var product = new Product("SMALL-FORK", new List<Batch>() { batch });
 
         Assert.Throws<OutOfStockException>(() => { 
-            product.Allocate(orderLine);
+            product.Allocate("order-001", "SMALL-FORK", 15);
         });
     }
 }

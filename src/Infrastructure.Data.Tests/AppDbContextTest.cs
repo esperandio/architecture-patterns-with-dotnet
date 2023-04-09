@@ -133,7 +133,7 @@ public class AppDbContextTest : IDisposable
             return;
         }
 
-        product.Allocate(new OrderLine("order-003", "SMALL-TABLE", 8));
+        product.Allocate("order-003", "SMALL-TABLE", 8);
 
         _context.Products.Update(product);
 

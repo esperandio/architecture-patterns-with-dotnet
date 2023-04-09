@@ -194,27 +194,29 @@ public class Product
         _batches = batches;
     }
 
-    public string Allocate(OrderLine orderLine)
+    public string Allocate(string reference, string sku, int quantity)
     {
+        var orderline = new OrderLine(reference, sku, quantity);
+
         var batch = _batches
-            .Where(x => x.CanAllocate(orderLine))
+            .Where(x => x.CanAllocate(orderline))
             .OrderBy(x => x.Eta)
             .FirstOrDefault();
 
         if (batch == null)
         {
-            throw new OutOfStockException(orderLine.Sku);
+            throw new OutOfStockException(orderline.Sku);
         }
         
-        batch.Allocate(orderLine);
+        batch.Allocate(orderline);
 
         return batch.Reference;
     }
 
-    public string AddBatch(Batch batch)
+    public string AddBatch(Batch batch1)
     {
-        _batches.Add(batch);
+        _batches.Add(batch1);
 
-        return batch.Reference; 
+        return batch1.Reference; 
     }
 }
