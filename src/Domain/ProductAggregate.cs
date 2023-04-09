@@ -210,4 +210,11 @@ public class Product
 
         return batch.Reference;
     }
+
+    public string AddBatch(Batch batch)
+    {
+        _batches.Add(batch);
+
+        return batch.Reference; 
+    }
 }
