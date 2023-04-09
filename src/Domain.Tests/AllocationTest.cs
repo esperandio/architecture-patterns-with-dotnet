@@ -40,20 +40,6 @@ public class AllocationTest
     }
 
     [Fact]
-    public void TestPrefersCurrentStockBatchesToShipment()
-    {
-        var inStockBatch = new Batch("in-stock-batch", "RETRO-CLOCK", 100);
-        var shipmentBatch = new Batch("shipment-batch", "RETRO-CLOCK", 100, DateTime.Now.AddDays(1));
-
-        var product = new Product("RETRO-CLOCK", new List<Batch>() { inStockBatch, shipmentBatch });
-
-        product.Allocate("order-001", "RETRO-CLOCK", 10);
-
-        Assert.Equal(90, inStockBatch.AvailableQuantity);
-        Assert.Equal(100, shipmentBatch.AvailableQuantity);
-    }
-
-    [Fact]
     public void TestPrefersEarlierBatches()
     {
         var earliest = new Batch("speedy-batch", "MINIMALIST-SPOON", 100, DateTime.Today);

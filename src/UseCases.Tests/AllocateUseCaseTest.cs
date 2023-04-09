@@ -122,4 +122,38 @@ public class AllocateUseCaseTest
             });
         });
     }
+
+    [Fact]
+    public async void TestPrefersCurrentStockBatchesToShipment()
+    {
+        var addBatchService = new AddBatchUseCase(uow);
+        var allocateService = new AllocateUseCase(uow);
+
+        await addBatchService.Perform(new AddBatchData()
+        {
+            Reference = "shipment-batch",
+            Sku = "SMALL-TABLE",
+            PurchasedQuantity = 100,
+            Eta = DateTime.Now.AddDays(1)
+        });
+
+        await addBatchService.Perform(new AddBatchData()
+        {
+            Reference = "in-stock-batch",
+            Sku = "SMALL-TABLE",
+            PurchasedQuantity = 100
+        });
+
+        await allocateService.Perform(new AllocateData()
+        {
+            OrderId = "order-001",
+            Sku = "SMALL-TABLE",
+            Qty = 10
+        });
+
+        var product = await uow.Products.Get("SMALL-TABLE");
+
+        Assert.Equal(100, product?.BatchAvailableQuantity("shipment-batch"));
+        Assert.Equal(90, product?.BatchAvailableQuantity("in-stock-batch"));
+    }
 }
