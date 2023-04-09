@@ -6,6 +6,7 @@ namespace Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
+    public DbSet<Product> Products => Set<Product>();
     public DbSet<Batch> Batches => Set<Batch>();
 
     // The following configures EF to create a Sqlite database file in the
