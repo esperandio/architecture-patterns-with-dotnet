@@ -4,11 +4,16 @@ namespace UseCases.Tests;
 
 class FakeUnitOfWork : IUnitOfWork
 {
-    public IBatchRepository Batches { get; }
+    public IProductRepository Products { get; }
 
     public FakeUnitOfWork()
     {
-        Batches = new FakeBatchRepository();
+        var defaultProducts = new List<Product>()
+        {
+            new Product("MINIMALIST-SPOON")
+        };
+
+        Products = new FakeProductRepository(defaultProducts);
     }
 
     public Task<int> Commit()

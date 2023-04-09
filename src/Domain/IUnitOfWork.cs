@@ -2,6 +2,6 @@ namespace Domain;
 
 public interface IUnitOfWork
 {
-    IBatchRepository Batches { get; }
+    IProductRepository Products { get; }
     Task<int> Commit();
 }

@@ -15,7 +15,9 @@ public class AddBatchUseCaseTest
             Eta = DateTime.Now
         });
 
+        var product = await uow.Products.Get("MINIMALIST-SPOON");
+
         Assert.Equal("batch001", reference);
-        Assert.NotNull(await uow.Batches.Get("batch001"));
+        Assert.NotNull(product?.Batches.First(x => x.Reference == "batch001"));
     }
 }

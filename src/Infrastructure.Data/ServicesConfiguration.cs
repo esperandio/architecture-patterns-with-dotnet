@@ -9,7 +9,7 @@ public static class ServicesConfiguration
 	{
 		services.AddDbContext<AppDbContext>();
 
-        services.AddScoped<IBatchRepository, BatchRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 	}
 }

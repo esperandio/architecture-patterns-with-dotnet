@@ -13,13 +13,16 @@ public class AllocateUseCase
 
     public async Task<string> Perform(AllocateData allocateData)
     {
-        var batches = await uow.Batches.FindBySkuAsync(allocateData.Sku);
+        var product = await uow.Products.Get(allocateData.Sku);
 
-        var orderLine = new OrderLine(allocateData.OrderId, allocateData.Sku, allocateData.Qty);
+        if (product == null)
+        {
+            throw new Exception("Invalid SKU");
+        }
 
-        var product = new Product(allocateData.Sku, batches.ToList());
-
-        var batchReference = product.Allocate(orderLine);
+        var batchReference = product.Allocate(
+            new OrderLine(allocateData.OrderId, allocateData.Sku, allocateData.Qty)
+        );
 
         await uow.Commit();
 

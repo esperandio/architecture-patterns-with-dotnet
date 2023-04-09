@@ -13,7 +13,14 @@ public class AddBatchUseCase
 
     public async Task<string> Perform(AddBatchData addBatchData)
     {
-        await uow.Batches.Add(
+        var product = await uow.Products.Get(addBatchData.Sku);
+
+        if (product == null)
+        {
+            throw new Exception("Invalid SKU");
+        }
+
+        product.AddBatch(
             new Batch(
                 addBatchData.Reference, 
                 addBatchData.Sku, 

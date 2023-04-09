@@ -5,12 +5,13 @@ namespace Infrastructure.Data;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _dbContext;
-    public IBatchRepository Batches { get; }
 
-    public UnitOfWork(AppDbContext appDbContext, IBatchRepository batchRepository)
+    public IProductRepository Products { get; }
+
+    public UnitOfWork(AppDbContext appDbContext, IProductRepository productRepository)
     {
         _dbContext = appDbContext;
-        Batches = batchRepository;
+        Products = productRepository;
     }
 
     public async Task<int> Commit()
