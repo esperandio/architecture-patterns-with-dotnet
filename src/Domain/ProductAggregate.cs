@@ -213,10 +213,12 @@ public class Product
         return batch.Reference;
     }
 
-    public string AddBatch(Batch batch1)
+    public string AddBatch(string reference, string sku, int purchasedQuantity, DateTime? eta)
     {
-        _batches.Add(batch1);
+        var batch = new Batch(reference, sku, purchasedQuantity, eta);
 
-        return batch1.Reference; 
+        _batches.Add(batch);
+
+        return batch.Reference; 
     }
 }

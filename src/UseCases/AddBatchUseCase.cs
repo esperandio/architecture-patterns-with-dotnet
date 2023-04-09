@@ -21,12 +21,10 @@ public class AddBatchUseCase
         }
 
         product.AddBatch(
-            new Batch(
-                addBatchData.Reference, 
-                addBatchData.Sku, 
-                addBatchData.PurchasedQuantity, 
-                addBatchData.Eta
-            )
+            addBatchData.Reference, 
+            addBatchData.Sku, 
+            addBatchData.PurchasedQuantity, 
+            addBatchData.Eta
         );
 
         await uow.Commit();
