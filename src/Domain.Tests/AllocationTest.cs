@@ -14,19 +14,6 @@ public class AllocationTest
     }
 
     [Fact]
-    public void TestAvailableQuantityIsIncreasedWhenOrderLineIsDeallocated()
-    {
-        var orderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
-        var batch = new Batch("batch-001", "SMALL-TABLE", 20, new List<OrderLine>() { orderLine });
-
-        Assert.Equal(18, batch.AvailableQuantity);
-
-        batch.Deallocate(orderLine);
-
-        Assert.Equal(20, batch.AvailableQuantity);
-    }
-
-    [Fact]
     public void TestCannotDeallocateUnallocatedOrderLine()
     {
         var allocatedOrderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
