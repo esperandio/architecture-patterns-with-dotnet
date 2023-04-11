@@ -121,11 +121,6 @@ public class Batch
         {
             throw new DuplicateOrderLineException();
         }
-
-        if (orderLine.Sku != Sku)
-        {
-            throw new SkuDoesNotMatchException();
-        }
     }
 
     public bool CanAllocate(OrderLine orderLine)
@@ -202,6 +197,11 @@ public class Product
 
     public string Allocate(string orderId, string sku, int quantity)
     {
+        if (sku != Sku)
+        {
+            throw new SkuDoesNotMatchException();
+        }
+
         var orderline = new OrderLine(orderId, sku, quantity);
 
         var batch = _batches
@@ -223,6 +223,11 @@ public class Product
 
     public string AllocateToSpecificBatch(string reference, string orderId, string sku, int quantity)
     {
+        if (sku != Sku)
+        {
+            throw new SkuDoesNotMatchException();
+        }
+
         var batch = _batches.FirstOrDefault(x => x.Reference == reference);
 
         if (batch == null)

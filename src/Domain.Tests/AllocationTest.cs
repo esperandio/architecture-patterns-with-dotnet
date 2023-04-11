@@ -5,11 +5,10 @@ public class AllocationTest
     [Fact]
     public void TestCannotAllocateIfSkusDoNotMatch()
     {
-        var batch = new Batch("reference-001", "UNCOMFORTABLE-CHAIR", 100);
-        var orderLine = new OrderLine("order-001", "EXPENSIVE-TOASTER", 2);
+        var product = new Product("SMALL-FORK");
 
         Assert.Throws<SkuDoesNotMatchException>(() => { 
-            batch.Allocate(orderLine);
+            product.Allocate("order-001", "EXPENSIVE-TOASTER", 2);
         });
     }
 
