@@ -20,25 +20,32 @@ public class AllocateUseCase
             throw new Exception("Invalid SKU");
         }
 
-        var batchReference = "";
+        var batchReference = product.Allocate(
+            allocateData.OrderId, 
+            allocateData.Sku, 
+            allocateData.Qty
+        );
 
-        if (allocateData.BatchReference == "")
+        await uow.Commit();
+
+        return batchReference;
+    }
+
+    public async Task<string> Perform(string reference, AllocateData allocateData)
+    {
+        var product = await uow.Products.Get(allocateData.Sku);
+
+        if (product == null)
         {
-            batchReference = product.Allocate(
-                allocateData.OrderId, 
-                allocateData.Sku, 
-                allocateData.Qty
-            );
-        } 
-        else
-        {
-            batchReference = product.AllocateToSpecificBatch(
-                allocateData.BatchReference,
-                allocateData.OrderId, 
-                allocateData.Sku, 
-                allocateData.Qty
-            );
+            throw new Exception("Invalid SKU");
         }
+
+        var batchReference = product.AllocateToSpecificBatch(
+            reference,
+            allocateData.OrderId, 
+            allocateData.Sku, 
+            allocateData.Qty
+        );
 
         await uow.Commit();
 
@@ -51,5 +58,4 @@ public class AllocateData
     public string OrderId { get; set; } = "";
     public string Sku { get; set; }  = "";
     public int Qty { get; set; }
-    public string BatchReference { get; set; } = "";
 }

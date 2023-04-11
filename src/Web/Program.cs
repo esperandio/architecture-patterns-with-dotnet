@@ -36,6 +36,19 @@ app.MapPost("/allocate", async (AllocateUseCase useCase, AllocateData request) =
     }
 });
 
+app.MapPost("/allocate/{batchReference}", async (AllocateUseCase useCase, string batchReference, AllocateData request) => {
+    try
+    {
+        var reference = await useCase.Perform(batchReference, request);
+
+        return Results.Ok(reference);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
+
 app.MapPost("/batch", async (AddBatchUseCase useCase, AddBatchData request) => {
     try
     {

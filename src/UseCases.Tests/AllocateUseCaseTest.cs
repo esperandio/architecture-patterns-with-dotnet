@@ -81,13 +81,15 @@ public class AllocateUseCaseTest
         });
 
         await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
-            await allocateService.Perform(new AllocateData()
-            {
-                OrderId = "order-001",
-                Sku = "SMALL-TABLE",
-                Qty = 2,
-                BatchReference = "batch-001"
-            });
+            await allocateService.Perform(
+                "batch-001", 
+                new AllocateData()
+                {
+                    OrderId = "order-001",
+                    Sku = "SMALL-TABLE",
+                    Qty = 2
+                }
+            );
         });
     }
 
@@ -104,22 +106,26 @@ public class AllocateUseCaseTest
             PurchasedQuantity = 10
         });
 
-        await allocateService.Perform(new AllocateData()
-        {
-            OrderId = "order-001",
-            Sku = "SMALL-TABLE",
-            Qty = 2,
-            BatchReference = "batch-001"
-        });
-
-        await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
-            await allocateService.Perform(new AllocateData()
+        await allocateService.Perform(
+            "batch-001",
+            new AllocateData()
             {
                 OrderId = "order-001",
                 Sku = "SMALL-TABLE",
-                Qty = 2,
-                BatchReference = "batch-001"
-            });
+                Qty = 2
+            }
+        );
+
+        await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
+            await allocateService.Perform(
+                "batch-001",
+                new AllocateData()
+                {
+                    OrderId = "order-001",
+                    Sku = "SMALL-TABLE",
+                    Qty = 2
+                }
+            );
         });
     }
 
