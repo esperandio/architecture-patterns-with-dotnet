@@ -32,5 +32,9 @@ public class ProductAggregateConfiguration : IEntityTypeConfiguration<Product>
                         .WithOwner().HasForeignKey("Sku");
                 }
             );
+        
+        builder
+            .Property(x => x.Version)
+            .IsConcurrencyToken();
     }
 }

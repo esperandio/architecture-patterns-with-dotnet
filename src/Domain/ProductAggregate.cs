@@ -186,6 +186,7 @@ public class Product
     private readonly List<Batch> _batches;
 
     public string Sku { get; private set; }
+    public Guid ?Version { get; private set; }
     public IReadOnlyCollection<Batch> Batches => _batches.AsReadOnly();
 
     public Product(string sku)
@@ -215,6 +216,8 @@ public class Product
         
         batch.Allocate(orderline);
 
+        Version = Guid.NewGuid();
+
         return batch.Reference;
     }
 
@@ -229,6 +232,8 @@ public class Product
 
         batch.Allocate(new OrderLine(orderId, sku, quantity));
 
+        Version = Guid.NewGuid();
+
         return batch.Reference;
     }
 
@@ -237,6 +242,8 @@ public class Product
         var batch = new Batch(reference, sku, purchasedQuantity, eta);
 
         _batches.Add(batch);
+
+        Version = Guid.NewGuid();
 
         return batch.Reference; 
     }
@@ -253,6 +260,8 @@ public class Product
         }
 
         batch.Deallocate(orderline);
+
+        Version = Guid.NewGuid();
 
         return batch.Reference;
     }
