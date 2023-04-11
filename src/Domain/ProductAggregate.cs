@@ -137,7 +137,7 @@ public class Batch
         }
     }
 
-    public bool CanDeallocate(OrderLine orderLine)
+    public bool HasOrderLine(OrderLine orderLine)
     {
         return _allocations.Where(x => x.Equals(orderLine)).Count() > 0;
     }
@@ -151,10 +151,6 @@ public class Batch
 
     public void Deallocate(OrderLine orderLine)
     {
-        if (!CanDeallocate(orderLine)) {
-            throw new UnallocatedOrderLineException();
-        }
-
         _allocations.Remove(orderLine);
     }
 
@@ -257,11 +253,11 @@ public class Product
     {
         var orderline = new OrderLine(orderId, sku, quantity);
 
-        var batch = _batches.FirstOrDefault(x => x.CanDeallocate(orderline));
+        var batch = _batches.FirstOrDefault(x => x.HasOrderLine(orderline));
 
         if (batch == null)
         {
-            return "";
+            throw new UnallocatedOrderLineException();
         }
 
         batch.Deallocate(orderline);

@@ -15,13 +15,10 @@ public class AllocationTest
     [Fact]
     public void TestCannotDeallocateUnallocatedOrderLine()
     {
-        var allocatedOrderLine = new OrderLine("order-001", "SMALL-TABLE", 2);
-        var unallocatedOrderLine = new OrderLine("order-001", "SMALL-TABLE", 4);
-
-        var batch = new Batch("batch-001", "SMALL-TABLE", 20, new List<OrderLine>() { allocatedOrderLine });
+        var product = new Product("SMALL-FORK");
 
         Assert.Throws<UnallocatedOrderLineException>(() => { 
-            batch.Deallocate(unallocatedOrderLine);
+            product.Deallocate("order-001", "SMALL-TABLE", 2);
         });
     }
 
