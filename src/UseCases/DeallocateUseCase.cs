@@ -17,7 +17,7 @@ public class DeallocateUseCase
 
         if (product == null)
         {
-            throw new Exception("Invalid SKU");
+            throw new InvalidSkuException(deallocateData.Sku);
         }
 
         var batchReference = product.Deallocate(

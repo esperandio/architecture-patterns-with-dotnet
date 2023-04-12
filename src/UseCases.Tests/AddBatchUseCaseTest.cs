@@ -20,4 +20,20 @@ public class AddBatchUseCaseTest
         Assert.Equal("batch001", reference);
         Assert.NotNull(product?.Batches.First(x => x.Reference == "batch001"));
     }
+
+    [Fact]
+    public async void TestCannotAddBatchIfSKUDoesNotExist()
+    {
+        var uow = new FakeUnitOfWork();
+
+        await Assert.ThrowsAsync<InvalidSkuException>(async () => {
+            await new AddBatchUseCase(uow).Perform(new AddBatchData()
+            {
+                Reference = "batch001",
+                Sku = "INVALID-SKU",
+                PurchasedQuantity = 10,
+                Eta = DateTime.Now
+            });
+        });
+    }
 }

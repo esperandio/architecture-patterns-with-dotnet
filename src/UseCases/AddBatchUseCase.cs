@@ -17,7 +17,7 @@ public class AddBatchUseCase
 
         if (product == null)
         {
-            throw new Exception("Invalid SKU");
+            throw new InvalidSkuException(addBatchData.Sku);
         }
 
         product.AddBatch(

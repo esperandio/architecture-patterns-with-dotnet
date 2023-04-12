@@ -43,6 +43,21 @@ public class AllocateUseCaseTest
     }
 
     [Fact]
+    public async void TestCannotAllocateIfSKUDoesNotExist()
+    {
+        var uow = new FakeUnitOfWork();
+
+        await Assert.ThrowsAsync<InvalidSkuException>(async () => {
+            await new AllocateUseCase(uow).Perform(new AllocateData()
+            {
+                OrderId = "order001",
+                Qty = 10,
+                Sku = "INVALID-SKU"
+            });
+        });
+    }
+
+    [Fact]
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
         var addBatchService = new AddBatchUseCase(uow);

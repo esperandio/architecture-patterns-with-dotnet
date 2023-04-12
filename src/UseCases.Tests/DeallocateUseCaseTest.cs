@@ -45,4 +45,19 @@ public class DeallocateUseCaseTest
 
         Assert.Equal(20, productBeforeDeallocate?.BatchAvailableQuantity("batch001"));
     }
+
+    [Fact]
+    public async void TestCannotDeallocateIfSKUDoesNotExist()
+    {
+        var uow = new FakeUnitOfWork();
+
+        await Assert.ThrowsAsync<InvalidSkuException>(async () => {
+            await new DeallocateUseCase(uow).Perform(new DeallocateData()
+            {
+                OrderId = "order001",
+                Qty = 10,
+                Sku = "INVALID-SKU"
+            });
+        });
+    }
 }
