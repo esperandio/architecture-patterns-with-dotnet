@@ -13,16 +13,6 @@ public class AllocationTest
     }
 
     [Fact]
-    public void TestCannotDeallocateUnallocatedOrderLine()
-    {
-        var product = new Product("SMALL-FORK");
-
-        Assert.Throws<UnallocatedOrderLineException>(() => { 
-            product.Deallocate("order-001", "SMALL-TABLE", 2);
-        });
-    }
-
-    [Fact]
     public void TestRaisesOutOfStockExceptionIfCannotAllocate()
     {
         var batch = new Batch("batch-001", "SMALL-FORK", 10);

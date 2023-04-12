@@ -1,3 +1,5 @@
+using Domain;
+
 namespace UseCases.Tests;
 
 public class DeallocateUseCaseTest
@@ -57,6 +59,21 @@ public class DeallocateUseCaseTest
                 OrderId = "order001",
                 Qty = 10,
                 Sku = "INVALID-SKU"
+            });
+        });
+    }
+
+    [Fact]
+    public async void TestCannotDeallocateUnallocatedOrderLine()
+    {
+        var uow = new FakeUnitOfWork();
+
+        await Assert.ThrowsAsync<UnallocatedOrderLineException>(async () => {
+            await new DeallocateUseCase(uow).Perform(new DeallocateData()
+            {
+                OrderId = "order001",
+                Qty = 10,
+                Sku = "SMALL-TABLE"
             });
         });
     }
