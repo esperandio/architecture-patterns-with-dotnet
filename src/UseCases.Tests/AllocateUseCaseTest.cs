@@ -145,6 +145,24 @@ public class AllocateUseCaseTest
     }
 
     [Fact]
+    public async void TestRaisesOutOfStockExceptionIfCannotAllocate()
+    {
+        var allocateService = new AllocateUseCase(uow);
+
+        await Assert.ThrowsAsync<OutOfStockException>(async () => {
+            await allocateService.Perform(
+                "batch-001",
+                new AllocateData()
+                {
+                    OrderId = "order-001",
+                    Sku = "SMALL-TABLE",
+                    Qty = 2
+                }
+            );
+        });
+    }
+
+    [Fact]
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
         var addBatchService = new AddBatchUseCase(uow);
