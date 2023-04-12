@@ -37,7 +37,7 @@ public class AllocateUseCase
 
         if (product == null)
         {
-            throw new Exception("Invalid SKU");
+            throw new InvalidSkuException(allocateData.Sku);
         }
 
         var batchReference = product.AllocateToSpecificBatch(
