@@ -51,8 +51,6 @@ public class DeallocateUseCaseTest
     [Fact]
     public async void TestCannotDeallocateIfSKUDoesNotExist()
     {
-        var uow = new FakeUnitOfWork();
-
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
             await new DeallocateUseCase(uow).Perform(new DeallocateData()
             {
@@ -66,8 +64,6 @@ public class DeallocateUseCaseTest
     [Fact]
     public async void TestCannotDeallocateUnallocatedOrderLine()
     {
-        var uow = new FakeUnitOfWork();
-
         await Assert.ThrowsAsync<UnallocatedOrderLineException>(async () => {
             await new DeallocateUseCase(uow).Perform(new DeallocateData()
             {
