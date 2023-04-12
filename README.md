@@ -1,5 +1,6 @@
 ## References
 
+- Architecture Patterns with Python (https://www.oreilly.com/library/view/architecture-patterns-with/9781492052197/)
 - Official images for .NET and ASP.NET Core (https://hub.docker.com/_/microsoft-dotnet/)
 - Example application code for the python architecture book (https://github.com/cosmicpython/code)
 - Unit testing C# in .NET Core using dotnet test and xUnit (https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-dotnet-test)
