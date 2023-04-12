@@ -117,7 +117,7 @@ public class Batch
             throw new RequiresQuantityGreaterThanAvailableException();
         }
 
-        if (_allocations.Where(x => x.Equals(orderLine)).Count() > 0)
+        if (HasOrderLine(orderLine))
         {
             throw new DuplicateOrderLineException();
         }
