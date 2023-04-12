@@ -32,11 +32,30 @@ public class UnallocatedOrderLineException : Exception
     }
 }
 
-public class OutOfStockException : Exception
+public class OutOfStockEvent : Event
 {
-    public OutOfStockException(string sku)
-    : base($"Out of stock for sku {sku}") 
+    public string Sku { get; private set; }
+
+    public OutOfStockEvent(string sku)
     {
+        Sku = sku;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        var @event = obj as OutOfStockEvent;
+
+        if (@event == null)
+        {
+            return false;
+        }
+
+        return Sku == @event.Sku;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }
 
@@ -175,10 +194,12 @@ public class Batch
 public class Product
 {
     private readonly List<Batch> _batches;
+    private readonly List<Event> _domainEvents;
 
     public string Sku { get; private set; }
     public Guid ?Version { get; private set; }
     public IReadOnlyCollection<Batch> Batches => _batches.AsReadOnly();
+    public IReadOnlyCollection<Event> DomainEvents => _domainEvents.AsReadOnly();
 
     public Product(string sku)
     : this(sku, new List<Batch>())
@@ -189,6 +210,7 @@ public class Product
     {
         Sku = sku;
         _batches = batches;
+        _domainEvents = new List<Event>();
     }
 
     public string Allocate(string orderId, string sku, int quantity)
@@ -207,7 +229,8 @@ public class Product
 
         if (batch == null)
         {
-            throw new OutOfStockException(sku);
+            _domainEvents.Add(new OutOfStockEvent(sku));
+            return String.Empty;
         }
         
         batch.Allocate(orderline);
@@ -228,7 +251,8 @@ public class Product
 
         if (batch == null)
         {
-            throw new OutOfStockException(sku);
+            _domainEvents.Add(new OutOfStockEvent(sku));
+            return String.Empty;
         }
 
         batch.Allocate(new OrderLine(orderId, sku, quantity));
