@@ -8,3 +8,6 @@
 # Docker database volume
 docker/db/data/*
 !docker/db/data/*.gitkeep
+
+# Environment variables
+.env
