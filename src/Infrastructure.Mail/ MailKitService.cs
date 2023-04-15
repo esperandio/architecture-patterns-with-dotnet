@@ -1,9 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using UseCases;
 
 namespace Infrastructure.Mail;
 
-public class MailKitService : IDisposable
+public class MailKitService : IDisposable, IMailService
 {
     private readonly MailboxAddress _fromAddress;
     private readonly SmtpClient _smtpClient;
