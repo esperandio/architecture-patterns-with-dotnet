@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UseCases\UseCases.csproj" />
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure.Mail\Infrastructure.Mail.csproj" />
   </ItemGroup>
 
   <ItemGroup>

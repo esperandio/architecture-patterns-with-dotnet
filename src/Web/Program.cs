@@ -1,9 +1,11 @@
 using UseCases;
 using Infrastructure.Data;
+using Infrastructure.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructureDataService();
+builder.Services.AddInfrastructureMailService();
 
 builder.Services.AddScoped<AllocateUseCase>();
 builder.Services.AddScoped<AddBatchUseCase>();
