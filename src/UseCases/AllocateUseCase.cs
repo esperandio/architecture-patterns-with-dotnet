@@ -1,5 +1,3 @@
-using Domain;
-
 namespace UseCases;
 
 public class AllocateUseCase

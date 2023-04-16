@@ -1,4 +1,6 @@
-namespace Domain;
+using Domain;
+
+namespace UseCases;
 
 public interface IUnitOfWork
 {
