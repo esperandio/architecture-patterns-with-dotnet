@@ -36,5 +36,7 @@ public class ProductAggregateConfiguration : IEntityTypeConfiguration<Product>
         builder
             .Property(x => x.Version)
             .IsConcurrencyToken();
+
+        builder.Ignore(x => x.DomainEvents);
     }
 }

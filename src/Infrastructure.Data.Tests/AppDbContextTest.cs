@@ -16,7 +16,7 @@ public class AppDbContextTest : IDisposable
         _context.Database.ExecuteSqlRaw("DELETE FROM Products");
     }
 
-    [Fact(Skip = "Teste usado somente para validar comportamento do Entity Framework")]
+    [Fact]
     public void TestCanRetrieveBatches()
     {
         _context.Database.ExecuteSqlRaw(
@@ -50,7 +50,7 @@ public class AppDbContextTest : IDisposable
         );
     }
 
-    [Fact(Skip = "Teste usado somente para validar comportamento do Entity Framework")]
+    [Fact]
     public void TestCanRetrieveSpecificBatch()
     {
         _context.Database.ExecuteSqlRaw(
@@ -81,7 +81,7 @@ public class AppDbContextTest : IDisposable
         );
     }
 
-    [Fact(Skip = "Teste usado somente para validar comportamento do Entity Framework")]
+    [Fact]
     public void TestCanPersistNewBatch()
     {
         var batch = new Batch(
@@ -107,7 +107,7 @@ public class AppDbContextTest : IDisposable
         Assert.Equal(4, product?.Batches.First(x => x.Reference == "batch-001").AllocatedQuantity);
     }
 
-    [Fact(Skip = "Teste usado somente para validar comportamento do Entity Framework")]
+    [Fact]
     public void TestCanModifyAnExistingBatchAndPersist()
     {
         _context.Database.ExecuteSqlRaw(
