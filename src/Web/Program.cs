@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructureDataService();
 builder.Services.AddInfrastructureMailService();
 
+builder.Services.AddScoped<IMessageBus, MessageBus>();
+
 builder.Services.AddScoped<AllocateUseCase>();
 builder.Services.AddScoped<AddBatchUseCase>();
 
