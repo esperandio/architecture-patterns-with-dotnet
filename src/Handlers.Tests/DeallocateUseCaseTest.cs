@@ -1,6 +1,6 @@
 using Domain;
 
-namespace UseCases.Tests;
+namespace Handlers.Tests;
 
 public class DeallocateUseCaseTest
 {

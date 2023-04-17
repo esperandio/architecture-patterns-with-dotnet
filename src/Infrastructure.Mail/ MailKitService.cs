@@ -1,6 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using UseCases;
+using Handlers;
 
 namespace Infrastructure.Mail;
 

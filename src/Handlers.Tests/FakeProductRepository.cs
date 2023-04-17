@@ -1,6 +1,6 @@
 using Domain;
 
-namespace UseCases.Tests;
+namespace Handlers.Tests;
 
 class FakeProductRepository : IProductRepository
 {

@@ -1,4 +1,4 @@
-namespace UseCases;
+namespace Handlers;
 
 public interface IMailService
 {

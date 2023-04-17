@@ -1,6 +1,6 @@
 using Domain;
 
-namespace UseCases;
+namespace Handlers;
 
 public class MessageBus : IMessageBus
 {

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using UseCases;
+using Handlers;
 
 namespace Infrastructure.Mail;
 
