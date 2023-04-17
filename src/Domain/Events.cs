@@ -30,3 +30,33 @@ public class OutOfStockEvent : Event
         return base.GetHashCode();
     }
 }
+
+public class BatchCreatedEvent : Event
+{
+    public string Reference { get; private set; }
+    public string Sku { get; private set; }
+    public int Qty { get; private set; }
+    public DateTime? Eta { get; private set; }
+
+    public BatchCreatedEvent(string reference, string sku, int qty, DateTime? eta)
+    {
+        Reference = reference;
+        Sku = sku;
+        Qty = qty;
+        Eta = eta;
+    }
+}
+
+public class AllocationRequiredEvent : Event
+{
+    public string OrderId { get; private set; }
+    public string Sku { get; private set; }
+    public int Qty { get; private set; }
+
+    public AllocationRequiredEvent(string orderId, string sku, int qty)
+    {
+        OrderId = orderId;
+        Sku = sku;
+        Qty = qty;
+    }
+}
