@@ -14,7 +14,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -60,7 +60,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -85,7 +85,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -111,7 +111,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestCannotAllocateTheSameOrderLineTwice()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -147,7 +147,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -181,7 +181,7 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestPrefersEarlierBatches()
     {
-        var addBatchService = new AddBatch(uow);
+        var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()

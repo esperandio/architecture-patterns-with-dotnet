@@ -1,10 +1,10 @@
 namespace Handlers;
 
-public class AddBatch
+public class AddBatchHandler
 {
     private readonly IUnitOfWork uow;
 
-    public AddBatch(IUnitOfWork unitOfWork)
+    public AddBatchHandler(IUnitOfWork unitOfWork)
     {
         uow = unitOfWork;
     }
