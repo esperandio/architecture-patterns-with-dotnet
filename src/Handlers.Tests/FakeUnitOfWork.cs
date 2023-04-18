@@ -17,6 +17,11 @@ class FakeUnitOfWork : IUnitOfWork
         Products = new FakeProductRepository(defaultProducts);
     }
 
+    public IEnumerable<Event> CollectNewEvents()
+    {
+        return new List<Event>();
+    }
+
     public Task<int> Commit()
     {
         return Task.Run(() => 1);

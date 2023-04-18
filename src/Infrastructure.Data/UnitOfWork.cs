@@ -6,19 +6,17 @@ namespace Infrastructure.Data;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _dbContext;
-    private readonly IMessageBus _messageBus;
 
     public IProductRepository Products { get; }
 
-    public UnitOfWork(AppDbContext appDbContext, IMessageBus messageBus, IProductRepository productRepository)
+    public UnitOfWork(AppDbContext appDbContext, IProductRepository productRepository)
     {
         _dbContext = appDbContext;
-        _messageBus = messageBus;
 
         Products = productRepository;
     }
 
-    public async Task<int> Commit()
+    public IEnumerable<Event> CollectNewEvents()
     {
         var domainEntities = _dbContext.ChangeTracker
             .Entries<Product>()
@@ -29,8 +27,13 @@ public class UnitOfWork : IUnitOfWork
             .ToList();
 
         foreach (var domainEvent in domainEvents)
-            _messageBus.DispatchDomainEvent(domainEvent);
+        {
+            yield return domainEvent;
+        }
+    }
 
+    public async Task<int> Commit()
+    {
         return await _dbContext.SaveChangesAsync();
     }
 }
