@@ -14,31 +14,36 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
+        var uow = new FakeUnitOfWork();
+        var mailService = new FakeMailService();
 
-        await addBatchService.Handle(
+        var messageBus = new MessageBus(uow, mailService);
+
+        await messageBus.Handle(
             new BatchCreatedEvent("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2))
         );
         
-        await addBatchService.Handle(
+        await messageBus.Handle(
             new BatchCreatedEvent("speedy-batch", "MINIMALIST-SPOON", 50)
         );
 
-        var batchReference = await allocateService.Handle(
+        await messageBus.Handle(
             new AllocationRequiredEvent("order001", "MINIMALIST-SPOON", 10)
         );
 
-        Assert.Equal("speedy-batch", batchReference);
+        Assert.Equal("speedy-batch", messageBus.Results.Last());
     }
 
     [Fact]
     public async void TestCannotAllocateIfSKUDoesNotExist()
     {
         var uow = new FakeUnitOfWork();
+        var mailService = new FakeMailService();
+
+        var messageBus = new MessageBus(uow, mailService);
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new AllocateHandler(uow).Handle(
+            await messageBus.Handle(
                 new AllocationRequiredEvent("order001", "INVALID-SKU", 10)
             );
         });
@@ -47,14 +52,16 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
+        var uow = new FakeUnitOfWork();
+        var mailService = new FakeMailService();
 
-        await addBatchService.Handle(
+        var messageBus = new MessageBus(uow, mailService);
+
+        await messageBus.Handle(
             new BatchCreatedEvent("batch-001", "SMALL-TABLE", 20)
         );
 
-        await allocateService.Handle(
+        await messageBus.Handle(
             new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
         );
 
