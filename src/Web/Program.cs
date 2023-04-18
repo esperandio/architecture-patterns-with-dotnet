@@ -10,7 +10,7 @@ builder.Services.AddInfrastructureMailService();
 builder.Services.AddScoped<IMessageBus, MessageBus>();
 
 builder.Services.AddScoped<AllocateUseCase>();
-builder.Services.AddScoped<AddBatchUseCase>();
+builder.Services.AddScoped<AddBatch>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -53,7 +53,7 @@ app.MapPost("/allocate/{batchReference}", async (AllocateUseCase useCase, string
     }
 });
 
-app.MapPost("/batch", async (AddBatchUseCase useCase, AddBatchData request) => {
+app.MapPost("/batch", async (AddBatch useCase, AddBatchData request) => {
     try
     {
         var reference = await useCase.Perform(request);

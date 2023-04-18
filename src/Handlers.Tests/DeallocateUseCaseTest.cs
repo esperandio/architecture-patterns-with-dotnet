@@ -14,7 +14,7 @@ public class DeallocateUseCaseTest
     [Fact]
     public async void TestAvailableQuantityIsIncreasedWhenOrderLineIsDeallocated()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
         var deallocateService = new DeallocateUseCase(uow);
 

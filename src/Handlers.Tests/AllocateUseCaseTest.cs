@@ -14,7 +14,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestAllocateReturnsReference()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -60,7 +60,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -85,7 +85,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -111,7 +111,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestCannotAllocateTheSameOrderLineTwice()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -147,7 +147,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
@@ -181,7 +181,7 @@ public class AllocateUseCaseTest
     [Fact]
     public async void TestPrefersEarlierBatches()
     {
-        var addBatchService = new AddBatchUseCase(uow);
+        var addBatchService = new AddBatch(uow);
         var allocateService = new AllocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()
