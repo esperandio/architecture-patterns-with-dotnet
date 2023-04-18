@@ -4,5 +4,5 @@ namespace Handlers;
 
 public interface IMessageBus
 {
-    public void DispatchDomainEvent(Event @event);
+    public void Handle(Event @event);
 }
