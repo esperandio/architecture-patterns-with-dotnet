@@ -1,3 +1,5 @@
+using Domain;
+
 namespace Handlers.Tests;
 
 public class AddBatchHandlerTest
@@ -7,13 +9,9 @@ public class AddBatchHandlerTest
     {
         var uow = new FakeUnitOfWork();
         
-        var reference = await new AddBatchHandler(uow).Handle(new AddBatchData()
-        {
-            Reference = "batch001",
-            Sku = "MINIMALIST-SPOON",
-            PurchasedQuantity = 10,
-            Eta = DateTime.Now
-        });
+        var reference = await new AddBatchHandler(uow).Handle(
+            new BatchCreatedEvent("batch001", "MINIMALIST-SPOON", 10, DateTime.Now)
+        );
 
         var product = await uow.Products.Get("MINIMALIST-SPOON");
 
@@ -27,13 +25,9 @@ public class AddBatchHandlerTest
         var uow = new FakeUnitOfWork();
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new AddBatchHandler(uow).Handle(new AddBatchData()
-            {
-                Reference = "batch001",
-                Sku = "INVALID-SKU",
-                PurchasedQuantity = 10,
-                Eta = DateTime.Now
-            });
+            await new AddBatchHandler(uow).Handle(
+                new BatchCreatedEvent("batch001", "INVALID-SKU", 10, DateTime.Now) 
+            );
         });
     }
 }

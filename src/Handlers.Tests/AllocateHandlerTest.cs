@@ -17,20 +17,13 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "slow-batch",
-            Sku = "MINIMALIST-SPOON",
-            PurchasedQuantity = 50,
-            Eta =  new DateTime().AddDays(2)
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2))
+        );
         
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "speedy-batch",
-            Sku = "MINIMALIST-SPOON",
-            PurchasedQuantity = 50
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("speedy-batch", "MINIMALIST-SPOON", 50)
+        );
 
         var batchReference = await allocateService.Handle(new AllocateData()
         {
@@ -63,12 +56,9 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "batch-001",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 20
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 20)
+        );
 
         await allocateService.Handle(new AllocateData()
         {
@@ -88,12 +78,9 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "batch-001",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 1
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 1)
+        );
 
         await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
             await allocateService.Handle(
@@ -114,12 +101,9 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "batch-001",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 10
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 10)
+        );
 
         await allocateService.Handle(
             "batch-001",
@@ -150,20 +134,13 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "shipment-batch",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 100,
-            Eta = DateTime.Now.AddDays(1)
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("shipment-batch", "SMALL-TABLE", 100, DateTime.Now.AddDays(1))
+        );
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "in-stock-batch",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 100
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("in-stock-batch", "SMALL-TABLE", 100)
+        );
 
         await allocateService.Handle(new AllocateData()
         {
@@ -184,29 +161,17 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "normal-batch",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 100,
-            Eta = DateTime.Today.AddDays(1)
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("normal-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(1))
+        );
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "slow-batch",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 100,
-            Eta = DateTime.Today.AddDays(2)
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("slow-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(2))
+        );
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "speedy-batch",
-            Sku = "SMALL-TABLE",
-            PurchasedQuantity = 100,
-            Eta = DateTime.Today
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("speedy-batch", "SMALL-TABLE", 100, DateTime.Today)
+        );
 
         await allocateService.Handle(new AllocateData()
         {

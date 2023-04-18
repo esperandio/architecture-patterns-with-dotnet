@@ -1,3 +1,5 @@
+using Domain;
+
 namespace Handlers;
 
 public class AddBatchHandler
@@ -9,32 +11,24 @@ public class AddBatchHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(AddBatchData addBatchData)
+    public async Task<string> Handle(BatchCreatedEvent batchCreatedEvent)
     {
-        var product = await uow.Products.Get(addBatchData.Sku);
+        var product = await uow.Products.Get(batchCreatedEvent.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(addBatchData.Sku);
+            throw new InvalidSkuException(batchCreatedEvent.Sku);
         }
 
         product.AddBatch(
-            addBatchData.Reference, 
-            addBatchData.Sku, 
-            addBatchData.PurchasedQuantity, 
-            addBatchData.Eta
+            batchCreatedEvent.Reference, 
+            batchCreatedEvent.Sku, 
+            batchCreatedEvent.PurchasedQuantity, 
+            batchCreatedEvent.Eta
         );
 
         await uow.Commit();
 
-        return addBatchData.Reference;
+        return batchCreatedEvent.Reference;
     }
-}
-
-public record AddBatchData
-{
-    public string Reference { get; set; } = "";
-    public string Sku { get; set; }  = "";
-    public int PurchasedQuantity { get; set; }
-    public DateTime? Eta { get; set; }
 }

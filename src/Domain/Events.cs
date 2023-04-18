@@ -35,14 +35,19 @@ public class BatchCreatedEvent : Event
 {
     public string Reference { get; private set; }
     public string Sku { get; private set; }
-    public int Qty { get; private set; }
+    public int PurchasedQuantity { get; private set; }
     public DateTime? Eta { get; private set; }
 
-    public BatchCreatedEvent(string reference, string sku, int qty, DateTime? eta)
+    public BatchCreatedEvent(string reference, string sku, int purchasedQuantity)
+    : this(reference, sku, purchasedQuantity, null)
+    {
+    }
+
+    public BatchCreatedEvent(string reference, string sku, int purchasedQuantity, DateTime? eta)
     {
         Reference = reference;
         Sku = sku;
-        Qty = qty;
+        PurchasedQuantity = purchasedQuantity;
         Eta = eta;
     }
 }

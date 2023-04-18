@@ -1,3 +1,4 @@
+using Domain;
 using Handlers;
 using Infrastructure.Data;
 using Infrastructure.Mail;
@@ -53,7 +54,7 @@ app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string
     }
 });
 
-app.MapPost("/batch", async (AddBatchHandler handler, AddBatchData request) => {
+app.MapPost("/batch", async (AddBatchHandler handler, BatchCreatedEvent request) => {
     try
     {
         var reference = await handler.Handle(request);

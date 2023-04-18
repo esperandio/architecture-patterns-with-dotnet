@@ -18,12 +18,9 @@ public class DeallocateHandlerTest
         var allocateService = new AllocateHandler(uow);
         var deallocateService = new DeallocateHandler(uow);
 
-        await addBatchService.Handle(new AddBatchData()
-        {
-            Reference = "batch001",
-            Sku = "MINIMALIST-SPOON",
-            PurchasedQuantity = 20
-        });
+        await addBatchService.Handle(
+            new BatchCreatedEvent("batch001", "MINIMALIST-SPOON", 20)
+        );
 
         await allocateService.Handle(new AllocateData()
         {
