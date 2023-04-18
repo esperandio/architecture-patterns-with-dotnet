@@ -10,9 +10,6 @@ builder.Services.AddInfrastructureMailService();
 
 builder.Services.AddScoped<IMessageBus, MessageBus>();
 
-builder.Services.AddScoped<AllocateHandler>();
-builder.Services.AddScoped<AddBatchHandler>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,10 +25,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapPost("/allocate", async (AllocateHandler handler, AllocationRequiredEvent request) => {
+app.MapPost("/allocate", async (IMessageBus messageBus, AllocationRequiredEvent request) => {
     try
     {
-        var reference = await handler.Handle(request);
+        await messageBus.Handle(request);
+
+        var reference = messageBus.Results.Last();
 
         return Results.Ok(reference);
     }
@@ -41,23 +40,12 @@ app.MapPost("/allocate", async (AllocateHandler handler, AllocationRequiredEvent
     }
 });
 
-app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string batchReference, AllocationRequiredEvent request) => {
+app.MapPost("/batch", async (IMessageBus messageBus, BatchCreatedEvent request) => {
     try
     {
-        var reference = await handler.Handle(batchReference, request);
+        await messageBus.Handle(request);
 
-        return Results.Ok(reference);
-    }
-    catch (Exception ex)
-    {
-        return Results.BadRequest(ex.Message);
-    }
-});
-
-app.MapPost("/batch", async (AddBatchHandler handler, BatchCreatedEvent request) => {
-    try
-    {
-        var reference = await handler.Handle(request);
+        var reference = messageBus.Results.Last();
 
         return Results.Ok(reference);
     }

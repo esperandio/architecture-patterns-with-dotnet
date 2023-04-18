@@ -30,25 +30,4 @@ public class AllocateHandler
 
         return batchReference;
     }
-
-    public async Task<string> Handle(string reference, AllocationRequiredEvent allocationRequiredEvent)
-    {
-        var product = await uow.Products.Get(allocationRequiredEvent.Sku);
-
-        if (product == null)
-        {
-            throw new InvalidSkuException(allocationRequiredEvent.Sku);
-        }
-
-        var batchReference = product.AllocateToSpecificBatch(
-            reference,
-            allocationRequiredEvent.OrderId, 
-            allocationRequiredEvent.Sku, 
-            allocationRequiredEvent.Qty
-        );
-
-        await uow.Commit();
-
-        return batchReference;
-    }
 }
