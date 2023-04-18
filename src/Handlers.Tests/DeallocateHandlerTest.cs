@@ -2,11 +2,11 @@ using Domain;
 
 namespace Handlers.Tests;
 
-public class DeallocateUseCaseTest
+public class DeallocateHandlerTest
 {
     private readonly FakeUnitOfWork uow;
 
-    public DeallocateUseCaseTest()
+    public DeallocateHandlerTest()
     {
         uow = new FakeUnitOfWork();
     }
@@ -16,7 +16,7 @@ public class DeallocateUseCaseTest
     {
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
-        var deallocateService = new Deallocate(uow);
+        var deallocateService = new DeallocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -52,7 +52,7 @@ public class DeallocateUseCaseTest
     public async void TestCannotDeallocateIfSKUDoesNotExist()
     {
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new Deallocate(uow).Perform(new DeallocateData()
+            await new DeallocateHandler(uow).Perform(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
@@ -65,7 +65,7 @@ public class DeallocateUseCaseTest
     public async void TestCannotDeallocateUnallocatedOrderLine()
     {
         await Assert.ThrowsAsync<UnallocatedOrderLineException>(async () => {
-            await new Deallocate(uow).Perform(new DeallocateData()
+            await new DeallocateHandler(uow).Perform(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
