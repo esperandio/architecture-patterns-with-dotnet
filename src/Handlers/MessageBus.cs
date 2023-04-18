@@ -16,7 +16,7 @@ public class MessageBus : IMessageBus
         switch (@event)
         {
             case OutOfStockEvent:
-                new SendOutOfStockNotification(_mailService).Handle((OutOfStockEvent) @event);
+                new OutOfStockHandler(_mailService).Handle((OutOfStockEvent) @event);
                 break;
         }
     }

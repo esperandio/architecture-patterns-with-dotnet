@@ -2,11 +2,11 @@ using Domain;
 
 namespace Handlers;
 
-class SendOutOfStockNotification
+class OutOfStockHandler
 {
     private IMailService _mailService;
 
-    public SendOutOfStockNotification(IMailService mailService)
+    public OutOfStockHandler(IMailService mailService)
     {
         _mailService = mailService;
     }
