@@ -27,10 +27,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapPost("/allocate", async (AllocateHandler useCase, AllocateData request) => {
+app.MapPost("/allocate", async (AllocateHandler handler, AllocateData request) => {
     try
     {
-        var reference = await useCase.Perform(request);
+        var reference = await handler.Perform(request);
 
         return Results.Ok(reference);
     }
@@ -40,10 +40,10 @@ app.MapPost("/allocate", async (AllocateHandler useCase, AllocateData request) =
     }
 });
 
-app.MapPost("/allocate/{batchReference}", async (AllocateHandler useCase, string batchReference, AllocateData request) => {
+app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string batchReference, AllocateData request) => {
     try
     {
-        var reference = await useCase.Perform(batchReference, request);
+        var reference = await handler.Perform(batchReference, request);
 
         return Results.Ok(reference);
     }
@@ -53,10 +53,10 @@ app.MapPost("/allocate/{batchReference}", async (AllocateHandler useCase, string
     }
 });
 
-app.MapPost("/batch", async (AddBatchHandler useCase, AddBatchData request) => {
+app.MapPost("/batch", async (AddBatchHandler handler, AddBatchData request) => {
     try
     {
-        var reference = await useCase.Perform(request);
+        var reference = await handler.Handle(request);
 
         return Results.Ok(reference);
     }

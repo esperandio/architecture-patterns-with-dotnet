@@ -9,7 +9,7 @@ public class AddBatchHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Perform(AddBatchData addBatchData)
+    public async Task<string> Handle(AddBatchData addBatchData)
     {
         var product = await uow.Products.Get(addBatchData.Sku);
 

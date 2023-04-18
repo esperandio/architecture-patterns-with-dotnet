@@ -17,7 +17,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "slow-batch",
             Sku = "MINIMALIST-SPOON",
@@ -25,7 +25,7 @@ public class AllocateHandlerTest
             Eta =  new DateTime().AddDays(2)
         });
         
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "speedy-batch",
             Sku = "MINIMALIST-SPOON",
@@ -63,7 +63,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "batch-001",
             Sku = "SMALL-TABLE",
@@ -88,7 +88,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "batch-001",
             Sku = "SMALL-TABLE",
@@ -114,7 +114,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "batch-001",
             Sku = "SMALL-TABLE",
@@ -150,7 +150,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "shipment-batch",
             Sku = "SMALL-TABLE",
@@ -158,7 +158,7 @@ public class AllocateHandlerTest
             Eta = DateTime.Now.AddDays(1)
         });
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "in-stock-batch",
             Sku = "SMALL-TABLE",
@@ -184,7 +184,7 @@ public class AllocateHandlerTest
         var addBatchService = new AddBatchHandler(uow);
         var allocateService = new AllocateHandler(uow);
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "normal-batch",
             Sku = "SMALL-TABLE",
@@ -192,7 +192,7 @@ public class AllocateHandlerTest
             Eta = DateTime.Today.AddDays(1)
         });
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "slow-batch",
             Sku = "SMALL-TABLE",
@@ -200,7 +200,7 @@ public class AllocateHandlerTest
             Eta = DateTime.Today.AddDays(2)
         });
 
-        await addBatchService.Perform(new AddBatchData()
+        await addBatchService.Handle(new AddBatchData()
         {
             Reference = "speedy-batch",
             Sku = "SMALL-TABLE",

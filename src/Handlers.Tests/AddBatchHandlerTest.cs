@@ -7,7 +7,7 @@ public class AddBatchHandlerTest
     {
         var uow = new FakeUnitOfWork();
         
-        var reference = await new AddBatchHandler(uow).Perform(new AddBatchData()
+        var reference = await new AddBatchHandler(uow).Handle(new AddBatchData()
         {
             Reference = "batch001",
             Sku = "MINIMALIST-SPOON",
@@ -27,7 +27,7 @@ public class AddBatchHandlerTest
         var uow = new FakeUnitOfWork();
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new AddBatchHandler(uow).Perform(new AddBatchData()
+            await new AddBatchHandler(uow).Handle(new AddBatchData()
             {
                 Reference = "batch001",
                 Sku = "INVALID-SKU",
