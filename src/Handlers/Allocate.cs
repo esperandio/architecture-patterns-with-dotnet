@@ -1,10 +1,10 @@
 namespace Handlers;
 
-public class AllocateUseCase
+public class Allocate
 {
     private readonly IUnitOfWork uow;
 
-    public AllocateUseCase(IUnitOfWork unitOfWork)
+    public Allocate(IUnitOfWork unitOfWork)
     {
         uow = unitOfWork;
     }

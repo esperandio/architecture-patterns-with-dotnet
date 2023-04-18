@@ -15,7 +15,7 @@ public class DeallocateUseCaseTest
     public async void TestAvailableQuantityIsIncreasedWhenOrderLineIsDeallocated()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new AllocateUseCase(uow);
+        var allocateService = new Allocate(uow);
         var deallocateService = new DeallocateUseCase(uow);
 
         await addBatchService.Perform(new AddBatchData()

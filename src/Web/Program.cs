@@ -9,7 +9,7 @@ builder.Services.AddInfrastructureMailService();
 
 builder.Services.AddScoped<IMessageBus, MessageBus>();
 
-builder.Services.AddScoped<AllocateUseCase>();
+builder.Services.AddScoped<Allocate>();
 builder.Services.AddScoped<AddBatch>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapPost("/allocate", async (AllocateUseCase useCase, AllocateData request) => {
+app.MapPost("/allocate", async (Allocate useCase, AllocateData request) => {
     try
     {
         var reference = await useCase.Perform(request);
@@ -40,7 +40,7 @@ app.MapPost("/allocate", async (AllocateUseCase useCase, AllocateData request) =
     }
 });
 
-app.MapPost("/allocate/{batchReference}", async (AllocateUseCase useCase, string batchReference, AllocateData request) => {
+app.MapPost("/allocate/{batchReference}", async (Allocate useCase, string batchReference, AllocateData request) => {
     try
     {
         var reference = await useCase.Perform(batchReference, request);
