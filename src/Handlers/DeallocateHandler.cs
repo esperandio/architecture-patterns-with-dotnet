@@ -9,7 +9,7 @@ public class DeallocateHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Perform(DeallocateData deallocateData)
+    public async Task<string> Handle(DeallocateData deallocateData)
     {
         var product = await uow.Products.Get(deallocateData.Sku);
 

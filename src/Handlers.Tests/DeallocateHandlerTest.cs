@@ -36,7 +36,7 @@ public class DeallocateHandlerTest
 
         Assert.Equal(18, productBeforeDeallocate?.BatchAvailableQuantity("batch001"));
 
-        await deallocateService.Perform(new DeallocateData()
+        await deallocateService.Handle(new DeallocateData()
         {
             OrderId = "order001",
             Qty = 2,
@@ -52,7 +52,7 @@ public class DeallocateHandlerTest
     public async void TestCannotDeallocateIfSKUDoesNotExist()
     {
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new DeallocateHandler(uow).Perform(new DeallocateData()
+            await new DeallocateHandler(uow).Handle(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
@@ -65,7 +65,7 @@ public class DeallocateHandlerTest
     public async void TestCannotDeallocateUnallocatedOrderLine()
     {
         await Assert.ThrowsAsync<UnallocatedOrderLineException>(async () => {
-            await new DeallocateHandler(uow).Perform(new DeallocateData()
+            await new DeallocateHandler(uow).Handle(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
