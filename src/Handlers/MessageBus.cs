@@ -16,17 +16,8 @@ public class MessageBus : IMessageBus
         switch (@event)
         {
             case OutOfStockEvent:
-                SendOutOfStockNotification((OutOfStockEvent) @event);
+                new SendOutOfStockNotification(_mailService).Handle((OutOfStockEvent) @event);
                 break;
         }
-    }
-
-    private void SendOutOfStockNotification(OutOfStockEvent outOfStockEvent)
-    {
-        _mailService.Send(
-            "mat.esperandio@gmail.com", 
-            "Out of stock",
-            $"Out of stock for {outOfStockEvent.Sku}"
-        );
     }
 }
