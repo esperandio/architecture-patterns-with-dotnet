@@ -73,18 +73,20 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
+        var uow = new FakeUnitOfWork();
+        var mailService = new FakeMailService();
 
-        await addBatchService.Handle(
+        var messageBus = new MessageBus(uow, mailService);
+
+        await messageBus.Handle(
             new BatchCreatedEvent("shipment-batch", "SMALL-TABLE", 100, DateTime.Now.AddDays(1))
         );
 
-        await addBatchService.Handle(
+        await messageBus.Handle(
             new BatchCreatedEvent("in-stock-batch", "SMALL-TABLE", 100)
         );
 
-        await allocateService.Handle(
+        await messageBus.Handle(
             new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
         );
 
@@ -97,22 +99,24 @@ public class AllocateHandlerTest
     [Fact]
     public async void TestPrefersEarlierBatches()
     {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
+        var uow = new FakeUnitOfWork();
+        var mailService = new FakeMailService();
 
-        await addBatchService.Handle(
+        var messageBus = new MessageBus(uow, mailService);
+
+        await messageBus.Handle(
             new BatchCreatedEvent("normal-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(1))
         );
 
-        await addBatchService.Handle(
+        await messageBus.Handle(
             new BatchCreatedEvent("slow-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(2))
         );
 
-        await addBatchService.Handle(
+        await messageBus.Handle(
             new BatchCreatedEvent("speedy-batch", "SMALL-TABLE", 100, DateTime.Today)
         );
 
-        await allocateService.Handle(
+        await messageBus.Handle(
             new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
         );
 
