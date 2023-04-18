@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapPost("/allocate", async (AllocateHandler handler, AllocateData request) => {
+app.MapPost("/allocate", async (AllocateHandler handler, AllocationRequiredEvent request) => {
     try
     {
         var reference = await handler.Handle(request);
@@ -41,7 +41,7 @@ app.MapPost("/allocate", async (AllocateHandler handler, AllocateData request) =
     }
 });
 
-app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string batchReference, AllocateData request) => {
+app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string batchReference, AllocationRequiredEvent request) => {
     try
     {
         var reference = await handler.Handle(batchReference, request);

@@ -25,12 +25,9 @@ public class AllocateHandlerTest
             new BatchCreatedEvent("speedy-batch", "MINIMALIST-SPOON", 50)
         );
 
-        var batchReference = await allocateService.Handle(new AllocateData()
-        {
-            OrderId = "order001",
-            Qty = 10,
-            Sku = "MINIMALIST-SPOON"
-        });
+        var batchReference = await allocateService.Handle(
+            new AllocationRequiredEvent("order001", "MINIMALIST-SPOON", 10)
+        );
 
         Assert.Equal("speedy-batch", batchReference);
     }
@@ -41,12 +38,9 @@ public class AllocateHandlerTest
         var uow = new FakeUnitOfWork();
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new AllocateHandler(uow).Handle(new AllocateData()
-            {
-                OrderId = "order001",
-                Qty = 10,
-                Sku = "INVALID-SKU"
-            });
+            await new AllocateHandler(uow).Handle(
+                new AllocationRequiredEvent("order001", "INVALID-SKU", 10)
+            );
         });
     }
 
@@ -60,12 +54,9 @@ public class AllocateHandlerTest
             new BatchCreatedEvent("batch-001", "SMALL-TABLE", 20)
         );
 
-        await allocateService.Handle(new AllocateData()
-        {
-            OrderId = "order-001",
-            Sku = "SMALL-TABLE",
-            Qty = 2
-        });
+        await allocateService.Handle(
+            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
+        );
 
         var product = await uow.Products.Get("SMALL-TABLE");
 
@@ -85,12 +76,7 @@ public class AllocateHandlerTest
         await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
             await allocateService.Handle(
                 "batch-001", 
-                new AllocateData()
-                {
-                    OrderId = "order-001",
-                    Sku = "SMALL-TABLE",
-                    Qty = 2
-                }
+                new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
             );
         });
     }
@@ -107,23 +93,13 @@ public class AllocateHandlerTest
 
         await allocateService.Handle(
             "batch-001",
-            new AllocateData()
-            {
-                OrderId = "order-001",
-                Sku = "SMALL-TABLE",
-                Qty = 2
-            }
+            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
         );
 
         await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
             await allocateService.Handle(
                 "batch-001",
-                new AllocateData()
-                {
-                    OrderId = "order-001",
-                    Sku = "SMALL-TABLE",
-                    Qty = 2
-                }
+                new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
             );
         });
     }
@@ -142,12 +118,9 @@ public class AllocateHandlerTest
             new BatchCreatedEvent("in-stock-batch", "SMALL-TABLE", 100)
         );
 
-        await allocateService.Handle(new AllocateData()
-        {
-            OrderId = "order-001",
-            Sku = "SMALL-TABLE",
-            Qty = 10
-        });
+        await allocateService.Handle(
+            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
+        );
 
         var product = await uow.Products.Get("SMALL-TABLE");
 
@@ -173,12 +146,9 @@ public class AllocateHandlerTest
             new BatchCreatedEvent("speedy-batch", "SMALL-TABLE", 100, DateTime.Today)
         );
 
-        await allocateService.Handle(new AllocateData()
-        {
-            OrderId = "order-001",
-            Sku = "SMALL-TABLE",
-            Qty = 10
-        });
+        await allocateService.Handle(
+            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
+        );
 
         var product = await uow.Products.Get("SMALL-TABLE");
 

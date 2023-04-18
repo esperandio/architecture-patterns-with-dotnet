@@ -22,12 +22,9 @@ public class DeallocateHandlerTest
             new BatchCreatedEvent("batch001", "MINIMALIST-SPOON", 20)
         );
 
-        await allocateService.Handle(new AllocateData()
-        {
-            OrderId = "order001",
-            Qty = 2,
-            Sku = "MINIMALIST-SPOON"
-        });
+        await allocateService.Handle(
+            new AllocationRequiredEvent("order001", "MINIMALIST-SPOON", 2)
+        );
 
         var productBeforeDeallocate = await uow.Products.Get("MINIMALIST-SPOON");
 

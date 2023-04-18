@@ -1,3 +1,5 @@
+using Domain;
+
 namespace Handlers;
 
 public class AllocateHandler
@@ -9,19 +11,19 @@ public class AllocateHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(AllocateData allocateData)
+    public async Task<string> Handle(AllocationRequiredEvent allocationRequiredEvent)
     {
-        var product = await uow.Products.Get(allocateData.Sku);
+        var product = await uow.Products.Get(allocationRequiredEvent.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(allocateData.Sku);
+            throw new InvalidSkuException(allocationRequiredEvent.Sku);
         }
 
         var batchReference = product.Allocate(
-            allocateData.OrderId, 
-            allocateData.Sku, 
-            allocateData.Qty
+            allocationRequiredEvent.OrderId, 
+            allocationRequiredEvent.Sku, 
+            allocationRequiredEvent.Qty
         );
 
         await uow.Commit();
@@ -29,31 +31,24 @@ public class AllocateHandler
         return batchReference;
     }
 
-    public async Task<string> Handle(string reference, AllocateData allocateData)
+    public async Task<string> Handle(string reference, AllocationRequiredEvent allocationRequiredEvent)
     {
-        var product = await uow.Products.Get(allocateData.Sku);
+        var product = await uow.Products.Get(allocationRequiredEvent.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(allocateData.Sku);
+            throw new InvalidSkuException(allocationRequiredEvent.Sku);
         }
 
         var batchReference = product.AllocateToSpecificBatch(
             reference,
-            allocateData.OrderId, 
-            allocateData.Sku, 
-            allocateData.Qty
+            allocationRequiredEvent.OrderId, 
+            allocationRequiredEvent.Sku, 
+            allocationRequiredEvent.Qty
         );
 
         await uow.Commit();
 
         return batchReference;
     }
-}
-
-public class AllocateData
-{
-    public string OrderId { get; set; } = "";
-    public string Sku { get; set; }  = "";
-    public int Qty { get; set; }
 }
