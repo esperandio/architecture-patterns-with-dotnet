@@ -13,18 +13,27 @@ public class AllocationTest
     }
 
     [Fact]
-    public void TestRecordsOutOfStockEventIfCannotAllocate()
+    public void TestRecordsOutOfStockEventIfAvailableSmallerThanRequired()
+    {
+        var batch = new Batch("batch001", "SMALL-FORK", 1);
+
+        var product = new Product("SMALL-FORK", new List<Batch>(){ batch });
+
+        product.Allocate("order001", "SMALL-FORK", 2);
+
+        Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.First());
+    }
+
+    [Fact]
+    public void TestRecordsOutOfStockEventIfAllocateTheSameOrderLineTwice()
     {
         var batch = new Batch("batch001", "SMALL-FORK", 10);
 
         var product = new Product("SMALL-FORK", new List<Batch>(){ batch });
 
         product.Allocate("order001", "SMALL-FORK", 10);
+        product.Allocate("order001", "SMALL-FORK", 10);
 
-        var batchReference = product.Allocate("order001", "SMALL-FORK", 1);
-
-        Assert.Empty(batchReference);
-        Assert.Equal(1, product.DomainEvents.Count);
         Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.First());
     }
 }

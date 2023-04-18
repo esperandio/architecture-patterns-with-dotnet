@@ -71,47 +71,6 @@ public class AllocateHandlerTest
     }
 
     [Fact]
-    public async void TestCannotAllocateIfAvailableSmallerThanRequired()
-    {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
-
-        await addBatchService.Handle(
-            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 1)
-        );
-
-        await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
-            await allocateService.Handle(
-                "batch-001", 
-                new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
-            );
-        });
-    }
-
-    [Fact]
-    public async void TestCannotAllocateTheSameOrderLineTwice()
-    {
-        var addBatchService = new AddBatchHandler(uow);
-        var allocateService = new AllocateHandler(uow);
-
-        await addBatchService.Handle(
-            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 10)
-        );
-
-        await allocateService.Handle(
-            "batch-001",
-            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
-        );
-
-        await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
-            await allocateService.Handle(
-                "batch-001",
-                new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
-            );
-        });
-    }
-
-    [Fact]
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
         var addBatchService = new AddBatchHandler(uow);
