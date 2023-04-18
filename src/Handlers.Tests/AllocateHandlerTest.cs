@@ -2,11 +2,11 @@ using Domain;
 
 namespace Handlers.Tests;
 
-public class AllocateUseCaseTest
+public class AllocateHandlerTest
 {
     private readonly FakeUnitOfWork uow;
 
-    public AllocateUseCaseTest()
+    public AllocateHandlerTest()
     {
         uow = new FakeUnitOfWork();
     }
@@ -15,7 +15,7 @@ public class AllocateUseCaseTest
     public async void TestAllocateReturnsReference()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -48,7 +48,7 @@ public class AllocateUseCaseTest
         var uow = new FakeUnitOfWork();
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new Allocate(uow).Perform(new AllocateData()
+            await new AllocateHandler(uow).Perform(new AllocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
@@ -61,7 +61,7 @@ public class AllocateUseCaseTest
     public async void TestAvailableQuantityIsReducedWhenOrderLineIsAllocated()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -86,7 +86,7 @@ public class AllocateUseCaseTest
     public async void TestCannotAllocateIfAvailableSmallerThanRequired()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -112,7 +112,7 @@ public class AllocateUseCaseTest
     public async void TestCannotAllocateTheSameOrderLineTwice()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -148,7 +148,7 @@ public class AllocateUseCaseTest
     public async void TestPrefersCurrentStockBatchesToShipment()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -182,7 +182,7 @@ public class AllocateUseCaseTest
     public async void TestPrefersEarlierBatches()
     {
         var addBatchService = new AddBatch(uow);
-        var allocateService = new Allocate(uow);
+        var allocateService = new AllocateHandler(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
