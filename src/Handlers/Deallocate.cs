@@ -1,10 +1,10 @@
 namespace Handlers;
 
-public class DeallocateUseCase
+public class Deallocate
 {
     private readonly IUnitOfWork uow;
 
-    public DeallocateUseCase(IUnitOfWork unitOfWork)
+    public Deallocate(IUnitOfWork unitOfWork)
     {
         uow = unitOfWork;
     }

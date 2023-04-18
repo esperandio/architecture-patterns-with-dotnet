@@ -16,7 +16,7 @@ public class DeallocateUseCaseTest
     {
         var addBatchService = new AddBatch(uow);
         var allocateService = new Allocate(uow);
-        var deallocateService = new DeallocateUseCase(uow);
+        var deallocateService = new Deallocate(uow);
 
         await addBatchService.Perform(new AddBatchData()
         {
@@ -52,7 +52,7 @@ public class DeallocateUseCaseTest
     public async void TestCannotDeallocateIfSKUDoesNotExist()
     {
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new DeallocateUseCase(uow).Perform(new DeallocateData()
+            await new Deallocate(uow).Perform(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
@@ -65,7 +65,7 @@ public class DeallocateUseCaseTest
     public async void TestCannotDeallocateUnallocatedOrderLine()
     {
         await Assert.ThrowsAsync<UnallocatedOrderLineException>(async () => {
-            await new DeallocateUseCase(uow).Perform(new DeallocateData()
+            await new Deallocate(uow).Perform(new DeallocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
