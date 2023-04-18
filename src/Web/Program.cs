@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
 app.MapPost("/allocate", async (AllocateHandler handler, AllocateData request) => {
     try
     {
-        var reference = await handler.Perform(request);
+        var reference = await handler.Handle(request);
 
         return Results.Ok(reference);
     }
@@ -43,7 +43,7 @@ app.MapPost("/allocate", async (AllocateHandler handler, AllocateData request) =
 app.MapPost("/allocate/{batchReference}", async (AllocateHandler handler, string batchReference, AllocateData request) => {
     try
     {
-        var reference = await handler.Perform(batchReference, request);
+        var reference = await handler.Handle(batchReference, request);
 
         return Results.Ok(reference);
     }

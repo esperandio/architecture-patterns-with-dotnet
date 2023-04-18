@@ -9,7 +9,7 @@ public class AllocateHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Perform(AllocateData allocateData)
+    public async Task<string> Handle(AllocateData allocateData)
     {
         var product = await uow.Products.Get(allocateData.Sku);
 
@@ -29,7 +29,7 @@ public class AllocateHandler
         return batchReference;
     }
 
-    public async Task<string> Perform(string reference, AllocateData allocateData)
+    public async Task<string> Handle(string reference, AllocateData allocateData)
     {
         var product = await uow.Products.Get(allocateData.Sku);
 

@@ -25,7 +25,7 @@ public class DeallocateHandlerTest
             PurchasedQuantity = 20
         });
 
-        await allocateService.Perform(new AllocateData()
+        await allocateService.Handle(new AllocateData()
         {
             OrderId = "order001",
             Qty = 2,

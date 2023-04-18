@@ -32,7 +32,7 @@ public class AllocateHandlerTest
             PurchasedQuantity = 50
         });
 
-        var batchReference = await allocateService.Perform(new AllocateData()
+        var batchReference = await allocateService.Handle(new AllocateData()
         {
             OrderId = "order001",
             Qty = 10,
@@ -48,7 +48,7 @@ public class AllocateHandlerTest
         var uow = new FakeUnitOfWork();
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await new AllocateHandler(uow).Perform(new AllocateData()
+            await new AllocateHandler(uow).Handle(new AllocateData()
             {
                 OrderId = "order001",
                 Qty = 10,
@@ -70,7 +70,7 @@ public class AllocateHandlerTest
             PurchasedQuantity = 20
         });
 
-        await allocateService.Perform(new AllocateData()
+        await allocateService.Handle(new AllocateData()
         {
             OrderId = "order-001",
             Sku = "SMALL-TABLE",
@@ -96,7 +96,7 @@ public class AllocateHandlerTest
         });
 
         await Assert.ThrowsAsync<RequiresQuantityGreaterThanAvailableException>(async () => {
-            await allocateService.Perform(
+            await allocateService.Handle(
                 "batch-001", 
                 new AllocateData()
                 {
@@ -121,7 +121,7 @@ public class AllocateHandlerTest
             PurchasedQuantity = 10
         });
 
-        await allocateService.Perform(
+        await allocateService.Handle(
             "batch-001",
             new AllocateData()
             {
@@ -132,7 +132,7 @@ public class AllocateHandlerTest
         );
 
         await Assert.ThrowsAsync<DuplicateOrderLineException>(async () => {
-            await allocateService.Perform(
+            await allocateService.Handle(
                 "batch-001",
                 new AllocateData()
                 {
@@ -165,7 +165,7 @@ public class AllocateHandlerTest
             PurchasedQuantity = 100
         });
 
-        await allocateService.Perform(new AllocateData()
+        await allocateService.Handle(new AllocateData()
         {
             OrderId = "order-001",
             Sku = "SMALL-TABLE",
@@ -208,7 +208,7 @@ public class AllocateHandlerTest
             Eta = DateTime.Today
         });
 
-        await allocateService.Perform(new AllocateData()
+        await allocateService.Handle(new AllocateData()
         {
             OrderId = "order-001",
             Sku = "SMALL-TABLE",
