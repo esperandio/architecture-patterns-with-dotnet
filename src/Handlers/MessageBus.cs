@@ -6,24 +6,28 @@ public class MessageBus : IMessageBus
 {
     private IUnitOfWork _unitOfWork;
     private IMailService _mailService;
+    private readonly List<string> _results;
+
+    public IReadOnlyCollection<string> Results => _results.AsReadOnly();
 
     public MessageBus(IUnitOfWork unitOfWork, IMailService mailService)
     {
         _unitOfWork = unitOfWork;
         _mailService = mailService;
+        _results = new List<string>();
     }
 
-    public void Handle(Event @event)
+    public async Task Handle(Event @event)
     {
-        DispatchDomainEvent(@event);
+        await DispatchDomainEvent(@event);
 
         foreach (var domainEvent in _unitOfWork.CollectNewEvents())
         {
-            DispatchDomainEvent(domainEvent);
+            await DispatchDomainEvent(domainEvent);
         }
     }
 
-    private async void DispatchDomainEvent(Event @event)
+    private async Task DispatchDomainEvent(Event @event)
     {
         switch (@event)
         {
@@ -31,10 +35,10 @@ public class MessageBus : IMessageBus
                 new OutOfStockHandler(_mailService).Handle((OutOfStockEvent) @event);
                 break;
             case BatchCreatedEvent:
-                await new AddBatchHandler(_unitOfWork).Handle((BatchCreatedEvent) @event);
+                _results.Add(await new AddBatchHandler(_unitOfWork).Handle((BatchCreatedEvent) @event));
                 break;
             case AllocationRequiredEvent:
-                await new AllocateHandler(_unitOfWork).Handle((AllocationRequiredEvent) @event);
+                _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocationRequiredEvent) @event));
                 break;
         }
     }
