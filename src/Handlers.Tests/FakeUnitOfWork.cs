@@ -19,7 +19,19 @@ class FakeUnitOfWork : IUnitOfWork
 
     public IEnumerable<Event> CollectNewEvents()
     {
-        return new List<Event>();
+        var repository = (FakeProductRepository) Products;
+
+        var domainEntities = repository.Products
+            .Where(x => x.DomainEvents != null && x.DomainEvents.Any());
+
+        var domainEvents = domainEntities
+            .SelectMany(x => x.DomainEvents)
+            .ToList();
+
+        foreach (var domainEvent in domainEvents)
+        {
+            yield return domainEvent;
+        }
     }
 
     public Task<int> Commit()

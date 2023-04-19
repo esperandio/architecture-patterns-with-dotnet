@@ -6,6 +6,8 @@ class FakeProductRepository : IProductRepository
 {
     private List<Product> _products;
 
+    public IReadOnlyCollection<Product> Products => _products.AsReadOnly();
+
     public FakeProductRepository()
     : this(new List<Product>())
     {
