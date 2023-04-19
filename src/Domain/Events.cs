@@ -65,3 +65,15 @@ public class AllocationRequiredEvent : Event
         Qty = qty;
     }
 }
+
+public class BatchQuantityChangedEvent : Event
+{
+    public string Reference { get; private set; }
+    public int Quantity { get; private set; }
+
+    public BatchQuantityChangedEvent(string reference, int quantity)
+    {
+        Reference = reference;
+        Quantity = quantity;
+    }
+}

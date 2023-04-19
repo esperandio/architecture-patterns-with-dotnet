@@ -40,6 +40,9 @@ public class MessageBus : IMessageBus
             case AllocationRequiredEvent:
                 _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocationRequiredEvent) @event));
                 break;
+            case BatchQuantityChangedEvent:
+                await new BatchQuantityChangedHandler(_unitOfWork).Handle((BatchQuantityChangedEvent) @event);
+                break;
         }
     }
 }

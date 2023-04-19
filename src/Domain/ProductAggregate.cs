@@ -71,7 +71,7 @@ public class Batch
 
     public string Reference { get; private set; }
     public string Sku { get; private set; }
-    public int PurchasedQuantity { get; private set; }
+    public int PurchasedQuantity { get; set; }
     public DateTime? Eta {get; private set;}
 
     public IReadOnlyCollection<OrderLine> Allocations => _allocations.AsReadOnly();
@@ -144,6 +144,15 @@ public class Batch
     public void Deallocate(OrderLine orderLine)
     {
         _allocations.Remove(orderLine);
+    }
+
+    public OrderLine DeallocateOne()
+    {
+        var orderLine = _allocations.First();
+
+        Deallocate(orderLine);
+
+        return orderLine;
     }
 
     public override bool Equals(object? obj)
@@ -262,6 +271,33 @@ public class Product
         Version = Guid.NewGuid();
 
         return batch.Reference;
+    }
+
+    public void ChangeBatchQuantity(string reference, int quantity)
+    {
+        var batch = _batches.FirstOrDefault(x => x.Reference == reference);
+
+        if (batch == null)
+        {
+            return;
+        }
+        
+        batch.PurchasedQuantity = quantity;
+
+        while (batch.AvailableQuantity < 0)
+        {
+            var orderLine = batch.DeallocateOne();
+
+            _domainEvents.Add(
+                new AllocationRequiredEvent(
+                    orderLine.OrderId,
+                    orderLine.Sku,
+                    orderLine.Quantity
+                )
+            );
+        }
+
+        Version = Guid.NewGuid();
     }
 
     public int BatchAvailableQuantity(string reference)
