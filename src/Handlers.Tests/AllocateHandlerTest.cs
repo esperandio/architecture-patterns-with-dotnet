@@ -4,13 +4,6 @@ namespace Handlers.Tests;
 
 public class AllocateHandlerTest
 {
-    private readonly FakeUnitOfWork uow;
-
-    public AllocateHandlerTest()
-    {
-        uow = new FakeUnitOfWork();
-    }
-
     [Fact]
     public async void TestAllocateReturnsReference()
     {
