@@ -21,6 +21,15 @@ class FakeProductRepository : IProductRepository
         return Task.Run(() => _products.FirstOrDefault(x => x.Sku == sku));
     }
 
+    public Task<Product?> GetByBatchReference(string reference)
+    {
+        return Task.Run(() => 
+            _products.FirstOrDefault(
+                x => x.Batches.Where(y => y.Reference == reference).Count() > 0
+            )
+        );
+    }
+
     public Task Add(Product product)
     {
         return Task.Run(() => _products.Add(product));
