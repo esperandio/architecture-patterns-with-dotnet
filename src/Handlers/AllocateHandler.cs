@@ -11,19 +11,19 @@ public class AllocateHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(AllocationRequiredEvent allocationRequiredEvent)
+    public async Task<string> Handle(AllocateCommand AllocateCommand)
     {
-        var product = await uow.Products.Get(allocationRequiredEvent.Sku);
+        var product = await uow.Products.Get(AllocateCommand.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(allocationRequiredEvent.Sku);
+            throw new InvalidSkuException(AllocateCommand.Sku);
         }
 
         var batchReference = product.Allocate(
-            allocationRequiredEvent.OrderId, 
-            allocationRequiredEvent.Sku, 
-            allocationRequiredEvent.Qty
+            AllocateCommand.OrderId, 
+            AllocateCommand.Sku, 
+            AllocateCommand.Qty
         );
 
         await uow.Commit();

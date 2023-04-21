@@ -16,7 +16,7 @@ public class UnitOfWork : IUnitOfWork
         Products = productRepository;
     }
 
-    public IEnumerable<Event> CollectNewEvents()
+    public IEnumerable<IMessage> CollectNewEvents()
     {
         var domainEntities = _dbContext.ChangeTracker
             .Entries<Product>()

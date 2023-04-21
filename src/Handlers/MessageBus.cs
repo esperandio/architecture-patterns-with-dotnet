@@ -34,14 +34,14 @@ public class MessageBus : IMessageBus
             case OutOfStockEvent:
                 new OutOfStockHandler(_mailService).Handle((OutOfStockEvent) @event);
                 break;
-            case BatchCreatedEvent:
-                _results.Add(await new AddBatchHandler(_unitOfWork).Handle((BatchCreatedEvent) @event));
+            case CreateBatchCommand:
+                _results.Add(await new AddBatchHandler(_unitOfWork).Handle((CreateBatchCommand) @event));
                 break;
-            case AllocationRequiredEvent:
-                _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocationRequiredEvent) @event));
+            case AllocateCommand:
+                _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocateCommand) @event));
                 break;
-            case BatchQuantityChangedEvent:
-                await new BatchQuantityChangedHandler(_unitOfWork).Handle((BatchQuantityChangedEvent) @event);
+            case ChangeBatchQuantityCommand:
+                await new BatchQuantityChangedHandler(_unitOfWork).Handle((ChangeBatchQuantityCommand) @event);
                 break;
         }
     }

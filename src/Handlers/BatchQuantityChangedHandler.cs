@@ -11,16 +11,16 @@ public class BatchQuantityChangedHandler
         uow = unitOfWork;
     }
 
-    public async Task Handle(BatchQuantityChangedEvent batchQuantityChangedEvent)
+    public async Task Handle(ChangeBatchQuantityCommand ChangeBatchQuantityCommand)
     {
-        var product = await uow.Products.GetByBatchReference(batchQuantityChangedEvent.Reference);
+        var product = await uow.Products.GetByBatchReference(ChangeBatchQuantityCommand.Reference);
 
         if (product == null)
         {
             return;
         }
 
-        product.ChangeBatchQuantity(batchQuantityChangedEvent.Reference, batchQuantityChangedEvent.Quantity);
+        product.ChangeBatchQuantity(ChangeBatchQuantityCommand.Reference, ChangeBatchQuantityCommand.Quantity);
 
         await uow.Commit();
     }

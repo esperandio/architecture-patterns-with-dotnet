@@ -12,7 +12,7 @@ public class BatchQuantityChangedHandlerTest
 
         var messageBus = new MessageBus(uow, mailService);
 
-        await messageBus.Handle(new BatchCreatedEvent("batch001", "SMALL-TABLE", 100));
+        await messageBus.Handle(new CreateBatchCommand("batch001", "SMALL-TABLE", 100));
 
         var product = await uow.Products.Get("SMALL-TABLE");
 
@@ -23,7 +23,7 @@ public class BatchQuantityChangedHandlerTest
 
         Assert.Equal(100, product.BatchAvailableQuantity("batch001"));
 
-        await messageBus.Handle(new BatchQuantityChangedEvent("batch001", 50));
+        await messageBus.Handle(new ChangeBatchQuantityCommand("batch001", 50));
 
         Assert.Equal(50, product.BatchAvailableQuantity("batch001"));
     }
@@ -36,10 +36,10 @@ public class BatchQuantityChangedHandlerTest
 
         var messageBus = new MessageBus(uow, mailService);
 
-        await messageBus.Handle(new BatchCreatedEvent("batch001", "SMALL-TABLE", 100));
-        await messageBus.Handle(new BatchCreatedEvent("batch002", "SMALL-TABLE", 100));
+        await messageBus.Handle(new CreateBatchCommand("batch001", "SMALL-TABLE", 100));
+        await messageBus.Handle(new CreateBatchCommand("batch002", "SMALL-TABLE", 100));
 
-        await messageBus.Handle(new AllocationRequiredEvent("order001", "SMALL-TABLE", 50));
+        await messageBus.Handle(new AllocateCommand("order001", "SMALL-TABLE", 50));
 
         var product = await uow.Products.Get("SMALL-TABLE");
 
@@ -51,7 +51,7 @@ public class BatchQuantityChangedHandlerTest
         Assert.Equal(50, product.BatchAvailableQuantity("batch001"));
         Assert.Equal(100, product.BatchAvailableQuantity("batch002"));
 
-        await messageBus.Handle(new BatchQuantityChangedEvent("batch001", 30));
+        await messageBus.Handle(new ChangeBatchQuantityCommand("batch001", 30));
 
         Assert.Equal(30, product.BatchAvailableQuantity("batch001"));
         Assert.Equal(50, product.BatchAvailableQuantity("batch002"));

@@ -12,7 +12,7 @@ public class AddBatchHandlerTest
 
         var messageBus = new MessageBus(uow, mailService);
 
-        await messageBus.Handle(new BatchCreatedEvent("batch001", "MINIMALIST-SPOON", 10, DateTime.Now));
+        await messageBus.Handle(new CreateBatchCommand("batch001", "MINIMALIST-SPOON", 10, DateTime.Now));
         
         var product = await uow.Products.Get("MINIMALIST-SPOON");
 
@@ -29,7 +29,7 @@ public class AddBatchHandlerTest
         var messageBus = new MessageBus(uow, mailService);
 
         Assert.ThrowsAsync<InvalidSkuException>(async () => {
-            await messageBus.Handle(new BatchCreatedEvent("batch001", "INVALID-SKU", 10, DateTime.Now));
+            await messageBus.Handle(new CreateBatchCommand("batch001", "INVALID-SKU", 10, DateTime.Now));
         });
     }
 }

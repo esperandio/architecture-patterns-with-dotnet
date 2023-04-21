@@ -176,12 +176,12 @@ public class Batch
 public class Product
 {
     private readonly List<Batch> _batches;
-    private readonly List<Event> _domainEvents;
+    private readonly List<IMessage> _domainEvents;
 
     public string Sku { get; private set; }
     public Guid ?Version { get; private set; }
     public IReadOnlyCollection<Batch> Batches => _batches.AsReadOnly();
-    public IReadOnlyCollection<Event> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyCollection<IMessage> DomainEvents => _domainEvents.AsReadOnly();
 
     public Product(string sku)
     : this(sku, new List<Batch>())
@@ -192,7 +192,7 @@ public class Product
     {
         Sku = sku;
         _batches = batches;
-        _domainEvents = new List<Event>();
+        _domainEvents = new List<IMessage>();
     }
 
     public string Allocate(string orderId, string sku, int quantity)
@@ -289,7 +289,7 @@ public class Product
             var orderLine = batch.DeallocateOne();
 
             _domainEvents.Add(
-                new AllocationRequiredEvent(
+                new AllocateCommand(
                     orderLine.OrderId,
                     orderLine.Sku,
                     orderLine.Quantity

@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapPost("/allocate", async (IMessageBus messageBus, AllocationRequiredEvent request) => {
+app.MapPost("/allocate", async (IMessageBus messageBus, AllocateCommand request) => {
     try
     {
         await messageBus.Handle(request);
@@ -40,7 +40,7 @@ app.MapPost("/allocate", async (IMessageBus messageBus, AllocationRequiredEvent 
     }
 });
 
-app.MapPost("/batch", async (IMessageBus messageBus, BatchCreatedEvent request) => {
+app.MapPost("/batch", async (IMessageBus messageBus, CreateBatchCommand request) => {
     try
     {
         await messageBus.Handle(request);

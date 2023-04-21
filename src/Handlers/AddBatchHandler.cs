@@ -11,24 +11,24 @@ public class AddBatchHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(BatchCreatedEvent batchCreatedEvent)
+    public async Task<string> Handle(CreateBatchCommand CreateBatchCommand)
     {
-        var product = await uow.Products.Get(batchCreatedEvent.Sku);
+        var product = await uow.Products.Get(CreateBatchCommand.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(batchCreatedEvent.Sku);
+            throw new InvalidSkuException(CreateBatchCommand.Sku);
         }
 
         product.AddBatch(
-            batchCreatedEvent.Reference, 
-            batchCreatedEvent.Sku, 
-            batchCreatedEvent.PurchasedQuantity, 
-            batchCreatedEvent.Eta
+            CreateBatchCommand.Reference, 
+            CreateBatchCommand.Sku, 
+            CreateBatchCommand.PurchasedQuantity, 
+            CreateBatchCommand.Eta
         );
 
         await uow.Commit();
 
-        return batchCreatedEvent.Reference;
+        return CreateBatchCommand.Reference;
     }
 }

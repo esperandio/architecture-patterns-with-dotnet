@@ -13,15 +13,15 @@ public class AllocateHandlerTest
         var messageBus = new MessageBus(uow, mailService);
 
         await messageBus.Handle(
-            new BatchCreatedEvent("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2))
+            new CreateBatchCommand("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2))
         );
         
         await messageBus.Handle(
-            new BatchCreatedEvent("speedy-batch", "MINIMALIST-SPOON", 50)
+            new CreateBatchCommand("speedy-batch", "MINIMALIST-SPOON", 50)
         );
 
         await messageBus.Handle(
-            new AllocationRequiredEvent("order001", "MINIMALIST-SPOON", 10)
+            new AllocateCommand("order001", "MINIMALIST-SPOON", 10)
         );
 
         Assert.Equal("speedy-batch", messageBus.Results.Last());
@@ -37,7 +37,7 @@ public class AllocateHandlerTest
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
             await messageBus.Handle(
-                new AllocationRequiredEvent("order001", "INVALID-SKU", 10)
+                new AllocateCommand("order001", "INVALID-SKU", 10)
             );
         });
     }
@@ -51,11 +51,11 @@ public class AllocateHandlerTest
         var messageBus = new MessageBus(uow, mailService);
 
         await messageBus.Handle(
-            new BatchCreatedEvent("batch-001", "SMALL-TABLE", 20)
+            new CreateBatchCommand("batch-001", "SMALL-TABLE", 20)
         );
 
         await messageBus.Handle(
-            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 2)
+            new AllocateCommand("order-001", "SMALL-TABLE", 2)
         );
 
         var product = await uow.Products.Get("SMALL-TABLE");
@@ -72,15 +72,15 @@ public class AllocateHandlerTest
         var messageBus = new MessageBus(uow, mailService);
 
         await messageBus.Handle(
-            new BatchCreatedEvent("shipment-batch", "SMALL-TABLE", 100, DateTime.Now.AddDays(1))
+            new CreateBatchCommand("shipment-batch", "SMALL-TABLE", 100, DateTime.Now.AddDays(1))
         );
 
         await messageBus.Handle(
-            new BatchCreatedEvent("in-stock-batch", "SMALL-TABLE", 100)
+            new CreateBatchCommand("in-stock-batch", "SMALL-TABLE", 100)
         );
 
         await messageBus.Handle(
-            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
+            new AllocateCommand("order-001", "SMALL-TABLE", 10)
         );
 
         var product = await uow.Products.Get("SMALL-TABLE");
@@ -98,19 +98,19 @@ public class AllocateHandlerTest
         var messageBus = new MessageBus(uow, mailService);
 
         await messageBus.Handle(
-            new BatchCreatedEvent("normal-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(1))
+            new CreateBatchCommand("normal-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(1))
         );
 
         await messageBus.Handle(
-            new BatchCreatedEvent("slow-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(2))
+            new CreateBatchCommand("slow-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(2))
         );
 
         await messageBus.Handle(
-            new BatchCreatedEvent("speedy-batch", "SMALL-TABLE", 100, DateTime.Today)
+            new CreateBatchCommand("speedy-batch", "SMALL-TABLE", 100, DateTime.Today)
         );
 
         await messageBus.Handle(
-            new AllocationRequiredEvent("order-001", "SMALL-TABLE", 10)
+            new AllocateCommand("order-001", "SMALL-TABLE", 10)
         );
 
         var product = await uow.Products.Get("SMALL-TABLE");
