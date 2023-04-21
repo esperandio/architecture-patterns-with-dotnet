@@ -17,7 +17,7 @@ class FakeUnitOfWork : IUnitOfWork
         Products = new FakeProductRepository(defaultProducts);
     }
 
-    public IEnumerable<IMessage> CollectNewEvents()
+    public IEnumerable<IMessage> CollectNewMessages()
     {
         var repository = (FakeProductRepository) Products;
 

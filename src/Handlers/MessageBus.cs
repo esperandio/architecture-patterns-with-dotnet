@@ -21,7 +21,7 @@ public class MessageBus : IMessageBus
     {
         await DispatchCommand(command);
 
-        foreach (var domainEvent in _unitOfWork.CollectNewEvents())
+        foreach (var domainEvent in _unitOfWork.CollectNewMessages())
         {
             if (domainEvent is Event)
             {

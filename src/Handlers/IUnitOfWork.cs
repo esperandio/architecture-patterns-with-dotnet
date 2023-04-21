@@ -5,6 +5,6 @@ namespace Handlers;
 public interface IUnitOfWork
 {
     IProductRepository Products { get; }
-    IEnumerable<IMessage> CollectNewEvents();
+    IEnumerable<IMessage> CollectNewMessages();
     Task<int> Commit();
 }
