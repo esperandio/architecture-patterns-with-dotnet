@@ -1,6 +1,6 @@
 namespace Domain;
 
-public class Event
+public class Event : IMessage
 {
 }
 
