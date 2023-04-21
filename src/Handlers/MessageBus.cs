@@ -17,31 +17,46 @@ public class MessageBus : IMessageBus
         _results = new List<string>();
     }
 
-    public async Task Handle(IMessage @event)
+    public async Task Handle(Command command)
     {
-        await DispatchDomainEvent(@event);
+        await DispatchCommand(command);
 
         foreach (var domainEvent in _unitOfWork.CollectNewEvents())
         {
-            await DispatchDomainEvent(domainEvent);
+            if (domainEvent is Event)
+            {
+                DispatchDomainEvent((Event) domainEvent);
+            }
+
+            if (domainEvent is Command)
+            {
+                await DispatchCommand((Command) domainEvent);
+            }
         }
     }
 
-    private async Task DispatchDomainEvent(IMessage @event)
+    private void DispatchDomainEvent(Event @event)
     {
         switch (@event)
         {
             case OutOfStockEvent:
                 new OutOfStockHandler(_mailService).Handle((OutOfStockEvent) @event);
                 break;
+        }
+    }
+
+    private async Task DispatchCommand(Command command)
+    {
+        switch (command)
+        {
             case CreateBatchCommand:
-                _results.Add(await new AddBatchHandler(_unitOfWork).Handle((CreateBatchCommand) @event));
+                _results.Add(await new AddBatchHandler(_unitOfWork).Handle((CreateBatchCommand) command));
                 break;
             case AllocateCommand:
-                _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocateCommand) @event));
+                _results.Add(await new AllocateHandler(_unitOfWork).Handle((AllocateCommand) command));
                 break;
             case ChangeBatchQuantityCommand:
-                await new BatchQuantityChangedHandler(_unitOfWork).Handle((ChangeBatchQuantityCommand) @event);
+                await new BatchQuantityChangedHandler(_unitOfWork).Handle((ChangeBatchQuantityCommand) command);
                 break;
         }
     }
