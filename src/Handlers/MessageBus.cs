@@ -17,7 +17,7 @@ public class MessageBus : IMessageBus
         _results = new List<string>();
     }
 
-    public async Task Handle(Event @event)
+    public async Task Handle(IMessage @event)
     {
         await DispatchDomainEvent(@event);
 
@@ -27,7 +27,7 @@ public class MessageBus : IMessageBus
         }
     }
 
-    private async Task DispatchDomainEvent(Event @event)
+    private async Task DispatchDomainEvent(IMessage @event)
     {
         switch (@event)
         {
