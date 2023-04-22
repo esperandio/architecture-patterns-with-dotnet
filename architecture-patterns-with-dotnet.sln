@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handlers", "src\Handlers\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handlers.Tests", "src\Handlers.Tests\Handlers.Tests.csproj", "{26612040-D5F0-4919-B70F-07FB66F90E56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.MessageBroker", "src\Infrastructure.MessageBroker\Infrastructure.MessageBroker.csproj", "{333086DB-7687-46EB-927F-4A5C23555772}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{26612040-D5F0-4919-B70F-07FB66F90E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26612040-D5F0-4919-B70F-07FB66F90E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26612040-D5F0-4919-B70F-07FB66F90E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333086DB-7687-46EB-927F-4A5C23555772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333086DB-7687-46EB-927F-4A5C23555772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333086DB-7687-46EB-927F-4A5C23555772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333086DB-7687-46EB-927F-4A5C23555772}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{62951C48-05E3-4C47-B3BA-38DE5A86A348} = {2EFDDB10-2D3B-43DC-BC21-C135AD043112}
@@ -65,5 +71,6 @@ Global
 		{BB73A35E-ED10-4672-8D28-79B85F498F2B} = {2EFDDB10-2D3B-43DC-BC21-C135AD043112}
 		{E402AA8E-AE66-4901-ACA0-17CB2589EA31} = {2EFDDB10-2D3B-43DC-BC21-C135AD043112}
 		{26612040-D5F0-4919-B70F-07FB66F90E56} = {2EFDDB10-2D3B-43DC-BC21-C135AD043112}
+		{333086DB-7687-46EB-927F-4A5C23555772} = {2EFDDB10-2D3B-43DC-BC21-C135AD043112}
 	EndGlobalSection
 EndGlobal
