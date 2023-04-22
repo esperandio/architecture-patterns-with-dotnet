@@ -21,7 +21,7 @@ public class AllocationTest
 
         product.Allocate("order001", "SMALL-FORK", 2);
 
-        Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.First());
+        Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.Last());
     }
 
     [Fact]
@@ -34,6 +34,6 @@ public class AllocationTest
         product.Allocate("order001", "SMALL-FORK", 10);
         product.Allocate("order001", "SMALL-FORK", 10);
 
-        Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.First());
+        Assert.Equal(new OutOfStockEvent("SMALL-FORK"), product.DomainEvents.Last());
     }
 }

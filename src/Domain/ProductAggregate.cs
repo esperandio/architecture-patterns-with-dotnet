@@ -217,6 +217,8 @@ public class Product
         
         batch.Allocate(orderline);
 
+        _domainEvents.Add(new AllocatedEvent(orderline.OrderId, orderline.Sku, orderline.Quantity, batch.Reference));
+
         Version = Guid.NewGuid();
 
         return batch.Reference;
