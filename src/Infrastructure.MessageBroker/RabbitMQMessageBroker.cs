@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 using RabbitMQ.Client;
 
 namespace Infrastructure.MessageBroker;
@@ -21,7 +22,7 @@ public class RabbitMQMessageBroker
         _channel = connection.CreateModel();
     }
 
-    public void Publish(string queue, string message)
+    public void Publish(string queue, object value)
     {
         _channel.QueueDeclare(
             queue: queue,
@@ -30,6 +31,8 @@ public class RabbitMQMessageBroker
             autoDelete: false,
             arguments: null
         );
+
+        var message = JsonSerializer.Serialize(value);
 
         var body = Encoding.UTF8.GetBytes(message);
 
