@@ -222,28 +222,6 @@ public class Product
         return batch.Reference;
     }
 
-    public string AllocateToSpecificBatch(string reference, string orderId, string sku, int quantity)
-    {
-        if (sku != Sku)
-        {
-            throw new SkuDoesNotMatchException();
-        }
-
-        var batch = _batches.FirstOrDefault(x => x.Reference == reference);
-
-        if (batch == null)
-        {
-            _domainEvents.Add(new OutOfStockEvent(sku));
-            return String.Empty;
-        }
-
-        batch.Allocate(new OrderLine(orderId, sku, quantity));
-
-        Version = Guid.NewGuid();
-
-        return batch.Reference;
-    }
-
     public string AddBatch(string reference, string sku, int purchasedQuantity, DateTime? eta)
     {
         var batch = new Batch(reference, sku, purchasedQuantity, eta);
@@ -253,24 +231,6 @@ public class Product
         Version = Guid.NewGuid();
 
         return batch.Reference; 
-    }
-
-    public string Deallocate(string orderId, string sku, int quantity)
-    {
-        var orderline = new OrderLine(orderId, sku, quantity);
-
-        var batch = _batches.FirstOrDefault(x => x.HasOrderLine(orderline));
-
-        if (batch == null)
-        {
-            throw new UnallocatedOrderLineException();
-        }
-
-        batch.Deallocate(orderline);
-
-        Version = Guid.NewGuid();
-
-        return batch.Reference;
     }
 
     public void ChangeBatchQuantity(string reference, int quantity)
