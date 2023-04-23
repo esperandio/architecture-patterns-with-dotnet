@@ -11,6 +11,7 @@ services:
     working_dir: /app
     command: tail -f /dev/null
     environment:
+      - DATABASE_CONNECTION_STRING=${DATABASE_CONNECTION_STRING}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_CREDENCIAL_USERNAME=${SMTP_CREDENCIAL_USERNAME}

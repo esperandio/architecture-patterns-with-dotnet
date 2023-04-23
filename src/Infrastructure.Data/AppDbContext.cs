@@ -12,7 +12,7 @@ public class AppDbContext : DbContext
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        var connectionString = "server=db;user=root;password=my-secret-pw;database=app";
+        string connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING") ?? "";
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
 
         options.UseMySql(connectionString, serverVersion);
