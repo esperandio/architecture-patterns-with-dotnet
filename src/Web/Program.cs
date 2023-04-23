@@ -2,11 +2,13 @@ using Domain;
 using Handlers;
 using Infrastructure.Data;
 using Infrastructure.Mail;
+using Infrastructure.MessageBroker;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructureDataService();
 builder.Services.AddInfrastructureMailService();
+builder.Services.AddInfrastructureMessageBrokerService();
 
 builder.Services.AddScoped<IMessageBus, MessageBus>();
 

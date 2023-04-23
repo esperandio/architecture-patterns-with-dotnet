@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Handlers\Handlers.csproj" />
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Mail\Infrastructure.Mail.csproj" />
+    <ProjectReference Include="..\Infrastructure.MessageBroker\Infrastructure.MessageBroker.csproj" />
   </ItemGroup>
 
   <ItemGroup>
