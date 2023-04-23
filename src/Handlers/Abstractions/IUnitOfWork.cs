@@ -1,6 +1,6 @@
 using Domain;
 
-namespace Handlers;
+namespace Handlers.Abstractions;
 
 public interface IUnitOfWork
 {

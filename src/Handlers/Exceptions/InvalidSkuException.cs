@@ -1,4 +1,4 @@
-namespace Handlers;
+namespace Handlers.Exceptions;
 
 public class InvalidSkuException : Exception
 {

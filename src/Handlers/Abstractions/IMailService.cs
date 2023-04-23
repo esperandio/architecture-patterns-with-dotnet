@@ -1,4 +1,4 @@
-namespace Handlers;
+namespace Handlers.Abstractions;
 
 public interface IMailService
 {

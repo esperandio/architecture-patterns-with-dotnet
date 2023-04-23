@@ -1,4 +1,6 @@
 using Domain;
+using Handlers.Abstractions;
+using Handlers.Exceptions;
 
 namespace Handlers;
 

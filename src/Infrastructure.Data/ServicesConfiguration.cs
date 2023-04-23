@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Domain;
-using Handlers;
+using Handlers.Abstractions;
 
 namespace Infrastructure.Data;
 
