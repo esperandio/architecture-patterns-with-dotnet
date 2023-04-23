@@ -1,10 +1,11 @@
-﻿using System.Text;
+﻿using Handlers;
+using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
 
 namespace Infrastructure.MessageBroker;
 
-public class RabbitMQMessageBroker
+public class RabbitMQMessageBroker : IMessageBroker
 {
     private readonly IModel _channel;
 
