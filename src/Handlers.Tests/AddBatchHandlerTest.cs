@@ -1,4 +1,5 @@
 using Domain;
+using Handlers.Tests.Doubles;
 
 namespace Handlers.Tests;
 

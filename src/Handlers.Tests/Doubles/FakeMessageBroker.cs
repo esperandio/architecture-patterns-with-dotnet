@@ -1,4 +1,4 @@
-namespace Handlers.Tests;
+namespace Handlers.Tests.Doubles;
 
 class FakeMessageBroker : IMessageBroker
 {

@@ -1,6 +1,6 @@
 using Domain;
 
-namespace Handlers.Tests;
+namespace Handlers.Tests.Doubles;
 
 class FakeProductRepository : IProductRepository
 {
