@@ -33,9 +33,7 @@ app.MapPost("/allocate", async (IMessageBus messageBus, AllocateCommand request)
     {
         await messageBus.Handle(request);
 
-        var reference = messageBus.Results.Last();
-
-        return Results.Ok(reference);
+        return Results.Accepted();
     }
     catch (Exception ex)
     {
@@ -48,9 +46,7 @@ app.MapPost("/batch", async (IMessageBus messageBus, CreateBatchCommand request)
     {
         await messageBus.Handle(request);
 
-        var reference = messageBus.Results.Last();
-
-        return Results.Ok(reference);
+        return Results.Accepted();
     }
     catch (Exception ex)
     {
