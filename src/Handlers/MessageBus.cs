@@ -24,16 +24,16 @@ public class MessageBus : IMessageBus
     {
         await DispatchCommand(command);
 
-        foreach (var domainEvent in _unitOfWork.CollectNewMessages())
+        foreach (var domainMessage in _unitOfWork.CollectNewMessages())
         {
-            if (domainEvent is Event)
+            if (domainMessage is Event)
             {
-                DispatchDomainEvent((Event) domainEvent);
+                DispatchDomainEvent((Event) domainMessage);
             }
 
-            if (domainEvent is Command)
+            if (domainMessage is Command)
             {
-                await DispatchCommand((Command) domainEvent);
+                await DispatchCommand((Command) domainMessage);
             }
         }
     }
