@@ -9,8 +9,9 @@ public class BatchQuantityChangedHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(new CreateBatchCommand("batch001", "SMALL-TABLE", 100));
 
@@ -33,8 +34,9 @@ public class BatchQuantityChangedHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(new CreateBatchCommand("batch001", "SMALL-TABLE", 100));
         await messageBus.Handle(new CreateBatchCommand("batch002", "SMALL-TABLE", 100));

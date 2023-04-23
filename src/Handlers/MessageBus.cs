@@ -6,14 +6,16 @@ public class MessageBus : IMessageBus
 {
     private IUnitOfWork _unitOfWork;
     private IMailService _mailService;
+    private IMessageBroker _messageBroker;
     private readonly List<string> _results;
 
     public IReadOnlyCollection<string> Results => _results.AsReadOnly();
 
-    public MessageBus(IUnitOfWork unitOfWork, IMailService mailService)
+    public MessageBus(IUnitOfWork unitOfWork, IMailService mailService, IMessageBroker messageBroker)
     {
         _unitOfWork = unitOfWork;
         _mailService = mailService;
+        _messageBroker = messageBroker;
         _results = new List<string>();
     }
 
@@ -41,6 +43,9 @@ public class MessageBus : IMessageBus
         {
             case OutOfStockEvent:
                 new OutOfStockHandler(_mailService).Handle((OutOfStockEvent) @event);
+                break;
+            case AllocatedEvent:
+                new PublishAllocatedEventHandler(_messageBroker).Handle((AllocatedEvent) @event);
                 break;
         }
     }

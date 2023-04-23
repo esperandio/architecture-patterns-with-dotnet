@@ -9,8 +9,9 @@ public class AllocateHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(
             new CreateBatchCommand("slow-batch", "MINIMALIST-SPOON", 50, new DateTime().AddDays(2))
@@ -32,8 +33,9 @@ public class AllocateHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await Assert.ThrowsAsync<InvalidSkuException>(async () => {
             await messageBus.Handle(
@@ -47,8 +49,9 @@ public class AllocateHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(
             new CreateBatchCommand("batch-001", "SMALL-TABLE", 20)
@@ -68,8 +71,9 @@ public class AllocateHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(
             new CreateBatchCommand("shipment-batch", "SMALL-TABLE", 100, DateTime.Now.AddDays(1))
@@ -94,8 +98,9 @@ public class AllocateHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(
             new CreateBatchCommand("normal-batch", "SMALL-TABLE", 100, DateTime.Today.AddDays(1))

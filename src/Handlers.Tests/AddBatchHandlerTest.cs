@@ -9,8 +9,9 @@ public class AddBatchHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         await messageBus.Handle(new CreateBatchCommand("batch001", "MINIMALIST-SPOON", 10, DateTime.Now));
         
@@ -25,8 +26,9 @@ public class AddBatchHandlerTest
     {
         var uow = new FakeUnitOfWork();
         var mailService = new FakeMailService();
+        var messageBroker = new FakeMessageBroker();
 
-        var messageBus = new MessageBus(uow, mailService);
+        var messageBus = new MessageBus(uow, mailService, messageBroker);
 
         Assert.ThrowsAsync<InvalidSkuException>(async () => {
             await messageBus.Handle(new CreateBatchCommand("batch001", "INVALID-SKU", 10, DateTime.Now));
