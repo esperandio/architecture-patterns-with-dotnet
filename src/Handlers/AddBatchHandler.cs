@@ -2,7 +2,7 @@ using Domain;
 
 namespace Handlers;
 
-public class AddBatchHandler
+class AddBatchHandler
 {
     private readonly IUnitOfWork uow;
 
@@ -11,24 +11,24 @@ public class AddBatchHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(CreateBatchCommand CreateBatchCommand)
+    public async Task<string> Handle(CreateBatchCommand createBatchCommand)
     {
-        var product = await uow.Products.Get(CreateBatchCommand.Sku);
+        var product = await uow.Products.Get(createBatchCommand.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(CreateBatchCommand.Sku);
+            throw new InvalidSkuException(createBatchCommand.Sku);
         }
 
         product.AddBatch(
-            CreateBatchCommand.Reference, 
-            CreateBatchCommand.Sku, 
-            CreateBatchCommand.PurchasedQuantity, 
-            CreateBatchCommand.Eta
+            createBatchCommand.Reference, 
+            createBatchCommand.Sku, 
+            createBatchCommand.PurchasedQuantity, 
+            createBatchCommand.Eta
         );
 
         await uow.Commit();
 
-        return CreateBatchCommand.Reference;
+        return createBatchCommand.Reference;
     }
 }

@@ -2,7 +2,7 @@ using Domain;
 
 namespace Handlers;
 
-public class AllocateHandler
+class AllocateHandler
 {
     private readonly IUnitOfWork uow;
 
@@ -11,19 +11,19 @@ public class AllocateHandler
         uow = unitOfWork;
     }
 
-    public async Task<string> Handle(AllocateCommand AllocateCommand)
+    public async Task<string> Handle(AllocateCommand allocateCommand)
     {
-        var product = await uow.Products.Get(AllocateCommand.Sku);
+        var product = await uow.Products.Get(allocateCommand.Sku);
 
         if (product == null)
         {
-            throw new InvalidSkuException(AllocateCommand.Sku);
+            throw new InvalidSkuException(allocateCommand.Sku);
         }
 
         var batchReference = product.Allocate(
-            AllocateCommand.OrderId, 
-            AllocateCommand.Sku, 
-            AllocateCommand.Qty
+            allocateCommand.OrderId, 
+            allocateCommand.Sku, 
+            allocateCommand.Qty
         );
 
         await uow.Commit();

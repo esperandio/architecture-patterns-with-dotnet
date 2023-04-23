@@ -2,7 +2,7 @@ using Domain;
 
 namespace Handlers;
 
-public class BatchQuantityChangedHandler
+class BatchQuantityChangedHandler
 {
     private readonly IUnitOfWork uow;
 
@@ -11,16 +11,16 @@ public class BatchQuantityChangedHandler
         uow = unitOfWork;
     }
 
-    public async Task Handle(ChangeBatchQuantityCommand ChangeBatchQuantityCommand)
+    public async Task Handle(ChangeBatchQuantityCommand changeBatchQuantityCommand)
     {
-        var product = await uow.Products.GetByBatchReference(ChangeBatchQuantityCommand.Reference);
+        var product = await uow.Products.GetByBatchReference(changeBatchQuantityCommand.Reference);
 
         if (product == null)
         {
             return;
         }
 
-        product.ChangeBatchQuantity(ChangeBatchQuantityCommand.Reference, ChangeBatchQuantityCommand.Quantity);
+        product.ChangeBatchQuantity(changeBatchQuantityCommand.Reference, changeBatchQuantityCommand.Quantity);
 
         await uow.Commit();
     }
