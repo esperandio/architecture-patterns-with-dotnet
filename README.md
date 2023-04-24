@@ -10,3 +10,5 @@
 - ASP.NET Core web API documentation with Swagger / OpenAPI (https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-7.0)
 - Unit testing best practices with .NET Core and .NET Standard (https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices?source=recommendations)
 - Application-managed concurrency tokens (https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=fluent-api#application-managed-concurrency-tokens)
+- Tutorial: Connect to MySQL with Dapper using C# (https://mysqlconnector.net/tutorials/dapper/)
+- Minimal APIs quick reference (https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0)
