@@ -1,13 +1,5 @@
 namespace Domain;
 
-public class RequiresQuantityGreaterThanAvailableException : Exception
-{
-    public RequiresQuantityGreaterThanAvailableException()
-    : base("Cannot allocate to a batch if the available quantity is less than the quantity of the order line")
-    {
-    }
-}
-
 public class DuplicateOrderLineException : Exception
 {
     public DuplicateOrderLineException()
@@ -102,31 +94,14 @@ public class Batch
         _allocations = allocations;
     }
 
-    private void ValidateOrderLineRequirements(OrderLine orderLine)
+    public bool CanAllocate(OrderLine orderLine)
     {
         if (orderLine.Quantity > AvailableQuantity)
         {
-            throw new RequiresQuantityGreaterThanAvailableException();
-        }
-
-        if (HasOrderLine(orderLine))
-        {
-            throw new DuplicateOrderLineException();
-        }
-    }
-
-    public bool CanAllocate(OrderLine orderLine)
-    {
-        try
-        {
-            ValidateOrderLineRequirements(orderLine);
-
-            return true;
-        }
-        catch (System.Exception)
-        {
             return false;
         }
+
+        return true;
     }
 
     public bool HasOrderLine(OrderLine orderLine)
@@ -136,7 +111,10 @@ public class Batch
 
     public void Allocate(OrderLine orderLine)
     {
-        ValidateOrderLineRequirements(orderLine);
+        if (!CanAllocate(orderLine))
+        {
+            return;
+        }
 
         _allocations.Add(orderLine);
     }
@@ -195,6 +173,18 @@ public class Product
         _domainEvents = new List<IMessage>();
     }
 
+    private bool isOrderLineAlreadyAllocated(OrderLine orderLine)
+    {
+        var batch = _batches.FirstOrDefault(x => x.HasOrderLine(orderLine));
+
+        if (batch == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public string Allocate(string orderId, string sku, int quantity)
     {
         if (sku != Sku)
@@ -203,6 +193,11 @@ public class Product
         }
 
         var orderline = new OrderLine(orderId, sku, quantity);
+
+        if (isOrderLineAlreadyAllocated(orderline))
+        {
+            throw new DuplicateOrderLineException();
+        }
 
         var batch = _batches
             .Where(x => x.CanAllocate(orderline))
