@@ -6,9 +6,14 @@ public class Command : IMessage
 
 public class AllocateCommand : Command
 {
-    public string OrderId { get; private set; }
-    public string Sku { get; private set; }
-    public int Qty { get; private set; }
+    public string OrderId { get; set; }
+    public string Sku { get; set; }
+    public int Qty { get; set; }
+
+    public AllocateCommand()
+    : this("", "", 0)
+    {
+    }
 
     public AllocateCommand(string orderId, string sku, int qty)
     {
@@ -20,10 +25,15 @@ public class AllocateCommand : Command
 
 public class CreateBatchCommand : Command
 {
-    public string Reference { get; private set; }
-    public string Sku { get; private set; }
-    public int PurchasedQuantity { get; private set; }
-    public DateTime? Eta { get; private set; }
+    public string Reference { get; set; }
+    public string Sku { get; set; }
+    public int PurchasedQuantity { get; set; }
+    public DateTime? Eta { get; set; }
+
+    public CreateBatchCommand()
+    : this("", "", 0)
+    {
+    }
 
     public CreateBatchCommand(string reference, string sku, int purchasedQuantity)
     : this(reference, sku, purchasedQuantity, null)
@@ -41,8 +51,13 @@ public class CreateBatchCommand : Command
 
 public class ChangeBatchQuantityCommand : Command
 {
-    public string Reference { get; private set; }
-    public int Quantity { get; private set; }
+    public string Reference { get; set; }
+    public int Quantity { get; set; }
+
+    public ChangeBatchQuantityCommand()
+    : this("", 0)
+    {
+    }
 
     public ChangeBatchQuantityCommand(string reference, int quantity)
     {
