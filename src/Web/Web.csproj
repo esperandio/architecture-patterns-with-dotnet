@@ -5,6 +5,7 @@
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Mail\Infrastructure.Mail.csproj" />
     <ProjectReference Include="..\Infrastructure.MessageBroker\Infrastructure.MessageBroker.csproj" />
+    <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 
   <ItemGroup>

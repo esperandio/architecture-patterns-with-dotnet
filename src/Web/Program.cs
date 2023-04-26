@@ -4,6 +4,7 @@ using Handlers.Abstractions;
 using Infrastructure.Data;
 using Infrastructure.Mail;
 using Infrastructure.MessageBroker;
+using Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,20 @@ app.MapPost("/batch", async (IMessageBus messageBus, CreateBatchCommand request)
     catch (Exception ex)
     {
         return Results.BadRequest(ex.Message);
+    }
+});
+
+app.MapGet("/allocations/{orderId}", async (string orderId) => {
+    try
+    {
+        var queries = new AllocationQueries();
+        var allocations = await queries.GetAllocations(orderId);
+
+        return Results.Ok(allocations);
+    }
+    catch (Exception)
+    {
+        return Results.NotFound();
     }
 });
 
