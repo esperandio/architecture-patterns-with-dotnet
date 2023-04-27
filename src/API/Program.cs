@@ -47,7 +47,7 @@ app.MapPost("/batch", async (IMessageBus messageBus, CreateBatchCommand request)
     {
         await messageBus.Handle(request);
 
-        return Results.Accepted();
+        return Results.Ok();
     }
     catch (Exception ex)
     {
