@@ -29,6 +29,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.MapGet("/healthcheck", () => {
+    return Results.Ok("ok");
+});
+
 app.MapPost("/allocate", async (IMessageBus messageBus, AllocateCommand request) => {
     try
     {
