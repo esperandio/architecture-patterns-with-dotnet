@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+WORKDIR /src
+
+COPY src/API/API.csproj src/API/
+COPY src/Domain/Domain.csproj src/Domain/
+COPY src/Handlers/Handlers.csproj src/Handlers/
+COPY src/Infrastructure.Data/Infrastructure.Data.csproj src/Infrastructure.Data/
+COPY src/Infrastructure.Mail/Infrastructure.Mail.csproj src/Infrastructure.Mail/
+COPY src/Infrastructure.MessageBroker/Infrastructure.MessageBroker.csproj src/Infrastructure.MessageBroker/
+COPY src/Queries/Queries.csproj src/Queries/
+
+RUN dotnet restore src/API/API.csproj
+
+COPY . .
+
+WORKDIR /src/src/API
+RUN dotnet publish API.csproj -c Release -o /app
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+
+COPY --from=build /app .
+
+ENTRYPOINT ["dotnet", "API.dll"]

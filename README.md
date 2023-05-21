@@ -12,3 +12,4 @@
 - Application-managed concurrency tokens (https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=fluent-api#application-managed-concurrency-tokens)
 - Tutorial: Connect to MySQL with Dapper using C# (https://mysqlconnector.net/tutorials/dapper/)
 - Minimal APIs quick reference (https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0)
+- Why isn't my ASP.NET Core app in Docker working? (https://andrewlock.net/why-isnt-my-aspnetcore-app-in-docker-working/)
