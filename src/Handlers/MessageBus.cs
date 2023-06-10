@@ -5,9 +5,9 @@ namespace Handlers;
 
 public class MessageBus : IMessageBus
 {
-    private IUnitOfWork _unitOfWork;
-    private IMailService _mailService;
-    private IMessageBroker _messageBroker;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMailService _mailService;
+    private readonly IMessageBroker _messageBroker;
     private readonly List<string> _results;
 
     public IReadOnlyCollection<string> Results => _results.AsReadOnly();
@@ -26,14 +26,14 @@ public class MessageBus : IMessageBus
 
         foreach (var domainMessage in _unitOfWork.CollectNewMessages())
         {
-            if (domainMessage is Event)
+            if (domainMessage is Event @event)
             {
-                DispatchDomainEvent((Event) domainMessage);
+                DispatchDomainEvent(@event);
             }
 
-            if (domainMessage is Command)
+            if (domainMessage is Command command1)
             {
-                await DispatchCommand((Command) domainMessage);
+                await DispatchCommand(command1);
             }
         }
     }
