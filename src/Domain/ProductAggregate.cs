@@ -173,7 +173,7 @@ public class Product
         _domainEvents = new List<IMessage>();
     }
 
-    private bool isOrderLineAlreadyAllocated(OrderLine orderLine)
+    private bool IsOrderLineAlreadyAllocated(OrderLine orderLine)
     {
         var batch = _batches.FirstOrDefault(x => x.HasOrderLine(orderLine));
 
@@ -194,7 +194,7 @@ public class Product
 
         var orderline = new OrderLine(orderId, sku, quantity);
 
-        if (isOrderLineAlreadyAllocated(orderline))
+        if (IsOrderLineAlreadyAllocated(orderline))
         {
             throw new DuplicateOrderLineException();
         }
